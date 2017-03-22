@@ -8,7 +8,16 @@
 // Last update Tue Mar 21 21:25:31 2017 Marwane
 //
 
-int	main() {
+#include <iostream>
+#include "Core.hh"
 
+int	main(int ac, char **av)
+{
+    if (ac != 2)
+    {
+        std::cout << "Usage : ./arcade lib_arcade_XXX.so" << std::endl;
+        return 1;
+    }
+    arcade::Core(av[1], 19, 27);
     return 0;
 }

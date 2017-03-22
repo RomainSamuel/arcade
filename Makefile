@@ -27,7 +27,7 @@ COMPILATION_MSG	= $(DISPLAY_TWO)
 CXX		= g++
 
 # compiling flags here
-CXXFLAGS	= -W -Wall -Wextra -Werror -std=c++11 -I./include/ -O2
+CXXFLAGS	= -W -Wall -Wextra -Werror -std=c++11 -I./includes/ -O2
 
 # if debug is set to yes, add -g3 flag
 ifeq ($(DEBUG),yes)
@@ -46,6 +46,7 @@ BINDIR   = .
 
 # Sources, Includes and Objects
 SOURCES  := 		$(wildcard $(SRCDIR)/*.cpp)
+SOURCES  +=         $(wildcard $(SRCDIR)/core/*.cpp)
 INCLUDES :=			$(wildcard $(SRCDIR)/*.h)
 OBJECTS  := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM 	      = 		rm -rf
