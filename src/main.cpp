@@ -8,9 +8,7 @@
 // Last update Tue Mar 21 21:25:31 2017 Marwane
 //
 
-#include <iostream>
-
 int	main() {
-  std::cout << "Hello World" << std::endl;
-  return 0;
+
+    return 0;
 }

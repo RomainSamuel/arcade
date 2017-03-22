@@ -9,10 +9,19 @@
 # name of the projet
 NAME   = arcade
 
-# utils
+# config
 DEBUG 		= no
+# if display_opt is set to "percentage", shows the progress of the compilation in percentage, else use the index.
+DISPLAY_OPT	= percentage
+
+# utils
 COUNT 		= 1
 NBSOURCES 	= $(shell find src/ -type f -name '*.cpp' | wc -l)
+PERCENT		= 0
+NBSOURCES	= $(shell find src/ -type f -name '*.cpp' | wc -l)
+DISPLAY_ONE	= "[\033[95m$(PERCENT)%\033[0m][\033[92m$<\033[0m]"
+DISPLAY_TWO	= "[\033[95m$(COUNT)\033[0m/\033[93m$(NBSOURCES)\033[0m][\033[92m$<\033[0m]"
+COMPILATION_MSG	= $(DISPLAY_TWO)
 
 # compiler
 CXX		= g++
@@ -23,6 +32,11 @@ CXXFLAGS	= -W -Wall -Wextra -Werror -std=c++11 -I./include/ -O2
 # if debug is set to yes, add -g3 flag
 ifeq ($(DEBUG),yes)
 	CXXFLAGS += -g3
+endif
+
+# Set the compilation message
+ifeq ($(DISPLAY_OPT), percentage)
+        COMPILATION_MSG=$(DISPLAY_ONE)
 endif
 
 # change these to proper directories where each file should be
@@ -41,10 +55,11 @@ $(BINDIR)/$(NAME):	$(OBJECTS)
 					@echo "\033[94mProject $(NAME) build successfully!\033[0m"
 
 $(OBJECTS):			$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
-					@mkdir -p $(dir $@)
-					@$(CXX) $(CXXFLAGS) -c $< -o $@
-					@echo "[\033[95m$(COUNT)\033[0m/\033[93m$(NBSOURCES)\033[0m][\033[92m$<\033[0m]"
-					@$(eval COUNT=$(shell echo $$(($(COUNT)+1))))
+				@mkdir -p $(dir $@)
+				@$(CXX) $(CXXFLAGS) -c $< -o $@
+				@$(eval PERCENT=$(shell echo $$((($(COUNT)*100/$(NBSOURCES))))))
+	                        @echo $(COMPILATION_MSG)
+				@$(eval COUNT=$(shell echo $$((($(COUNT)+1)))))
 
 .PHONY: 			clean fclean re
 
