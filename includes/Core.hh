@@ -16,10 +16,11 @@ namespace arcade
         Core(const std::string, const int, const int);
         ~Core();
 
-        int &getVolume() const;
+        int getVolume() const;
         void setVolume(const int);
-        int &getLevel() const;
+        int getLevel() const;
         void setLevel(const int);
+        void play();
     };
 }
 

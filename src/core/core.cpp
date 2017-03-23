@@ -33,3 +33,28 @@ arcade::Core::~Core()
 {
 
 }
+
+int     arcade::Core::getVolume() const
+{
+    return (volume);
+}
+
+void    arcade::Core::setVolume(const int _volume)
+{
+    volume = _volume;
+}
+
+int     arcade::Core::getLevel() const
+{
+    return (level);
+}
+
+void    arcade::Core::setLevel(const int _level)
+{
+    level = _level;
+}
+
+void    arcade::Core::play()
+{
+
+}

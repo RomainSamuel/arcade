@@ -18,6 +18,6 @@ int	main(int ac, char **av)
         std::cout << "Usage : ./arcade lib_arcade_XXX.so" << std::endl;
         return 1;
     }
-    arcade::Core(av[1], 19, 27);
+    std::unique_ptr<arcade::Core> core = std::make_unique<arcade::Core>(av[1], 19, 27);
     return 0;
 }
