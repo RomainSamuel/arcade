@@ -8,6 +8,17 @@ arcade::Component::Component()
 {
 }
 
+arcade::Component::Component(double const _x, double const _y, double const _width, double const _height, std::size_t _backgroundId, arcade::Color const _backgroundColor, std::string const _text)
+{
+    x = _x;
+    y = _y;
+    width = _width;
+    height = _height;
+    backgroundId = _backgroundId;
+    backgroundColor = _backgroundColor;
+    text = _text;
+}
+
 arcade::Component::~Component()
 {
 }

@@ -25,6 +25,7 @@ namespace arcade
 
     public:
         Component();
+        Component(double const, double const, double const, double const, std::size_t const, arcade::Color, std::string);
         virtual ~Component();
 
         virtual double getX() const;
