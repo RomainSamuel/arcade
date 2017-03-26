@@ -1,8 +1,8 @@
 ##
-## Author: Marwane Khsime 
-## Date: 2017-03-21 21:26:49 
+## Author: Marwane Khsime
+## Date: 2017-03-21 21:26:49
 ##
-## Last Modified by:   Marwane Khsime 
+## Last Modified by:   Marwane Khsime
 ## Last Modified time: 2017-03-21 21:26:49
 ##
 
@@ -47,6 +47,7 @@ BINDIR   = .
 # Sources, Includes and Objects
 SOURCES  := 		$(wildcard $(SRCDIR)/*.cpp)
 SOURCES  +=         $(wildcard $(SRCDIR)/core/*.cpp)
+SOURCES  +=         $(wildcard $(SRCDIR)/menu/*.cpp)
 INCLUDES :=			$(wildcard $(SRCDIR)/*.h)
 OBJECTS  := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM 	      = 		rm -rf

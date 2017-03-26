@@ -4,7 +4,9 @@
 
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include "Core.hh"
+#include "Menu.hh"
 
 arcade::Core::Core(const std::string _lib, const int _level, const int _volume)
 {
@@ -54,7 +56,31 @@ void    arcade::Core::setLevel(const int _level)
     level = _level;
 }
 
+arcade::GameState    arcade::Core::getGameState() const
+{
+    return (gameState);
+}
+
+void    arcade::Core::setGameState(const arcade::GameState state)
+{
+    gameState = state;
+}
+
+void    arcade::Core::menu()
+{
+    int i = 0;
+
+    std::unique_ptr<arcade::Menu> menu = std::make_unique<arcade::Menu>();
+    while (getGameState() != arcade::GameState::INGAME)
+    {
+        std::cout << "MENU" << std::endl;
+        if (i == 10)
+            setGameState(arcade::GameState::INGAME);
+        i++;
+    }
+}
+
 void    arcade::Core::play()
 {
-
+    std::cout << "Let's play!" << std::endl;
 }

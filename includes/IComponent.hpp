@@ -6,6 +6,7 @@
 #define CPP_ARCADE_ICOMPONENT_HPP
 
 #include <string>
+#include "Color.hpp"
 #include "GameState.hpp"
 
 namespace arcade
@@ -23,7 +24,7 @@ namespace arcade
 		virtual double getHeight() const = 0;
 
 		virtual std::size_t getBackgroundId() const = 0;
-		virtual Color getBackgroundColor() const = 0;
+		virtual arcade::Color getBackgroundColor() const = 0;
 		virtual std::string const &getText() const = 0;
     };
 }

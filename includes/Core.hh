@@ -20,6 +20,9 @@ namespace arcade
         void setVolume(const int);
         int getLevel() const;
         void setLevel(const int);
+        arcade::GameState getGameState() const;
+        void setGameState(const arcade::GameState);
+        void menu();
         void play();
     };
 }
