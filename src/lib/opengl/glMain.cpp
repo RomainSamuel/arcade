@@ -259,7 +259,7 @@ void    arcade::LibOpenGl::playSound(const Sound &sound) {
     (void)sound;
 }
 
-bool    arcade::LibOpenGl::initOpenAl() {
+bool    arcade::LibOpenGl::initOpenAl() const {
 
     // Open Device
     ALCdevice* Device = alcOpenDevice(NULL);

@@ -57,9 +57,8 @@ namespace arcade {
 
         // Member Functions
         void            runGFX();
-        bool            initOpenAl();
+        bool            initOpenAl() const;
         void            shutDownOpenAl();
-        void            pushEvent();
 
     public:
 
