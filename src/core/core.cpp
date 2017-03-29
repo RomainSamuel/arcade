@@ -25,7 +25,8 @@ arcade::Core::Core(const std::string _lib, const int _level, const int _volume)
     }
     level = _level;
     volume = _volume;
-    std::cout << "lib = " << _lib;
+    lib = _lib;
+    std::cout << "lib = " << lib;
     std::cout << " Level = " << level;
     std::cout << " Volume = " << volume << std::endl;
     gameState = arcade::GameState::MENU;
@@ -68,16 +69,8 @@ void    arcade::Core::setGameState(const arcade::GameState state)
 
 void    arcade::Core::menu()
 {
-    int i = 0;
-
     std::unique_ptr<arcade::Menu> menu = std::make_unique<arcade::Menu>();
-    while (getGameState() != arcade::GameState::INGAME)
-    {
-        std::cout << "MENU Print" << std::endl;
-        if (i == 10)
-            setGameState(arcade::GameState::INGAME);
-        i++;
-    }
+    menu->display();
 }
 
 void    arcade::Core::play()

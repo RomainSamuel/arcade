@@ -1,13 +1,13 @@
 ##
-## Author: Marwane Khsime 
-## Date: 2017-03-21 21:26:49 
+## Author: Marwane Khsime
+## Date: 2017-03-21 21:26:49
 ##
-## Last Modified by:   Marwane Khsime 
+## Last Modified by:   Marwane Khsime
 ## Last Modified time: 2017-03-21 21:26:49
 ##
 
 # name of the projet
-NAME   = lib_arcade_sfml.so
+NAME   = arcade
 
 # config
 DEBUG 		= no
@@ -16,9 +16,9 @@ DISPLAY_OPT	= percentage
 
 # utils
 COUNT 		= 1
-NBSOURCES 	= $(shell find -type f -name '*.cpp' | wc -l)
+NBSOURCES 	= $(shell find src/ -type f -name '*.cpp' | wc -l)
 PERCENT		= 0
-NBSOURCES	= $(shell find -type f -name '*.cpp' | wc -l)
+NBSOURCES	= $(shell find src/ -type f -name '*.cpp' | wc -l)
 DISPLAY_ONE	= "[\033[95m$(PERCENT)%\033[0m][\033[92m$<\033[0m]"
 DISPLAY_TWO	= "[\033[95m$(COUNT)\033[0m/\033[93m$(NBSOURCES)\033[0m][\033[92m$<\033[0m]"
 COMPILATION_MSG	= $(DISPLAY_TWO)
@@ -27,8 +27,7 @@ COMPILATION_MSG	= $(DISPLAY_TWO)
 CXX		= g++
 
 # compiling flags here
-CXXFLAGS	= -W -Wall -Wextra -Werror -std=c++11 -fPIC -O2
-LDFLAGS		= -shared
+CXXFLAGS	= -W -Wall -Wextra -Werror -std=c++14 -I./includes/ -O2  -lsfml-graphics -lsfml-window -lsfml-system
 
 # if debug is set to yes, add -g3 flag
 ifeq ($(DEBUG),yes)
@@ -41,18 +40,18 @@ ifeq ($(DISPLAY_OPT), percentage)
 endif
 
 # change these to proper directories where each file should be
-# SRCDIR   = src
+SRCDIR   = src
 OBJDIR   = obj
-BINDIR   = ../../../
+BINDIR   = .
 
 # Sources, Includes and Objects
 SOURCES  := 		$(wildcard *.cpp)
-INCLUDES :=			$(wildcard *.h)
-OBJECTS  := 		$(SOURCES:%.cpp=$(OBJDIR)/%.o)
+INCLUDES :=			$(wildcard *.hh)
+OBJECTS  := 		$(SOURCES:$(OBJDIR)/%.cpp=%.o)
 RM 	      = 		rm -rf
 
 $(BINDIR)/$(NAME):	$(OBJECTS)
-					@$(CXX) -o $@ $(CXXFLAGS) $(OBJECTS) $(LDFLAGS)
+					@$(CXX) -o $@ $(CXXFLAGS) $(OBJECTS)
 					@echo "\033[94mProject $(NAME) build successfully!\033[0m"
 
 $(OBJECTS):			$(OBJDIR)/%.o : %.cpp

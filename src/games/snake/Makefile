@@ -9,7 +9,7 @@ SRC		=	GUI.cpp \
 				Tile.cpp \
 				../../../includes/Color.cpp
 
-GAMESDIR	=	../../../resources/games/
+GAMESDIR	=	../../../
 
 OBJ 	    =	$(SRC:.cpp=.o)
 

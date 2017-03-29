@@ -11,6 +11,7 @@ namespace arcade
     private:
         int volume;
         int level;
+        std::string lib;
         arcade::GameState gameState;
     public:
         Core(const std::string, const int, const int);

@@ -5,6 +5,8 @@
 #ifndef MENU_HH_
 #define MENU_HH_
 
+#include <string>
+
 #include <vector>
 #include "Component.hh"
 
@@ -12,7 +14,7 @@ namespace arcade
 {
     class Menu : public Component
     {
-    private:
+    protected:
         std::vector<arcade::Component> component;
 
     public:

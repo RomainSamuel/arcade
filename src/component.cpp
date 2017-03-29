@@ -2,6 +2,7 @@
 // Created by maud on 26/03/17.
 //
 
+#include <iostream>
 #include "Component.hh"
 
 arcade::Component::Component()
