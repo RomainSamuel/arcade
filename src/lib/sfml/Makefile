@@ -7,7 +7,7 @@
 ##
 
 # name of the projet
-NAME   = arcade
+NAME   = lib_arcade_sfml.so
 
 # config
 DEBUG 		= no
@@ -27,7 +27,7 @@ COMPILATION_MSG	= $(DISPLAY_TWO)
 CXX		= g++
 
 # compiling flags here
-CXXFLAGS	= -W -Wall -Wextra -Werror -std=c++14 -I./includes/ -O2  -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS	= -W -Wall -Wextra -std=c++14 -I./../../../includes/lib/sfml -I./../../../includes -O2  -lsfml-graphics -lsfml-window -lsfml-system
 
 # if debug is set to yes, add -g3 flag
 ifeq ($(DEBUG),yes)

@@ -8,7 +8,7 @@
 #include <string>
 
 #include <vector>
-#include "Component.hh"
+#include "../Component.hh"
 
 namespace arcade
 {

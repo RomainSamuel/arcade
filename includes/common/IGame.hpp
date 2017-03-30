@@ -5,9 +5,9 @@
 
 #include <vector>
 #include <string>
-#include "GameState.hpp"
-#include "Event.hpp"
-#include "NetworkPacket.hpp"
+#include "../GameState.hpp"
+#include "../Event.hpp"
+#include "../NetworkPacket.hpp"
 #include "IStat.hpp"
 #include "IMap.hpp"
 #include "ILevel.hpp"

@@ -10,7 +10,7 @@
 #include <map>
 #include <vector>
 
-#include "../../../includes/Event.hpp"
+#include "../../Event.hpp"
 
 namespace arcade
 {
@@ -33,7 +33,7 @@ namespace arcade
         void    shutDownSfml();
     public:
         //Constructor / Destructor
-        LibSfml(const unsigned int, const unsigned int);
+      LibSfml(unsigned int const, unsigned int const);
         ~LibSfml();
 
         //Keyboard Management

@@ -27,7 +27,7 @@ COMPILATION_MSG	= $(DISPLAY_TWO)
 CXX		= g++
 
 # compiling flags here
-CXXFLAGS	= -W -Wall -Wextra -Werror -std=c++14 -I./includes/ -O2
+CXXFLAGS	= -W -Wall -Wextra -Werror -std=c++14 -I./includes/ -I./includes/common/ -I./includes/core/ -I./includes/menu/ -O2
 
 # if debug is set to yes, add -g3 flag
 ifeq ($(DEBUG),yes)
@@ -48,8 +48,7 @@ BINDIR   = .
 SOURCES  := 		$(wildcard $(SRCDIR)/*.cpp)
 SOURCES  +=         $(wildcard $(SRCDIR)/core/*.cpp)
 SOURCES  +=         $(wildcard $(SRCDIR)/menu/*.cpp)
-SOURCES  +=         $(wildcard includes/*.cpp)
-INCLUDES :=			$(wildcard $(SRCDIR)/*.h)
+INCLUDES :=		    $(wildcard src/lib/sfml)
 OBJECTS  := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM 	      = 		rm -rf
 
@@ -59,6 +58,8 @@ $(BINDIR)/$(NAME):	$(OBJECTS)
 
 $(OBJECTS):			$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 				@mkdir -p $(dir $@)
+				@mkdir -p lib
+				@mkdir -p games
 				@$(CXX) $(CXXFLAGS) -c $< -o $@
 				@$(eval PERCENT=$(shell echo $$((($(COUNT)*100/$(NBSOURCES))))))
 	                        @echo $(COMPILATION_MSG)

@@ -8,11 +8,12 @@
 /*
  * Constructor
  */
-arcade::LibSfml::LibSfml(const unsigned int width, const unsigned int height)
+arcade::LibSfml::LibSfml(unsigned int const width, unsigned int const height)
 {
     std::cout << "Lib Sfml Launched" << std::endl;
 
-    _window.create(sf::VideoMode(width, height), "Arcade");
+    _window.create(sf::VideoMode(900, 800), "Arcade");
+    std::cout << "toto" << std::endl;
 }
 
 /*
@@ -30,25 +31,26 @@ void    arcade::LibSfml::runGfx()
     // Game loop
     while (_window.isOpen())
     {
-        _window.display();
+      sf::Event event;
+      while (_window.pollEvent(event))
+	{
+	  if (event.type == sf::Event::Closed)
+	    _window.close();
+	}
+      _window.clear(sf::Color::Black);
+      _window.display();
     }
 }
 
 void    test()
 {
-    arcade::LibSfml toto(900, 600);
-    //toto.runGfx();
+  arcade::LibSfml toto(900, 600);
+    toto.runGfx();
 }
 
 int main()
 {
-    test();
-    return (0);
-}
-
-/*void arcade::Sfml::openWindow(double width, double height, std::string window_name)
-{
-    sf::RenderWindow window(sf::VideoMode(width, height), window_name);
+    sf::RenderWindow window(sf::VideoMode(900, 600), "Test");
 
     while (window.isOpen())
     {
@@ -67,7 +69,7 @@ int main()
             text.setFont(font);
             text.setString("Arcade");
             text.setCharacterSize(26); // exprimée en pixels, pas en points !
-            text.setFillColor(sf::Color::Red);
+            //text.setFillColor(sf::Color::Red);
             text.setStyle(sf::Text::Bold);
             text.setPosition(350, 10);
         }
@@ -75,4 +77,5 @@ int main()
         window.draw(text);
         window.display();
     }
-}*/
+    return (0);
+}

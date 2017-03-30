@@ -6,9 +6,8 @@
 #define COMPONENT_HH_
 
 #include <string>
-#include "Color.hpp"
 #include "GameState.hpp"
-#include "IComponent.hpp"
+#include "common/IComponent.hpp"
 
 namespace arcade
 {
@@ -20,12 +19,12 @@ namespace arcade
         double width;
         double height;
         std::size_t backgroundId;
-        arcade::Color backgroundColor;
+      //arcade::Color backgroundColor;
         std::string text;
 
     public:
         Component();
-        Component(double const, double const, double const, double const, std::size_t const, arcade::Color, std::string);
+      Component(double const, double const, double const, double const, std::size_t const, /*arcade::Color,*/ std::string);
         virtual ~Component();
 
         virtual double getX() const;
@@ -35,7 +34,7 @@ namespace arcade
         virtual double getHeight() const;
 
         virtual std::size_t getBackgroundId() const;
-        virtual arcade::Color getBackgroundColor() const;
+      //virtual arcade::Color getBackgroundColor() const;
         virtual std::string const &getText() const;
     };
 }

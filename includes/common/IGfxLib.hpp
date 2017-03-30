@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <string>
-#include "Event.hpp"
+#include "../Event.hpp"
 #include "IMap.hpp"
 #include "IGUI.hpp"
 

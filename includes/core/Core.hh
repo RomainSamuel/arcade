@@ -2,7 +2,7 @@
 # define CORE_HH_
 
 #include <string>
-#include "GameState.hpp"
+#include "../GameState.hpp"
 
 namespace arcade
 {
