@@ -8,14 +8,14 @@
 #include <string>
 
 #include <vector>
-#include "../Component.hh"
+#include "AItem.hh"
 
 namespace arcade
 {
-    class Menu : public Component
+    class Menu : public AItem
     {
     protected:
-        std::vector<arcade::Component> component;
+        std::vector<arcade::AItem> _items;
 
     public:
         Menu();

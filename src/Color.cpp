@@ -1,4 +1,4 @@
-#include "Color.hpp"
+#include "../includes/Color.hpp"
 
 namespace arcade
 {

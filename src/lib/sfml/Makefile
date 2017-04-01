@@ -15,13 +15,13 @@ DEBUG 		= no
 DISPLAY_OPT	= percentage
 
 # utils
-COUNT 		= 1
-NBSOURCES 	= $(shell find src/ -type f -name '*.cpp' | wc -l)
-PERCENT		= 0
-NBSOURCES	= $(shell find src/ -type f -name '*.cpp' | wc -l)
-DISPLAY_ONE	= "[\033[95m$(PERCENT)%\033[0m][\033[92m$<\033[0m]"
-DISPLAY_TWO	= "[\033[95m$(COUNT)\033[0m/\033[93m$(NBSOURCES)\033[0m][\033[92m$<\033[0m]"
-COMPILATION_MSG	= $(DISPLAY_TWO)
+#COUNT 		= 1
+#NBSOURCES 	= $(shell find src/ -type f -name '*.cpp' | wc -l)
+#PERCENT		= 0
+#NBSOURCES	= $(shell find src/ -type f -name '*.cpp' | wc -l)
+#DISPLAY_ONE	= "[\033[95m$(PERCENT)%\033[0m][\033[92m$<\033[0m]"
+#DISPLAY_TWO	= "[\033[95m$(COUNT)\033[0m/\033[93m$(NBSOURCES)\033[0m][\033[92m$<\033[0m]"
+#COMPILATION_MSG	= $(DISPLAY_TWO)
 
 # compiler
 CXX		= g++
@@ -42,12 +42,12 @@ endif
 # change these to proper directories where each file should be
 SRCDIR   = src
 OBJDIR   = obj
-BINDIR   = .
+BINDIR   = ../../../lib/
 
 # Sources, Includes and Objects
 SOURCES  := 		$(wildcard *.cpp)
 INCLUDES :=			$(wildcard *.hh)
-OBJECTS  := 		$(SOURCES:$(OBJDIR)/%.cpp=%.o)
+OBJECTS  := 		$(SOURCES:%.cpp=$(OBJDIR)/%.o)
 RM 	      = 		rm -rf
 
 $(BINDIR)/$(NAME):	$(OBJECTS)

@@ -13,7 +13,7 @@ arcade::Core::Core(const std::string _lib, const int _level, const int _volume)
     std::ifstream fs(_lib);
 
     if (_lib.compare(_lib.size() - 3, 3, ".so") != 0
-        || _lib.compare(0, 11, "lib_arcade_") != 0)
+        || _lib.compare(0, 15, "lib/lib_arcade_") != 0)
     {
         std::cerr << "Usage : ./arcade lib_arcade_XXXX.so" << std::endl;
         exit(1);

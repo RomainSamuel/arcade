@@ -4,15 +4,19 @@
 
 #include <memory>
 #include <iostream>
+#include "Text.hh"
+#include "gameButton.hh"
+#include "settingsButton.hh"
 #include "Menu.hh"
 
 arcade::Menu::Menu()
 {
-  component.push_back(arcade::Component(10, 10, 250, 250, 3, /*arcade::Color::Black,*/ "ARCADE"));
-    component.push_back(arcade::Component(10, 10, 250, 250, 3, /*arcade::Color::Red,*/ "Snake"));
-    component.push_back(arcade::Component(10, 10, 250, 250, 3, /*arcade::Color::Blue,*/ "Solar Fox"));
-    component.push_back(arcade::Component(10, 10, 250, 250, 3, /*arcade::Color::Blue,*/ "Centipede"));
-    component.push_back(arcade::Component(10, 10, 250, 250, 3, /*arcade::Color::Green,*/ "Settings"));
+    _items.push_back(arcade::Text(10, 10, 250, 250, 3, arcade::Color::Black, "ARCADE", 25));
+    _items.push_back(arcade::gameButton(10, 10, 250, 250, 3, arcade::Color::Red, "Snake", "snake"));
+    _items.push_back(arcade::gameButton(10, 10, 250, 250, 3, arcade::Color::Blue, "Solar Fox", "solar fox"));
+    _items.push_back(arcade::gameButton(10, 10, 250, 250, 3, arcade::Color::Blue, "Centipede", "centipede"));
+    _items.push_back(arcade::settingsButton(10, 10, 250, 250, 3, arcade::Color::Green, "Settings"));
+    _items.push_back(arcade::Text(10, 10,  250, 250, 3, arcade::Color::White, "Made By: Khsime Marwane, Marel Maud & Samuel Romain - Epitech", 13));
 }
 
 arcade::Menu::~Menu()
@@ -22,7 +26,7 @@ arcade::Menu::~Menu()
 
 void    arcade::Menu::display() const
 {
-    for (std::vector<arcade::Component>::const_iterator it = component.begin(); it != component.end(); it++)
+    for (std::vector<arcade::AItem>::const_iterator it = _items.begin(); it != _items.end(); it++)
     {
         std::cout << it->getText() << std::endl;
     }

@@ -48,12 +48,11 @@ BINDIR   = .
 SOURCES  := 		$(wildcard $(SRCDIR)/*.cpp)
 SOURCES  +=         $(wildcard $(SRCDIR)/core/*.cpp)
 SOURCES  +=         $(wildcard $(SRCDIR)/menu/*.cpp)
-INCLUDES :=		    $(wildcard src/lib/sfml)
 OBJECTS  := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM 	      = 		rm -rf
 
-$(BINDIR)/$(NAME):	$(OBJECTS)
-					@$(CXX) -o $@ $(CXXFLAGS) $(OBJECTS)
+$(BINDIR)/$(NAME):	$(OBJECTS) compile_sfml
+					@$(CXX) -o $@ $(OBJECTS)
 					@echo "\033[94mProject $(NAME) build successfully!\033[0m"
 
 $(OBJECTS):			$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
@@ -65,6 +64,9 @@ $(OBJECTS):			$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 	                        @echo $(COMPILATION_MSG)
 				@$(eval COUNT=$(shell echo $$((($(COUNT)+1)))))
 
+compile_sfml:
+					make -C src/lib/sfml
+
 .PHONY: 			clean fclean re
 
 clean:
@@ -72,7 +74,7 @@ clean:
 					@echo "\033[93mCleanup complete!\033[0m"
 
 fclean: 			clean
-					@$(RM) $(BINDIR)/$(NAME) $(LIBNAME)
+					@$(RM) $(BINDIR)/$(NAME) $(LIBNAME) lib games
 					@echo "\033[93mExecutable removed!\033[0m"
 
 re:					fclean $(BINDIR)/$(NAME)
