@@ -1,4 +1,4 @@
-n#include "Tile.hh"
+#include "Tile.hh"
 
 arcade::Tile::Tile()
 {

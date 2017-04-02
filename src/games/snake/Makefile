@@ -7,9 +7,9 @@ SRC		=	GUI.cpp \
 				Map.cpp	\
 				Game.cpp \
 				Tile.cpp \
-				../../../includes/Color.cpp
+				../../Color.cpp
 
-GAMESDIR	=	../../../
+GAMESDIR	=	../../../resources/games/
 
 OBJ 	    =	$(SRC:.cpp=.o)
 
@@ -17,7 +17,7 @@ CXXFLAGS    =   -std=c++14
 
 CXXFLAGS    +=  -W -Wall -Wextra -Werror -fPIC
 
-CXXFLAGS    +=  -I../../../includes
+CXXFLAGS    +=  -I../../../includes/common -I../../../includes
 
 LDFLAGS			=	-shared
 
