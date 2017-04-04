@@ -10,6 +10,7 @@
 #include <dirent.h>
 #include <dlfcn.h>
 #include "Loader.hh"
+#include "Exceptions.hh"
 
 arcade::Loader::Loader()
 :   _libPath {},
@@ -22,7 +23,7 @@ arcade::Loader::Loader()
     std::size_t  pos;
 
     if ((dir = opendir("lib")) == nullptr)
-        exit(1);
+        throw arcade::Error("Failed open lib directory");
     while ((entry = readdir(dir)) != nullptr)
     {
         pos = std::string(entry->d_name).find(".so");
@@ -80,13 +81,9 @@ void    *arcade::Loader::getSym(std::string const &lib) const
     void    *mkr;
     void    *handle;
 
-    std::cout << "LIB=> " << lib << std::endl;
     if ((handle = dlopen(lib.c_str(), RTLD_NOW)) == NULL)
-    {
-        std::cout << dlerror() << std::endl;
-        return (NULL);
-    }
+        throw arcade::Error("dlopene Failed");
     if ((mkr = dlsym(handle, "loader")) == NULL)
-        return (NULL);
+        throw arcade::Error("dlsym Failed");
     return (mkr);
 }

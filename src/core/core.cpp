@@ -7,22 +7,17 @@
 #include <memory>
 #include "Core.hh"
 #include "Menu.hh"
+#include "Exceptions.hh"
 
-arcade::Core::Core(const std::string &lib, const int volume) : _lib(lib), _volume(volume), _gameState(arcade::GameState::MENU), _loader()
+arcade::Core::Core(const std::string &lib, const int volume) : _lib(lib), _volume(volume), _gameState(arcade::GameState::MENU), _loader(), _libLoad()
 {
     std::ifstream fs(lib);
 
     if (lib.compare(lib.size() - 3, 3, ".so") != 0
         || lib.compare(0, 15, "lib/lib_arcade_") != 0)
-    {
-        std::cerr << "Usage : ./arcade lib_arcade_XXXX.so" << std::endl;
-        exit(1);
-    }
+        throw arcade::Error("Usage : ./arcade lib_arcade_XXXX.so");
     if (!fs.is_open())
-    {
-        std::cerr << "Library : " << lib << " doesn't exist!" << std::endl;
-        exit(1);
-    }
+        throw arcade::Error("Library : " + lib + " doesn't exist!");
     
     _loader.setCurrentLib(lib);
 }
@@ -30,6 +25,16 @@ arcade::Core::Core(const std::string &lib, const int volume) : _lib(lib), _volum
 arcade::Core::~Core()
 {
 
+}
+
+arcade::Core::Core(Core const &clone) : Core("", clone.getVolume())
+{
+}
+
+arcade::Core    &arcade::Core::operator=(Core const &clone)
+{
+    (void) clone;
+    return (*this);
 }
 
 arcade::Loader  arcade::Core::getLoader() const
@@ -60,6 +65,9 @@ void    arcade::Core::setGameState(const arcade::GameState state)
 void    arcade::Core::menu()
 {
     std::unique_ptr<arcade::Menu> menu = std::make_unique<arcade::Menu>();
+    void *mkr = getLoader().getSym(getLoader().getCurrentLib());
+    _libLoad = reinterpret_cast<arcade::IGfxLib *(*)()>(mkr)();
+    _libLoad->display();
     menu->display();
 }
 

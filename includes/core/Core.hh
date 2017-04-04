@@ -4,7 +4,8 @@
 #include <string>
 #include <memory>
 #include "Loader.hh"
-#include "../GameState.hpp"
+#include "GameState.hpp"
+#include "IGfxLib.hpp"
 
 namespace arcade
 {
@@ -15,11 +16,14 @@ namespace arcade
         int _volume;
         arcade::GameState _gameState;
         arcade::Loader    _loader;
+        arcade::IGfxLib     *_libLoad;
         
     public:
         Core(const std::string &, const int);
         ~Core();
 
+        Core(Core const &);
+        Core    &operator=(Core const &);
         arcade::Loader  getLoader() const;
         int getVolume() const;
         void setVolume(const int);
