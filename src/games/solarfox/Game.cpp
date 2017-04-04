@@ -4,12 +4,6 @@ arcade::Game::Game()
 {
   this->_map = std::unique_ptr<Map>(new Map(10, 10));
   this->_state = NONE;
-  this->_snake.push_back(std::make_unique<snake::SnakePart>(4, 4, snake::PartType::HEAD, snake::Direction::WEST));
-  this->_snake.push_back(std::make_unique<snake::SnakePart>(5, 4, snake::PartType::BODY, snake::Direction::WEST));
-  this->_snake.push_back(std::make_unique<snake::SnakePart>(6, 4, snake::PartType::BODY, snake::Direction::NORTH));
-  this->_snake.push_back(std::make_unique<snake::SnakePart>(6, 5, snake::PartType::TAIL, snake::Direction::NORTH));
-  this->_snake.front()->printOnMap(this->_snake, this->_map);
-  this->_food = std::unique_ptr<snake::Food>(new snake::Food(this->_map));
 }
 
 arcade::Game::~Game()
@@ -37,6 +31,8 @@ std::vector<arcade::NetworkPacket>&& arcade::Game::getNetworkToSend()
 
 void  arcade::Game::process()
 {
+  if (this->_state != arcade::GameState::INGAME)
+    this->_state = arcade::GameState::INGAME;
 }
 
 std::vector<std::string> arcade::Game::getSoundsToLoad() const
