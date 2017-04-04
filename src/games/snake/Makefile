@@ -10,7 +10,7 @@ SRC		=	Food.cpp \
 				Tile.cpp \
 				../../Color.cpp
 
-GAMESDIR	=	../../../resources/games/
+GAMESDIR	=	../../../games/
 
 OBJ 	    =	$(SRC:.cpp=.o)
 
