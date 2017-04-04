@@ -12,32 +12,21 @@
 // GLEW
 #define GLEW_STATIC
 #include <GL/glew.h>
-
 // GLFW
 #include <GLFW/glfw3.h>
-
-// OPENAL
-#include <AL/al.h>
-#include <AL/alc.h>
-
-// SNDFILE
-#include <sndfile.h>
-
 // SYSTEM
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
-
 #include <functional>
-
 #include <exception>
-
+#include <memory>
+// SOUND
+#include "SoundManager.hpp"
+// EVENTS
 #include "Event.hpp"
-#include "GameState.hpp"
 #include "glEventsCorrespondence.hpp"
-
-// TODO : consts
+// GAME STATE
+#include "GameState.hpp"
+// IGFX
+#include "IGfxLib.hpp"
 
 namespace arcade {
 
@@ -45,51 +34,50 @@ namespace arcade {
     static std::vector<arcade::Event> _lastEvents;
 
     class LibOpenGl {
-    private:
 
-        // GLFW
-        GLFWwindow      *_window;
-        const GLuint    _width;
-        const GLuint    _height;
+        private:
+            // GRAPHIC
+            //            std::unique_ptr<IMap>   _map;
+            // std::unique_ptr<IGUI>   _GUI;
 
-        // SOUND
-        std::map<size_t, ALuint> _sounds;
+            // GLFW
+            GLFWwindow      *_window;
+            const GLuint    _width;
+            const GLuint    _height;
+            // SOUND
+            SoundManager    _soundManager;
+            // Member Functions
+            void            runGFX();
+            bool            loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
 
-        // Member Functions
-        void            runGFX();
-        bool            initOpenAl() const;
-        void            shutDownOpenAl();
+        public:
 
-    public:
+            // Constructor / Destructor
+            LibOpenGl(GLuint width, GLuint height);
+            ~LibOpenGl();
 
-        // Constructor / Destructor
-        LibOpenGl(GLuint width, GLuint height);
-        ~LibOpenGl();
+            // Keyboard Management
+            static void     keyCallback(GLFWwindow *, int key, int scancode, int action, int mode);
+            static void     mouseCallback(GLFWwindow *,  int button, int action, int mode);
 
-        // Keyboard Management
-        static void     keyCallback(GLFWwindow *, int key, int scancode, int action, int mode);
-        static void     mouseCallback(GLFWwindow *,  int button, int action, int mode);
+            // Event manager
+            bool    pollEvent(Event &);
 
-        // Pool event
-        bool    pollEvent(Event &);
+            // Sound Manager
+            bool    doesSupportSound() const;
+            void    soundControl(const Sound &soundToControl);
+            void    loadSound(std::vector<std::pair<std::string, SoundType> > const &soundsToLoad);
 
-        // Sound
-        struct  Sound {
-            enum SoundMode { UNIQUE, REPEAT };
-            int               id;
-            SoundMode         mode;
+            // 
+            // Updates
+            //void    updateGUI(IGUI const &gui); 
 
-            Sound(int _id, SoundMode _mode = UNIQUE) : id(_id), mode(_mode) {}
+            // Graphic
+            // void    updateMap(IMap const &map);
+            // void    updateGUI(IGUI const &GUI);
+            void    clear();
+            void    display();
         };
-
-        bool    doesSupportSound() const;
-        void    loadSound(std::vector<std::string> const &sounds);
-        void    playSound(const Sound &sound);
-
-        // Updates
-        //void    updateMap(IMap const &map);
-        //void    updateGUI(IGUI const &gui);
-    };
-
 }
+
 #endif // GL_MAIN_HPP
