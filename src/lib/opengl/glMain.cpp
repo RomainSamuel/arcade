@@ -18,6 +18,7 @@ arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _heig
 
     // Init GLFW
     glfwInit();
+
     // Set all the required options for GLFW
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -31,7 +32,6 @@ arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _heig
 
     // Create a GLFWwindow object that we can use for GLFW's functions
     glfwMakeContextCurrent(this->_window);
-
 
     // Set the required callback functions
     glfwSetKeyCallback(this->_window, arcade::LibOpenGl::keyCallback);
@@ -49,10 +49,6 @@ arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _heig
     glfwGetFramebufferSize(this->_window, &frame_width, &frame_height);  
     glViewport(0, 0, frame_width, frame_height);
 
-    // Init OpenAl
-    if (!initOpenAl())
-        throw std::string("Failed to initialize OpenAl\n");
-
     // Run Lib
     this->runGFX();
 }
@@ -63,14 +59,16 @@ arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _heig
 arcade::LibOpenGl::~LibOpenGl() {
     glfwDestroyWindow(this->_window);
     glfwTerminate();
-    shutDownOpenAl();
 }
 
 /*
 **  Run GFX
 */
 void    arcade::LibOpenGl::runGFX() {
+
     // Game loop
+    glClearColor(0.2f, 0.6f, 0.9f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
     while (!glfwWindowShouldClose(this->_window)) {
 
         // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
@@ -78,12 +76,33 @@ void    arcade::LibOpenGl::runGFX() {
 
         // Render
         // Clear the colorbuffer
-        glClearColor(0.2f, 0.6f, 0.9f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
 
         // Swap the screen buffers
         glfwSwapBuffers(this->_window);
     }
+}
+
+/*
+** GRAPHIC
+*/
+
+// void    arcade::LibOpenGl::updateMap(IMap const &map) {
+//     this->_map.reset();
+//     this->_map = std::make_unique<IMap>(map);
+// }
+
+// void    arcade::LibOpenGl::updateGUI(IGUI const &GUI) {
+//     this->_GUI.reset();
+//     this->_GUI = std::make_unique<IGUI>(GUI);
+// }
+
+void    arcade::LibOpenGl::clear() {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void    arcade::LibOpenGl::display() {
+    std::cout << "Display" << std::endl;   
 }
 
 /*
@@ -125,6 +144,7 @@ void    arcade::LibOpenGl::keyCallback(GLFWwindow* window, int key, int scancode
 
 // Is caled whenever a mouse button is pressed/released via GLFW
 void    arcade::LibOpenGl::mouseCallback(GLFWwindow *window, int button, int action, int mode) {
+    std::cout << button << std::endl;
     if (action == GLFW_PRESS) {
         arcade::MousePos    current;
         arcade::MousePos    last;
@@ -181,129 +201,17 @@ bool    arcade::LibOpenGl::pollEvent(Event &event) {
 /*
 ** SOUND
 */
+
 bool    arcade::LibOpenGl::doesSupportSound() const {
-    std::cout << "does support sound (yes)" << std::endl;
-    return true;
+    return this->_soundManager.doesSupportSound();
 }
 
-void    arcade::LibOpenGl::loadSound(std::vector<std::string> const &sounds) {
-    std::cout << "load sound" << std::endl;
-
-    // Remove old sounds and delete sources
-    for (size_t i = 0; i < this->_sounds.size(); i++) {
-        alSourcei(this->_sounds[i], AL_BUFFER, 0);
-        alDeleteSources(1, &this->_sounds[i]);
-    }   this->_sounds.clear();
-
-    for (size_t i = 0; i < sounds.size(); i++) {
-
-        // Open audio file with libsndfile
-        SF_INFO     FileInfos;
-        SNDFILE     *File = sf_open(sounds[i].c_str(), SFM_READ, &FileInfos);
-
-        if (File == nullptr) {
-            std::cout << "Error: failed to load '" + sounds[i] + "'\n" << std::endl;
-            return ;
-        }
-        // Reading the number of samples and the sampling rate (number of samples to be read per second)
-        ALsizei NbSamples  = static_cast<ALsizei>(FileInfos.channels * FileInfos.frames);
-        ALsizei SampleRate = static_cast<ALsizei>(FileInfos.samplerate);
-
-
-        // Play audio samples in signed 16-bit integer format (the most common)
-        std::vector<ALshort>    Samples(NbSamples);
-        if (sf_read_short(File, &Samples[0], NbSamples) < NbSamples)
-            return ;
-
-        // Close file
-        sf_close(File);
-
-        // Determining the format according to the number of channels
-        ALenum Format;
-        switch (FileInfos.channels) {
-            case 1 :  Format = AL_FORMAT_MONO16;   break;
-            case 2 :  Format = AL_FORMAT_STEREO16; break;
-            default : return ;
-        }
-
-        // Create OpenAL buffer
-        ALuint Buffer;
-
-        alGenBuffers(1, &Buffer);
-
-        // Fill with samples read
-        alBufferData(Buffer, Format, &Samples[0], NbSamples * sizeof(ALushort), SampleRate);
-    
-        // Check errors
-        if (alGetError() != AL_NO_ERROR) {
-            std::cout << "Error : An error has occured with file '" + sounds[i] + "'" << std::endl;
-            return ;
-        }
-
-        ALuint  Source;
-        alGenSources(1, &Source);
-        alSourcei(Source, AL_BUFFER, Buffer);
-
-        // push sound
-        this->_sounds.insert(std::pair<size_t, ALuint>(i, Source));
-    }
+void    arcade::LibOpenGl::loadSound(std::vector<std::pair<std::string, SoundType> > const &soundsToLoad) {
+    this->_soundManager.loadSounds(soundsToLoad);
 }
 
-void    arcade::LibOpenGl::playSound(const Sound &sound) {
-    std::cout << "play sound" << std::endl;
-
-    if (sound.mode == Sound::SoundMode::REPEAT) {
-        alSourcei(this->_sounds[sound.id], AL_LOOPING, true);
-    }
-    alSourcePlay(this->_sounds[sound.id]);        
-    (void)sound;
-}
-
-bool    arcade::LibOpenGl::initOpenAl() const {
-
-    // Open Device
-    ALCdevice* Device = alcOpenDevice(NULL);
-    if (Device == nullptr) {
-        std::cout << "No sound device found" << std::endl;
-        return false;
-    }
- 
-    // Create Context
-    ALCcontext* Context = alcCreateContext(Device, NULL);
-    if (Context == nullptr) {
-        std::cout << "Failed to create context for sound" << std::endl;
-        return false;
-    }
- 
-    // Active Context
-    if (!alcMakeContextCurrent(Context)) {
-        std::cout << "Failed to active context for sound" << std::endl;
-        return false;
-    }
- 
-    return true;
-}
-
-void    arcade::LibOpenGl::shutDownOpenAl() {
-
-    // Get context and device
-    ALCcontext  *Context = alcGetCurrentContext();
-    ALCdevice   *Device  = alcGetContextsDevice(Context);
-
-    // Desable context
-    alcMakeContextCurrent(NULL);
-
-    // Destroy context
-    alcDestroyContext(Context);
-
-    // Close device
-    alcCloseDevice(Device);
-
-    // Delete sources
-    for (size_t i = 0; i < this->_sounds.size(); i++) {
-        alSourcei(this->_sounds[i], AL_BUFFER, 0);
-        alDeleteSources(1, &this->_sounds[i]);
-    }
+void    arcade::LibOpenGl::soundControl(const Sound &soundToControl) {
+    this->_soundManager.soundControl(soundToControl);
 }
 
 void    test() {
