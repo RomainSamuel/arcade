@@ -9,10 +9,11 @@ namespace arcade
     class Core
     {
     private:
-        int volume;
-        int level;
-        std::string lib;
-        arcade::GameState gameState;
+        std::string _lib;
+        int _level;
+        int _volume;
+        arcade::GameState _gameState;
+        
     public:
         Core(const std::string, const int, const int);
         ~Core();

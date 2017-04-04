@@ -24,7 +24,6 @@ namespace arcade
         std::string     _text;
 
     public:
-        AItem();
         AItem(double const, double const, double const, double const, std::size_t const, arcade::Color const &, std::string const &);
 
         virtual ~AItem();

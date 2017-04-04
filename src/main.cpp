@@ -16,7 +16,7 @@ int	main(int ac, char **av)
 {
     if (ac != 2)
     {
-        std::cout << "Usage : ./arcade lib_arcade_XXX.so" << std::endl;
+        std::cout << "Usage : ./arcade lib/lib_arcade_XXX.so" << std::endl;
         return 1;
     }
     std::unique_ptr<arcade::Core> core = std::make_unique<arcade::Core>(av[1], 1, 50);

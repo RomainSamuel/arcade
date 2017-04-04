@@ -18,7 +18,6 @@ namespace arcade
     private:
         int     _sizetext;
     public:
-        Text();
         Text(double const, double const, double const, double const, std::size_t const, arcade::Color const &, std::string const &, int const);
         virtual ~Text();
 

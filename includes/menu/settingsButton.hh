@@ -16,7 +16,6 @@ namespace arcade
     class settingsButton : public AItem
     {
     public:
-        settingsButton();
         settingsButton(double const, double const, double const, double const, std::size_t const, arcade::Color const &, std::string const &);
         virtual ~settingsButton();
 

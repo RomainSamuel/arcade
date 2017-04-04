@@ -18,7 +18,6 @@ namespace arcade
     protected:
         std::string _name;
     public:
-        gameButton();
         gameButton(double const, double const, double const, double const, std::size_t const, arcade::Color const &, std::string const &, std::string const &);
         virtual ~gameButton();
 

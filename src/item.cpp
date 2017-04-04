@@ -5,10 +5,6 @@
 #include <iostream>
 #include "AItem.hh"
 
-arcade::AItem::AItem()
-{
-}
-
 arcade::AItem::AItem(double const x, double const y, double const width, double const height, std::size_t backgroundId, arcade::Color const &backgroundColor, std::string const &text)
 :   _x(x),
     _y(y),

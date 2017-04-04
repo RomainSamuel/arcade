@@ -9,7 +9,7 @@
 #include "settingsButton.hh"
 #include "Menu.hh"
 
-arcade::Menu::Menu()
+arcade::Menu::Menu() : _items {}
 {
     _items.push_back(arcade::Text(10, 10, 250, 250, 3, arcade::Color::Black, "ARCADE", 25));
     _items.push_back(arcade::gameButton(10, 10, 250, 250, 3, arcade::Color::Red, "Snake", "snake"));

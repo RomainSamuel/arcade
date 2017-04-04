@@ -12,7 +12,7 @@
 
 namespace arcade
 {
-    class Menu : public AItem
+    class Menu
     {
     protected:
         std::vector<arcade::AItem> _items;

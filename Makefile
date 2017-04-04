@@ -27,7 +27,13 @@ COMPILATION_MSG	= $(DISPLAY_TWO)
 CXX		= g++
 
 # compiling flags here
-CXXFLAGS	= -W -Wall -Wextra -Werror -std=c++14 -I./includes/ -I./includes/common/ -I./includes/core/ -I./includes/menu/ -O2
+CXXFLAGS	= -W -Wall -Wextra -Werror -Weffc++ -std=c++14 -I./includes/ -I./includes/common/ -I./includes/core/ -I./includes/menu/ -O2
+#CXXFLAGS	+=		-pedantic -Wold-style-cast -Woverloaded-virtual -Wfloat-equal		
+#CXXFLAGS	+=		-Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion			
+#CXXFLAGS	+=		-Wshadow -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default	
+#CXXFLAGS	+=		-Wswitch-enum -Wundef -Wlogical-op -Winline
+
+LDFLAGS = -ldl
 
 # if debug is set to yes, add -g3 flag
 ifeq ($(DEBUG),yes)
@@ -52,7 +58,7 @@ OBJECTS  := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM 	      = 		rm -rf
 
 $(BINDIR)/$(NAME):	$(OBJECTS) compile_sfml
-					@$(CXX) -o $@ $(OBJECTS)
+					@$(CXX) -o $@ $(OBJECTS) $(LDFLAGS)
 					@echo "\033[94mProject $(NAME) build successfully!\033[0m"
 
 $(OBJECTS):			$(OBJDIR)/%.o : $(SRCDIR)/%.cpp

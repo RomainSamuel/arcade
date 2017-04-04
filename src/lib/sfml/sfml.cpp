@@ -35,6 +35,9 @@ void    arcade::LibSfml::runGfx()
 	{
 	  if (event.type == sf::Event::Closed)
 	    _window.close();
+        if ((event.type == sf::Event::KeyPressed))
+        _window.close();
+        
 	}
       _window.clear(sf::Color::Black);
       _window.display();

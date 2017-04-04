@@ -8,10 +8,6 @@
 
 #include "settingsButton.hh"
 
-arcade::settingsButton::settingsButton()
-{
-}
-
 arcade::settingsButton::settingsButton(double const x, double const y, double const width, double const height, std::size_t backgroundId, arcade::Color const &backgroundColor, std::string const &text)
 : AItem(x, y, width, height, backgroundId, backgroundColor, text)
 {

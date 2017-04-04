@@ -8,10 +8,6 @@
 
 #include "Text.hh"
 
-arcade::Text::Text()
-{
-}
-
 arcade::Text::Text(double const x, double const y, double const width, double const height, std::size_t backgroundId, arcade::Color const &backgroundColor, std::string const &text, int const sizetext)
 :   AItem(x, y, width, height, backgroundId, backgroundColor, text), _sizetext(sizetext)
 {
