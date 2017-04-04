@@ -54,3 +54,12 @@ std::string const   &arcade::AItem::getText() const
 {
     return (_text);
 }
+
+bool                arcade::AItem::hasSprite() const
+{
+    return (true);
+}
+
+void    arcade::AItem::setClicked()
+{
+}

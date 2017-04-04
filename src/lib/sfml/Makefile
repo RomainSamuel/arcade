@@ -1,74 +1,33 @@
-##
-## Author: Marwane Khsime
-## Date: 2017-03-21 21:26:49
-##
-## Last Modified by:   Marwane Khsime
-## Last Modified time: 2017-03-21 21:26:49
-##
+GPP		=	g++
 
-# name of the projet
-NAME   = lib_arcade_sfml.so
+NAME	=	lib_arcade_sfml.so
 
-# config
-DEBUG 		= no
-# if display_opt is set to "percentage", shows the progress of the compilation in percentage, else use the index.
-DISPLAY_OPT	= percentage
+SRC		=	sfml.cpp
 
-# utils
-#COUNT 		= 1
-#NBSOURCES 	= $(shell find src/ -type f -name '*.cpp' | wc -l)
-#PERCENT		= 0
-#NBSOURCES	= $(shell find src/ -type f -name '*.cpp' | wc -l)
-#DISPLAY_ONE	= "[\033[95m$(PERCENT)%\033[0m][\033[92m$<\033[0m]"
-#DISPLAY_TWO	= "[\033[95m$(COUNT)\033[0m/\033[93m$(NBSOURCES)\033[0m][\033[92m$<\033[0m]"
-#COMPILATION_MSG	= $(DISPLAY_TWO)
+GAMESDIR	=	../../../lib/
 
-# compiler
-CXX		= g++
+OBJ 	    =	$(SRC:.cpp=.o)
 
-# compiling flags here
-CXXFLAGS	= -W -Wall -Wextra -std=c++14 -I./../../../includes/lib/sfml -I./../../../includes -O2  -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS    =   -std=c++14
 
-# if debug is set to yes, add -g3 flag
-ifeq ($(DEBUG),yes)
-	CXXFLAGS += -g3
-endif
+CXXFLAGS    +=  -W -Wall -Wextra -Werror -fPIC
 
-# Set the compilation message
-ifeq ($(DISPLAY_OPT), percentage)
-        COMPILATION_MSG=$(DISPLAY_ONE)
-endif
+CXXFLAGS    +=  -I../../../includes/lib/sfml -I../../../includes -I../../../includes/common
 
-# change these to proper directories where each file should be
-SRCDIR   = src
-OBJDIR   = obj
-BINDIR   = ../../../lib/
+LDFLAGS		=	-lsfml-graphics -lsfml-window -lsfml-system
 
-# Sources, Includes and Objects
-SOURCES  := 		$(wildcard *.cpp)
-INCLUDES :=			$(wildcard *.hh)
-OBJECTS  := 		$(SOURCES:%.cpp=$(OBJDIR)/%.o)
-RM 	      = 		rm -rf
+LDFLAGS		+=	-shared
 
-$(BINDIR)/$(NAME):	$(OBJECTS)
-					@$(CXX) -o $@ $(CXXFLAGS) $(OBJECTS)
-					@echo "\033[94mProject $(NAME) build successfully!\033[0m"
+$(NAME):	$(OBJ)
+		    $(GPP) -o $(NAME) $(OBJ) $(LDFLAGS)
+				mv $(NAME) $(GAMESDIR)
 
-$(OBJECTS):			$(OBJDIR)/%.o : %.cpp
-				@mkdir -p $(dir $@)
-				@$(CXX) $(CXXFLAGS) -c $< -o $@
-				@$(eval PERCENT=$(shell echo $$((($(COUNT)*100/$(NBSOURCES))))))
-	                        @echo $(COMPILATION_MSG)
-				@$(eval COUNT=$(shell echo $$((($(COUNT)+1)))))
-
-.PHONY: 			clean fclean re
+all:		$(NAME)
 
 clean:
-					@$(RM) $(OBJDIR)
-					@echo "\033[93mCleanup complete!\033[0m"
+				$(RM)	$(OBJ)
 
-fclean: 			clean
-					@$(RM) $(BINDIR)/$(NAME) $(LIBNAME)
-					@echo "\033[93mExecutable removed!\033[0m"
+fclean:	clean
+				$(RM) $(GAMESDIR)$(NAME)
 
-re:					fclean $(BINDIR)/$(NAME)
+re:			fclean all

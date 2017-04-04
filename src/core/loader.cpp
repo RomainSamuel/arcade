@@ -11,26 +11,23 @@
 #include <dlfcn.h>
 #include "Loader.hh"
 
-arcade::Loader::Loader(const std::string &current)
-:   _libPathHandle {},
-    _currentLibHandle(0),
-    _currentLib(current),
-    _gamePathHandle {},
-    _currentGameHandle(0),
-    _currentGame(0)
+arcade::Loader::Loader()
+:   _libPath {},
+    _currentLib(),
+    _gamePath {},
+    _currentGame()
 {
     DIR *dir;
     dirent  *entry;
     std::size_t  pos;
 
-    std::cout << "Loader" << std::endl;
     if ((dir = opendir("lib")) == nullptr)
         exit(1);
     while ((entry = readdir(dir)) != nullptr)
     {
         pos = std::string(entry->d_name).find(".so");
         if (pos != std::string::npos)
-            _libPathHandle["lib/" + std::string(entry->d_name)] = dlopen(("lib" + std::string(entry->d_name)).c_str(), RTLD_LAZY | RTLD_GLOBAL);
+            _libPath.push_back(std::string(entry->d_name));
     }
     closedir(dir);
 }
@@ -40,11 +37,9 @@ arcade::Loader::~Loader()
 }
 
 arcade::Loader::Loader(const arcade::Loader &copy)
-:   _libPathHandle(copy.getLibPathHandle()),
-    _currentLibHandle(copy.getCurrentLibHandle()),
+:   _libPath(copy.getLibPath()),
     _currentLib(copy.getCurrentLib()),
-    _gamePathHandle(copy.getGamePathHandle()),
-    _currentGameHandle(copy.getCurrentGameHandle()),
+    _gamePath(copy.getGamePath()),
     _currentGame(copy.getCurrentGame())
 {
 }
@@ -55,14 +50,14 @@ arcade::Loader  &arcade::Loader::operator=(const arcade::Loader &copy)
     return (*this);
 }
 
-std::map<std::string, void*>    arcade::Loader::getLibPathHandle() const
+void    arcade::Loader::setCurrentLib(std::string const &lib)
 {
-    return (_libPathHandle);
+    _currentLib = lib;
 }
 
-void    *arcade::Loader::getCurrentLibHandle() const
+std::vector<std::string>    arcade::Loader::getLibPath() const
 {
-    return (_currentLibHandle);
+    return (_libPath);
 }
 
 std::string     arcade::Loader::getCurrentLib() const
@@ -70,17 +65,28 @@ std::string     arcade::Loader::getCurrentLib() const
     return (_currentLib);
 }
 
-std::map<std::string, void*>    arcade::Loader::getGamePathHandle() const
+std::vector<std::string>    arcade::Loader::getGamePath() const
 {
-    return (_gamePathHandle);
+    return (_gamePath);
 }
-    
-void    *arcade::Loader::getCurrentGameHandle() const
-{
-    return (_currentGameHandle);
-}
-
+ 
 std::string     arcade::Loader::getCurrentGame() const
 {
     return (_currentGame);
+}
+
+void    *arcade::Loader::getSym(std::string const &lib) const
+{
+    void    *mkr;
+    void    *handle;
+
+    std::cout << "LIB=> " << lib << std::endl;
+    if ((handle = dlopen(lib.c_str(), RTLD_NOW)) == NULL)
+    {
+        std::cout << dlerror() << std::endl;
+        return (NULL);
+    }
+    if ((mkr = dlsym(handle, "loader")) == NULL)
+        return (NULL);
+    return (mkr);
 }

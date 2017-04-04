@@ -8,6 +8,7 @@
 #include "gameButton.hh"
 #include "settingsButton.hh"
 #include "Menu.hh"
+#include "IComponent.hpp"
 
 arcade::Menu::Menu() : _items {}
 {
@@ -30,4 +31,14 @@ void    arcade::Menu::display() const
     {
         std::cout << it->getText() << std::endl;
     }
+}
+
+std::size_t     arcade::Menu::size() const
+{
+    return (_items.size());
+}
+
+arcade::IComponent      &arcade::Menu::at(std::size_t n)
+{
+    return (_items.at(n));
 }

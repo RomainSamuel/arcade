@@ -10,7 +10,7 @@
 NAME   = arcade
 
 # config
-DEBUG 		= no
+DEBUG 		= yes
 # if display_opt is set to "percentage", shows the progress of the compilation in percentage, else use the index.
 DISPLAY_OPT	= percentage
 
@@ -57,7 +57,7 @@ SOURCES  +=         $(wildcard $(SRCDIR)/menu/*.cpp)
 OBJECTS  := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM 	      = 		rm -rf
 
-$(BINDIR)/$(NAME):	$(OBJECTS) compile_sfml
+$(BINDIR)/$(NAME):	$(OBJECTS) compile_sfml compile_snake
 					@$(CXX) -o $@ $(OBJECTS) $(LDFLAGS)
 					@echo "\033[94mProject $(NAME) build successfully!\033[0m"
 
@@ -72,6 +72,9 @@ $(OBJECTS):			$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 
 compile_sfml:
 					make -C src/lib/sfml
+
+compile_snake:
+					make -C src/games/snake
 
 .PHONY: 			clean fclean re
 
