@@ -3,21 +3,12 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
+#include "../includes/Event.hpp"
 #include "../includes/common/IGame.hpp"
 #include "../includes/common/IMap.hpp"
 
-int main()
+void  display(arcade::IGame *snake)
 {
-  std::srand(std::time(0));
-  void *hndl = dlopen("../resources/games/lib_arcade_snake.so", RTLD_NOW);
-  if(hndl == NULL){
-    std::cerr << dlerror() << std::endl;
-    exit(-1);
-  }
-
-  void *mkr = dlsym(hndl, "maker");
-  arcade::IGame *snake = reinterpret_cast<arcade::IGame *(*)()>(mkr)();
-
   arcade::TileTypeEvolution type;
 
   for (size_t y = 0; y < snake->getCurrentMap().getHeight(); y++)
@@ -31,4 +22,26 @@ int main()
         }
       printf("\n");
     }
+}
+
+int main()
+{
+  std::srand(std::time(0));
+  void *hndl = dlopen("../resources/games/lib_arcade_snake.so", RTLD_NOW);
+  if(hndl == NULL){
+    std::cerr << dlerror() << std::endl;
+    exit(-1);
+  }
+
+  void *mkr = dlsym(hndl, "maker");
+  arcade::IGame *snake = reinterpret_cast<arcade::IGame *(*)()>(mkr)();
+
+  display(snake);
+  std::cout << std::endl;
+  snake->process();
+  display(snake);
+  std::cout << std::endl;
+  snake->process();
+  display(snake);
+  std::cout << std::endl;
 }

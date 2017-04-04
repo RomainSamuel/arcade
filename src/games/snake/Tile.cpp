@@ -4,21 +4,31 @@ arcade::Tile::Tile()
 {
   this->_type = arcade::TileType::EMPTY;
   this->_typeEv = arcade::TileTypeEvolution::EMPTY;
+  this->_color = arcade::Color::Black;
+  this->_hasSprite = false;
   this->_spriteId = 0;
   this->_spritePos = 0;
+  this->_shiftX = 0;
+  this->_shiftY = 0;
 }
 
 arcade::Tile::Tile(TileType type,
                    TileTypeEvolution typeEv,
                    Color color,
+                   bool hasSprite,
                    size_t spriteId,
-                   size_t spritePos)
+                   size_t spritePos,
+                   double shiftX,
+                   double shiftY)
 {
   this->_type = type;
   this->_typeEv = typeEv;
+  this->_hasSprite = hasSprite;
   this->_color = color;
   this->_spriteId = spriteId;
   this->_spritePos = spritePos;
+  this->_shiftX = shiftX;
+  this->_shiftY = shiftY;
 }
 
 arcade::Tile::~Tile()
@@ -55,12 +65,22 @@ void  arcade::Tile::setColor(union Color color)
   this->_color = color;
 }
 
+bool  arcade::Tile::hasSprite() const
+{
+  return (this->_hasSprite);
+}
+
+void  arcade::Tile::setHasSprite(bool hasSprite)
+{
+  this->_hasSprite = hasSprite;
+}
+
 size_t  arcade::Tile::getSpriteId() const
 {
   return (this->_spriteId);
 }
 
-void  arcade::Tile::setSprite(size_t spriteId)
+void  arcade::Tile::setSpriteId(size_t spriteId)
 {
   this->_spriteId = spriteId;
 }
@@ -75,12 +95,22 @@ void  arcade::Tile::setSpritePos(size_t spritePos)
   this->_spriteId = spritePos;
 }
 
-void  arcade::Tile::nextSprite()
+double  arcade::Tile::getShiftX() const
 {
-  this->_spritePos++;
+  return (this->_shiftX);
 }
 
-void  arcade::Tile::prevSprite()
+void  arcade::Tile::setShiftX(double shiftX)
 {
-  this->_spritePos--;
+  this->_shiftX = shiftX;
+}
+
+double  arcade::Tile::getShiftY() const
+{
+  return (this->_shiftY);
+}
+
+void  arcade::Tile::setShiftY(double shiftY)
+{
+  this->_shiftY = shiftY;
 }

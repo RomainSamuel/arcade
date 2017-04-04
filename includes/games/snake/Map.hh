@@ -13,7 +13,7 @@ namespace arcade
     size_t  _width;
     size_t  _height;
     size_t  _layersNb;
-    std::vector<std::vector<std::vector<std::unique_ptr<ITile>>>> _layers;
+    std::vector<std::vector<std::vector<std::unique_ptr<Tile>>>> _layers;
 
   public:
     Map(size_t, size_t);
@@ -25,7 +25,7 @@ namespace arcade
     virtual size_t getHeight() const;
 
     void  createLayer(size_t);
-    ITile &at(size_t layer, size_t x, size_t y);
+    Tile &at(size_t layer, size_t x, size_t y);
   };
 }
 

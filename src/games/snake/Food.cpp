@@ -48,7 +48,7 @@ void  snake::Food::eraseFromMap(std::unique_ptr<arcade::Map> &map)
 {
   map->at(1, this->getX(), this->getY()).setType(arcade::TileType::EMPTY);
   map->at(1, this->getX(), this->getY()).setTypeEv(arcade::TileTypeEvolution::EMPTY);
-  map->at(1, this->getX(), this->getY()).setSprite(0);
+  map->at(1, this->getX(), this->getY()).setSpriteId(0);
   map->at(1, this->getX(), this->getY()).setColor(arcade::Color::Black);
 }
 
@@ -56,7 +56,7 @@ void  snake::Food::printOnMap(std::unique_ptr<arcade::Map> &map)
 {
   map->at(1, this->getX(), this->getY()).setType(arcade::TileType::EMPTY);
   map->at(1, this->getX(), this->getY()).setTypeEv(arcade::TileTypeEvolution::FOOD);
-  map->at(1, this->getX(), this->getY()).setSprite(0);
+  map->at(1, this->getX(), this->getY()).setSpriteId(0);
   map->at(1, this->getX(), this->getY()).setColor(arcade::Color::Yellow);
 }
 

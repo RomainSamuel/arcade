@@ -10,31 +10,40 @@ namespace arcade
     TileType  _type;
     TileTypeEvolution _typeEv;
     Color     _color;
+    bool      _hasSprite;
     size_t    _spriteId;
     size_t    _spritePos;
+    double    _shiftX;
+    double    _shiftY;
 
   public:
     Tile();
-    Tile(TileType, TileTypeEvolution, Color, size_t, size_t);
+    Tile(TileType, TileTypeEvolution, Color, bool, size_t, size_t, double, double);
     virtual ~Tile();
 
-    virtual TileType getType() const;
-    virtual void setType(TileType type);
+    TileType getType() const;
+    void setType(TileType type);
 
-    virtual TileTypeEvolution getTypeEv() const;
-    virtual void setTypeEv(TileTypeEvolution type);
+    TileTypeEvolution getTypeEv() const;
+    void setTypeEv(TileTypeEvolution type);
 
     virtual Color getColor() const;
-    virtual void setColor(union Color color);
+    void setColor(union Color color);
+
+    virtual bool hasSprite() const;
+    void  setHasSprite(bool);
 
     virtual size_t getSpriteId() const;
-    virtual void setSprite(size_t id);
+    void setSpriteId(size_t id);
 
     virtual size_t getSpritePos() const;
-    virtual void setSpritePos(size_t pos);
+    void setSpritePos(size_t pos);
 
-    virtual void   nextSprite();
-    virtual void   prevSprite();
+    virtual double getShiftX() const;
+    void setShiftX(double shift);
+
+    virtual double getShiftY() const;
+    void setShiftY(double shift);
   };
 }
 

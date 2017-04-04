@@ -68,6 +68,7 @@ namespace   snake
     int   move(std::list<std::unique_ptr<SnakePart>> &,
                std::unique_ptr<arcade::Map> &,
                std::unique_ptr<snake::Food> &);
+    void  addToBack(std::list<std::unique_ptr<SnakePart>> &);
   };
 }
 

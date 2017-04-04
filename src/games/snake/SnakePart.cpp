@@ -1,3 +1,4 @@
+#include <iostream>
 #include "SnakePart.hh"
 
 snake::SnakePart::SnakePart(size_t x, size_t y, PartType type, Direction direction)
@@ -68,6 +69,9 @@ void  snake::SnakePart::setPartType(PartType type)
 
 void  snake::SnakePart::setDirection(Direction direction)
 {
+  if (static_cast<int>(this->direction) + 2 == static_cast<int>(direction) ||
+      static_cast<int>(this->direction) - 2 == static_cast<int>(direction))
+    return;
   this->direction = direction;
 }
 
@@ -79,7 +83,7 @@ void  snake::SnakePart::eraseFromMap(std::list<std::unique_ptr<SnakePart>> &list
     {
       map->at(1, it->get()->getX(), it->get()->getY()).setType(arcade::TileType::EMPTY);
       map->at(1, it->get()->getX(), it->get()->getY()).setTypeEv(arcade::TileTypeEvolution::EMPTY);
-      map->at(1, it->get()->getX(), it->get()->getY()).setSprite(0);
+      map->at(1, it->get()->getX(), it->get()->getY()).setSpriteId(0);
       map->at(1, it->get()->getX(), it->get()->getY()).setColor(arcade::Color::Black);
     }
 }
@@ -91,7 +95,7 @@ void  snake::SnakePart::printOnMap(std::list<std::unique_ptr<SnakePart>> &list,
     {
       map->at(1, it->get()->getX(), it->get()->getY()).setType(arcade::TileType::EMPTY);
       map->at(1, it->get()->getX(), it->get()->getY()).setTypeEv(arcade::TileTypeEvolution::PLAYER);
-      map->at(1, it->get()->getX(), it->get()->getY()).setSprite(0);
+      map->at(1, it->get()->getX(), it->get()->getY()).setSpriteId(0);
       map->at(1, it->get()->getX(), it->get()->getY()).setColor(this->getAssociatedColor());
     }
 }
@@ -151,8 +155,11 @@ int snake::SnakePart::lead(std::list<std::unique_ptr<SnakePart>> &list,
     return (-1);
   this->x += this->pos[this->direction].first;
   this->y += this->pos[this->direction].second;
-  for (std::list<std::unique_ptr<snake::SnakePart>>::iterator it = list.begin()++; it != list.end(); it++)
-    it->get()->follow(*std::prev(it, 1));
+  for (std::list<std::unique_ptr<snake::SnakePart>>::iterator it = list.begin(); it != list.end(); it++)
+    {
+      if (it != list.begin())
+        it->get()->follow(*std::prev(it, 1));
+    }
   if (this->x == food->getX() && food->getY())
     return (1);
   else
@@ -169,9 +176,22 @@ int snake::SnakePart::move(std::list<std::unique_ptr<SnakePart>> &list,
   ret = this->lead(list, map, food);
   if (ret == -1)
     return (-1);
-  this->printOnMap(list, map);
   if (ret == 1)
-    if (food->beEaten(map) == 1)
-      return (2);
+    {
+      this->addToBack(list);
+      this->printOnMap(list, map);
+      if (food->beEaten(map) == 1)
+        return (2);
+    }
+  else
+    this->printOnMap(list, map);
   return (ret);
+}
+
+void  snake::SnakePart::addToBack(std::list<std::unique_ptr<SnakePart>> &list)
+{
+  list.push_back(std::make_unique<snake::SnakePart>(list.back()->x - list.back()->pos[list.back()->direction].first,
+                                                    list.back()->y - list.back()->pos[list.back()->direction].second,
+                                                    snake::PartType::TAIL,
+                                                    list.back()->direction));
 }
