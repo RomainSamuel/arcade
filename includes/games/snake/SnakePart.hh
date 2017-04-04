@@ -5,7 +5,7 @@
 # include <cstddef>
 # include <string>
 # include <list>
-# include <unordered_map>
+# include <map>
 # include <utility>
 # include <iterator>
 # include "Map.hh"
@@ -34,7 +34,7 @@ namespace   snake
     size_t  y;
     PartType  type;
     Direction direction;
-    std::unordered_map<Direction, std::pair<int, int>>  pos;
+    std::map<Direction, std::pair<int, int>>  pos;
 
   public:
     SnakePart(size_t x, size_t y, PartType type, Direction direction);
