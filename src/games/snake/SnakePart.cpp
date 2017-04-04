@@ -83,6 +83,7 @@ void  snake::SnakePart::eraseFromMap(std::list<std::unique_ptr<SnakePart>> &list
     {
       map->at(1, it->get()->getX(), it->get()->getY()).setType(arcade::TileType::EMPTY);
       map->at(1, it->get()->getX(), it->get()->getY()).setTypeEv(arcade::TileTypeEvolution::EMPTY);
+      map->at(1, it->get()->getX(), it->get()->getY()).setHasSprite(false);
       map->at(1, it->get()->getX(), it->get()->getY()).setSpriteId(0);
       map->at(1, it->get()->getX(), it->get()->getY()).setColor(arcade::Color::Black);
     }
@@ -95,7 +96,8 @@ void  snake::SnakePart::printOnMap(std::list<std::unique_ptr<SnakePart>> &list,
     {
       map->at(1, it->get()->getX(), it->get()->getY()).setType(arcade::TileType::EMPTY);
       map->at(1, it->get()->getX(), it->get()->getY()).setTypeEv(arcade::TileTypeEvolution::PLAYER);
-      map->at(1, it->get()->getX(), it->get()->getY()).setSpriteId(0);
+      map->at(1, it->get()->getX(), it->get()->getY()).setHasSprite(false);
+      map->at(1, it->get()->getX(), it->get()->getY()).setSpriteId(7);
       map->at(1, it->get()->getX(), it->get()->getY()).setColor(this->getAssociatedColor());
     }
 }

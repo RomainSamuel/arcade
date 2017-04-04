@@ -9,16 +9,16 @@
 
 void  display(arcade::IGame *snake)
 {
-  arcade::TileTypeEvolution type;
+  size_t type;
 
   for (size_t y = 0; y < snake->getCurrentMap().getHeight(); y++)
     {
       for (size_t x = 0; x < snake->getCurrentMap().getWidth(); x++)
         {
-          type = snake->getCurrentMap().at(0, x, y).getTypeEv();
-          if (snake->getCurrentMap().at(1, x, y).getTypeEv() != arcade::TileTypeEvolution::EMPTY)
-            type = snake->getCurrentMap().at(1, x, y).getTypeEv();
-          printf("%d ", type);
+          type = snake->getCurrentMap().at(0, x, y).getSpriteId();
+          if (snake->getCurrentMap().at(1, x, y).getSpriteId() != 0)
+            type = snake->getCurrentMap().at(1, x, y).getSpriteId();
+          printf("%ld ", type);
         }
       printf("\n");
     }
