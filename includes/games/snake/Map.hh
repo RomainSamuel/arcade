@@ -2,8 +2,9 @@
 # define MAP_HPP_
 
 # include <memory>
-# include "Layer.hh"
+# include <vector>
 # include "IMap.hpp"
+# include "Tile.hh"
 
 namespace arcade
 {
@@ -12,16 +13,19 @@ namespace arcade
     size_t  _width;
     size_t  _height;
     size_t  _layersNb;
-    std::vector<std::shared_ptr<ILayer>> _layers;
+    std::vector<std::vector<std::vector<std::unique_ptr<ITile>>>> _layers;
 
   public:
-    Map(size_t, size_t, size_t);
+    Map(size_t, size_t);
     virtual ~Map();
 
-    ITile const &at(size_t layer, size_t x, size_t y) const;
+    virtual ITile const &at(size_t layer, size_t x, size_t y) const;
     virtual size_t getLayerNb() const;
     virtual size_t getWidth() const;
     virtual size_t getHeight() const;
+
+    void  createLayer(size_t);
+    ITile &at(size_t layer, size_t x, size_t y);
   };
 }
 

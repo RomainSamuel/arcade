@@ -5,16 +5,22 @@
 #include <utility>
 #include "Map.hh"
 #include "GUI.hh"
+#include "SnakePart.hh"
+#include "Food.hh"
 #include "IGame.hpp"
 
 namespace arcade
 {
   class   Game : public IGame
   {
-    std::unique_ptr<IMap> _map;
+    std::unique_ptr<Map> _map;
     std::unique_ptr<IGUI> _gui;
     GameState             _state;
     std::vector<int>      _soundsToPlay;
+    std::list<std::unique_ptr<snake::SnakePart>> _snake;
+    std::unique_ptr<snake::Food> _food;
+    size_t                _eaten;
+    size_t                _score;
 
   public:
     Game();
@@ -29,6 +35,8 @@ namespace arcade
     virtual std::vector<int>            &&getSoundsToPlay();
     virtual IMap const                  &getCurrentMap() const;
     virtual IGUI const                  &getGUI() const;
+
+    Map                                 &getMap();
   };
 }
 

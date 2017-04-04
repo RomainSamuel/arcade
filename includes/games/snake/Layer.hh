@@ -13,13 +13,14 @@ namespace arcade
     std::vector<std::vector<std::unique_ptr<ITile>>>  _rows;
 
   public:
-    Layer();
-    Layer(int n);
+    Layer(size_t, size_t, bool);
     virtual ~Layer();
 
     virtual std::vector<std::unique_ptr<ITile>> const &operator[](int n) const;
     virtual size_t getWidth() const;
     virtual size_t getHeight() const;
+
+    std::vector<std::unique_ptr<ITile>> &operator[](int n);
   };
 }
 
