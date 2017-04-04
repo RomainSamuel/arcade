@@ -16,7 +16,13 @@ namespace arcade
 {
     class Loader
     {
-    private:
+    public:
+        static Loader   &getInstance()
+        {
+            static Loader  instance;
+            return instance;
+        }
+    protected:
         std::map<std::string, void*>    _libPathHandle;
         void                            *_currentLibHandle;
         std::string                     _currentLib;
@@ -25,17 +31,19 @@ namespace arcade
         std::string                     _currentGame;
         
     public:
-        Loader(const std::string &);
+        Loader();
         virtual ~Loader();
         Loader(const arcade::Loader &);
         Loader &operator=(const arcade::Loader &);
 
+        void                        setCurrentLib(std::string const &);
         std::map<std::string, void*> getLibPathHandle() const;
         void                        *getCurrentLibHandle() const;
         std::string                 getCurrentLib() const;
         std::map<std::string, void*> getGamePathHandle() const;
         void                        *getCurrentGameHandle() const;
         std::string                 getCurrentGame() const;
+        void                        *getSym(void *) const;
     };
 }
 

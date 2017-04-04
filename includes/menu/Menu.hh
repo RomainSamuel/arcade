@@ -9,10 +9,11 @@
 
 #include <vector>
 #include "AItem.hh"
+#include "IGUI.hpp"
 
 namespace arcade
 {
-    class Menu
+    class Menu : public IGUI
     {
     protected:
         std::vector<arcade::AItem> _items;
@@ -22,6 +23,8 @@ namespace arcade
         virtual ~Menu();
 
         void display() const;
+        virtual std::size_t size() const;
+        virtual IComponent &at(std::size_t n);
     };
 }
 

@@ -34,9 +34,11 @@ namespace arcade
         double  getWidth() const;
         double  getHeight() const;
 
+        bool                hasSprite() const;
         std::size_t         getBackgroundId() const;
         arcade::Color       getBackgroundColor() const;
         std::string const   &getText() const;
+        void                setClicked();
     };
 }
 

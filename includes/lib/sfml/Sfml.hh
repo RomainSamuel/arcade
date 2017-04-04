@@ -28,7 +28,7 @@ namespace arcade
 
         // Member functions
     public:
-        void    runGfx();
+        void    display();
         bool    initSfml() const;
         void    shutDownSfml();
     public:
