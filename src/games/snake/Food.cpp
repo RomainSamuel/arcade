@@ -2,9 +2,7 @@
 
 snake::Food::Food(std::unique_ptr<arcade::Map> &map)
 {
-  // this->placeOnMap(map);
-  this->x = 3;
-  this->y = 3;
+  this->placeOnMap(map);
   this->printOnMap(map);
   this->type = snake::FoodType::APPLE;
 }
@@ -66,13 +64,12 @@ void  snake::Food::printOnMap(std::unique_ptr<arcade::Map> &map)
   map->at(1, this->getX(), this->getY()).setSpriteId(8);
   map->at(1, this->getX(), this->getY()).setColor(arcade::Color::Yellow);
 }
-#include <iostream>
+
 int snake::Food::placeOnMap(std::unique_ptr<arcade::Map> &map)
 {
   size_t  nbFree = 0;
   size_t  pos;
 
-  std::cout << "yay" << std::endl;
   // SRAND
   std::srand(std::time(NULL));
   //
@@ -93,7 +90,7 @@ int snake::Food::placeOnMap(std::unique_ptr<arcade::Map> &map)
             {
               this->x = x;
               this->y = y;
-              return (1);
+              return (0);
             }
           else
             pos--;

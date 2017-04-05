@@ -16,16 +16,18 @@ namespace arcade
 {
   class   Game : public IGame
   {
-    std::unique_ptr<Map>  _map;
-    std::unique_ptr<IGUI> _gui;
-    GameState             _state;
-    std::vector<int>      _soundsToPlay;
-    std::list<std::unique_ptr<snake::SnakePart>> _snake;
-    std::unique_ptr<snake::Food> _food;
-    size_t                _eaten;
-    size_t                _score;
-    std::vector<arcade::Event> _events;
-    std::array<arcade::Event, 4>          _eventsBound;
+    std::unique_ptr<Map>                          _map;
+    std::unique_ptr<GUI>                          _gui;
+    GameState                                     _state;
+    std::vector<int>                              _soundsToPlay;
+    std::list<std::unique_ptr<snake::SnakePart>>  _snake;
+    std::unique_ptr<snake::Food>                  _food;
+    size_t                                        _eaten;
+    size_t                                        _score;
+    std::vector<arcade::Event>                    _events;
+    std::array<arcade::Event, 4>                  _eventsBound;
+    double                                        _cd;
+    double                                        _cdRemaining;
 
   public:
     Game();
