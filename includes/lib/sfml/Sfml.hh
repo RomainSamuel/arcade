@@ -3,45 +3,31 @@
 //
 
 #ifndef CPP_ARCADE_SFML_HH
-#define CPP_ARCADE_SFML_HH
+# define CPP_ARCADE_SFML_HH
 
 #include <SFML/Graphics.hpp>
-
-#include <map>
-#include <vector>
-
-#include "../../Event.hpp"
+#include "IGfxLib.hpp"
 
 namespace arcade
 {
-    static std::vector<arcade::Event> _lastEvents;
-
-    class LibSfml
+    class LibSfml : public IGfxLib
     {
-    private:
         sf::RenderWindow    _window;
-        unsigned int  _width;
-        unsigned int  _height;
 
-        // Sound
-        //std::map<size_t> _sounds;
-
-        // Member functions
-    public:
-        void    display();
-        bool    initSfml() const;
-        void    shutDownSfml();
     public:
         //Constructor / Destructor
-      LibSfml(unsigned int const, unsigned int const);
-        ~LibSfml();
+        LibSfml();
+        virtual ~LibSfml();
 
-        //Keyboard Management
-
-        // Pool event
-
-        // Sound
-
+        virtual bool pollEvent(Event &e);
+        virtual bool doesSupportSound() const;
+        virtual void loadSounds(std::vector<std::pair<std::string, SoundType> > const &sounds);
+        virtual void soundControl(const Sound &sound);
+        virtual void loadSprites(std::vector<std::unique_ptr<ISprite> > &&sprites);
+        virtual void updateMap(IMap const &map);
+        virtual void updateGUI(IGUI &gui);
+        virtual void display();
+        virtual void clear();
     };
 }
 

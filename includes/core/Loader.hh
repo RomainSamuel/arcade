@@ -9,7 +9,7 @@
 #ifndef LOADER_HH_
 # define LOADER_HH_
 
-#include <map>
+#include <vector>
 #include <string>
 
 namespace arcade
@@ -23,11 +23,9 @@ namespace arcade
             return instance;
         }
     protected:
-        std::map<std::string, void*>    _libPathHandle;
-        void                            *_currentLibHandle;
+        std::vector<std::string>    _libPath;
         std::string                     _currentLib;
-        std::map<std::string, void*>    _gamePathHandle;
-        void                            *_currentGameHandle;
+        std::vector<std::string>    _gamePath;
         std::string                     _currentGame;
         
     public:
@@ -37,13 +35,11 @@ namespace arcade
         Loader &operator=(const arcade::Loader &);
 
         void                        setCurrentLib(std::string const &);
-        std::map<std::string, void*> getLibPathHandle() const;
-        void                        *getCurrentLibHandle() const;
+        std::vector<std::string> getLibPath() const;
         std::string                 getCurrentLib() const;
-        std::map<std::string, void*> getGamePathHandle() const;
-        void                        *getCurrentGameHandle() const;
+        std::vector<std::string> getGamePath() const;
         std::string                 getCurrentGame() const;
-        void                        *getSym(void *) const;
+        void                        *getSym(std::string const &) const;
     };
 }
 

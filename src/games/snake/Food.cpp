@@ -46,17 +46,22 @@ void  snake::Food::setType(snake::FoodType type)
 // ACTIONS
 void  snake::Food::eraseFromMap(std::unique_ptr<arcade::Map> &map)
 {
-  map->at(1, this->getX(), this->getY()).setType(arcade::TileType::EMPTY);
-  map->at(1, this->getX(), this->getY()).setTypeEv(arcade::TileTypeEvolution::EMPTY);
-  map->at(1, this->getX(), this->getY()).setSpriteId(0);
-  map->at(1, this->getX(), this->getY()).setColor(arcade::Color::Black);
+  if (map->at(1, this->getX(), this->getY()).getTypeEv() == arcade::TileTypeEvolution::FOOD)
+    {
+      map->at(1, this->getX(), this->getY()).setType(arcade::TileType::EMPTY);
+      map->at(1, this->getX(), this->getY()).setTypeEv(arcade::TileTypeEvolution::EMPTY);
+      map->at(1, this->getX(), this->getY()).setHasSprite(false);
+      map->at(1, this->getX(), this->getY()).setSpriteId(0);
+      map->at(1, this->getX(), this->getY()).setColor(arcade::Color::Black);
+    }
 }
 
 void  snake::Food::printOnMap(std::unique_ptr<arcade::Map> &map)
 {
   map->at(1, this->getX(), this->getY()).setType(arcade::TileType::EMPTY);
   map->at(1, this->getX(), this->getY()).setTypeEv(arcade::TileTypeEvolution::FOOD);
-  map->at(1, this->getX(), this->getY()).setSpriteId(0);
+  map->at(1, this->getX(), this->getY()).setHasSprite(false);
+  map->at(1, this->getX(), this->getY()).setSpriteId(8);
   map->at(1, this->getX(), this->getY()).setColor(arcade::Color::Yellow);
 }
 
@@ -85,7 +90,7 @@ int snake::Food::placeOnMap(std::unique_ptr<arcade::Map> &map)
             {
               this->x = x;
               this->y = y;
-              return (1);
+              return (0);
             }
           else
             pos--;

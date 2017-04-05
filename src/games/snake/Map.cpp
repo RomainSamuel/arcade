@@ -61,7 +61,7 @@ void arcade::Map::createLayer(size_t layer)
                                                                              arcade::TileTypeEvolution::BLOCK,
                                                                              arcade::Color::White,
                                                                              false,
-                                                                             0,
+                                                                             1,
                                                                              0,
                                                                              0.0,
                                                                              0.0));

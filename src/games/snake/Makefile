@@ -2,15 +2,21 @@ GPP		=	g++
 
 NAME	=	lib_arcade_snake.so
 
-SRC		=	Food.cpp \
-				GUI.cpp \
+COMMON	=	../../
+
+GAME_COMMON	=	../common/
+
+SRC		=	$(COMMON)Color.cpp \
+				$(GAME_COMMON)Component.cpp \
+				$(GAME_COMMON)GUI.cpp \
+				$(GAME_COMMON)Tile.cpp \
+				Food.cpp \
 				Game.cpp \
 				Map.cpp	\
 				SnakePart.cpp \
-				Tile.cpp \
-				../../Color.cpp
+				main.cpp
 
-GAMESDIR	=	../../../resources/games/
+GAMESDIR	=	../../../games/
 
 OBJ 	    =	$(SRC:.cpp=.o)
 
@@ -18,7 +24,10 @@ CXXFLAGS    =   -std=c++14
 
 CXXFLAGS    +=  -W -Wall -Wextra -fPIC
 
-CXXFLAGS    +=  -I../../../includes/common -I../../../includes -I../../../includes/games/snake
+CXXFLAGS    +=  -I../../../includes/common \
+								-I../../../includes \
+								-I../../../includes/games/common \
+								-I../../../includes/games/snake
 
 LDFLAGS			=	-shared
 
