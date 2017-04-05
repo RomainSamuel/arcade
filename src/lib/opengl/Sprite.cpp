@@ -24,5 +24,5 @@ std::string arcade::Sprite::getGraphicPath(std::size_t pos) const {
 }
 
 char    arcade::Sprite::getAscii(std::size_t pos) const {
-    return pos >= this->_sprites.size() ? '\0' : this->_sprites[pos].at(0);
+    return pos >= this->_sprites.size() ? 0 : this->_sprites[pos].at(0);
 }
