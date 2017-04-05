@@ -35,11 +35,12 @@ namespace arcade
         Loader &operator=(const arcade::Loader &);
 
         void                        setCurrentLib(std::string const &);
+        void    setCurrentGame(std::string const &);
         std::vector<std::string> getLibPath() const;
         std::string                 getCurrentLib() const;
         std::vector<std::string> getGamePath() const;
         std::string                 getCurrentGame() const;
-        void                        *getSym(std::string const &) const;
+        void                        *getSym(std::string const &, std::string const &) const;
     };
 }
 
