@@ -1,9 +1,11 @@
 #include "Game.hh"
+#include <iostream>
 
 arcade::Game::Game()
 {
   this->_map = std::unique_ptr<Map>(new Map(10, 10));
-  this->_state = NONE;
+  this->_gui = std::unique_ptr<GUI>(new GUI());
+  this->_state = arcade::GameState::LOADING;
   this->_snake.push_back(std::make_unique<snake::SnakePart>(4, 4, snake::PartType::HEAD, snake::Direction::WEST));
   this->_snake.push_back(std::make_unique<snake::SnakePart>(5, 4, snake::PartType::BODY, snake::Direction::WEST));
   this->_snake.push_back(std::make_unique<snake::SnakePart>(6, 4, snake::PartType::BODY, snake::Direction::NORTH));
@@ -12,7 +14,10 @@ arcade::Game::Game()
   this->_food = std::unique_ptr<snake::Food>(new snake::Food(this->_map));
   this->_eaten = 0;
   this->_score = 0;
+  this->_cd = 10;
+  this->_cdRemaining = 10;
 
+  // EVENTS
   arcade::Event event;
   event.type = arcade::EventType::ET_KEYBOARD;
   event.action = arcade::ActionType::AT_PRESSED;
@@ -25,14 +30,16 @@ arcade::Game::Game()
   event.kb_key = arcade::KeyboardKey::KB_ARROW_LEFT;
   this->_eventsBound[3] = event;
 
-  // TEST
-  arcade::Event e;
-  e.type = arcade::EventType::ET_KEYBOARD;
-  e.action = arcade::ActionType::AT_PRESSED;
-  e.kb_key = arcade::KeyboardKey::KB_ARROW_UP;
-  this->_events.push_back(e);
-  e.kb_key = arcade::KeyboardKey::KB_ARROW_LEFT;
-  this->_events.push_back(e);
+  // GUI
+  std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0,
+                                                                             0,
+                                                                             1,
+                                                                             1,
+                                                                             false,
+                                                                             0,
+                                                                             arcade::Color::Black,
+                                                                             "Score : 0"));
+  this->_gui->addComponent(std::move(comp));
 }
 
 arcade::Game::~Game()
@@ -76,22 +83,29 @@ void  arcade::Game::process()
   int actionNb = -1;
   int ret;
 
-  if (this->_state != INGAME)
-    this->_state = INGAME;
-  if (this->_events.size() > 0)
+  this->_cdRemaining -= (1.5 + static_cast<double>(this->_eaten) * 0.10);
+  std::cout << this->_cdRemaining << std::endl;
+  if (this->_cdRemaining <= 0)
     {
-      actionNb = this->getActionToPerform(this->_events.front());
-      this->_events.erase(this->_events.begin());
-    }
-  if (actionNb >= 0 && actionNb < 4)
-    this->_snake.front()->setDirection(static_cast<snake::Direction>(actionNb));
-  ret = this->_snake.front()->move(this->_snake, this->_map, this->_food);
-  if (ret == -1 || ret == 2)
-    this->_state = QUIT;
-  else if (ret == 1)
-    {
-      this->_eaten++;
-      this->_score += 100 * this->_eaten;
+      this->_cdRemaining = this->_cd;
+      if (this->_state != INGAME)
+        this->_state = INGAME;
+      if (this->_events.size() > 0)
+        {
+          actionNb = this->getActionToPerform(this->_events.front());
+          this->_events.erase(this->_events.begin());
+        }
+      if (actionNb >= 0 && actionNb < 4)
+        this->_snake.front()->setDirection(static_cast<snake::Direction>(actionNb));
+      ret = this->_snake.front()->move(this->_snake, this->_map, this->_food);
+      if (ret == -1 || ret == 2)
+        this->_state = QUIT;
+      else if (ret == 1)
+        {
+          this->_eaten++;
+          this->_score += 100 * this->_eaten;
+          this->_gui->getComponent(0).setText("Score : " + std::to_string(this->_score));
+        }
     }
 }
 

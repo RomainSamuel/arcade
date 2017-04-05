@@ -177,7 +177,10 @@ int snake::SnakePart::move(std::list<std::unique_ptr<SnakePart>> &list,
   this->eraseFromMap(list, map);
   ret = this->lead(list, map, food);
   if (ret == -1)
-    return (-1);
+    {
+      this->printOnMap(list, map);
+      return (-1);
+    }
   if (ret == 1)
     {
       this->addToBack(list);
