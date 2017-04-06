@@ -1,1 +1,0 @@
-g++ glMain.cpp -std=c++14 -lGLEW -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -lopenal -lsndfile

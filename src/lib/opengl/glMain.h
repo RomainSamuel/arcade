@@ -10,14 +10,18 @@
 # define GL_MAIN_HPP
 
 // GLEW
-#define GLEW_STATIC
+# define GLEW_STATIC
+
 #include <GL/glew.h>
 // GLFW
 #include <GLFW/glfw3.h>
 // SYSTEM
+#include <sstream>
 #include <functional>
 #include <exception>
 #include <memory>
+// SOIL
+#include <SOIL/SOIL.h>
 // SOUND
 #include "SoundManager.hpp"
 // EVENTS
@@ -28,6 +32,13 @@
 // IGFX
 #include "IGfxLib.hpp"
 
+// MAP
+#include "Map.hh"
+#include "Game.hh"
+
+# define WIDTH_RATIO        this->_tileWidth
+# define HEIGHT_RATIO       this->_tileHeight
+
 namespace arcade {
 
     // EVENTS
@@ -37,7 +48,10 @@ namespace arcade {
 
         private:
             // GRAPHIC
-            //            std::unique_ptr<IMap>   _map;
+            size_t                  _tileWidth;
+            size_t                  _tileHeight;
+            std::unique_ptr<Game>   _snake;
+
             // std::unique_ptr<IGUI>   _GUI;
 
             // GLFW
@@ -48,7 +62,10 @@ namespace arcade {
             SoundManager    _soundManager;
             // Member Functions
             void            runGFX();
+            void            putTileColor(ITile const &tile, size_t x, size_t y);
+            void            putTileSprite(ITile const &tile, size_t x, size_t y);
             bool            loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
+            GLuint          LoadGLTexture(const std::string &filepath);
 
         public:
 
@@ -73,7 +90,7 @@ namespace arcade {
             //void    updateGUI(IGUI const &gui); 
 
             // Graphic
-            // void    updateMap(IMap const &map);
+            void    updateMap(IMap const &map);
             // void    updateGUI(IGUI const &GUI);
             void    clear();
             void    display();

@@ -16,13 +16,17 @@ arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _heig
 
     std::cout << "Lib OpenGl 3.3 Launched" << std::endl;
 
+    // FUCK DIS SHIT
+    // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
     // Init GLFW
-    glfwInit();
+    if (glfwInit() != GL_TRUE)
+        throw std::string("Failed to init GLFW\n");
+
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
     // Set all the required options for GLFW
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
     if ((this->_window = glfwCreateWindow(this->_width, this->_height, "Arcade", nullptr, nullptr)) == nullptr) {
@@ -33,23 +37,41 @@ arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _heig
     // Create a GLFWwindow object that we can use for GLFW's functions
     glfwMakeContextCurrent(this->_window);
 
-    // Set the required callback functions
-    glfwSetKeyCallback(this->_window, arcade::LibOpenGl::keyCallback);
-    glfwSetMouseButtonCallback(this->_window, arcade::LibOpenGl::mouseCallback);
-
     // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
     glewExperimental = GL_TRUE;
 
     // Initialize GLEW to setup the OpenGL Function pointers
-    if (glewInit() != GLEW_OK)
+    if (glewInit() != GLEW_OK) {
+        glfwTerminate( );
         throw std::string("Failed to initialize GLEW\n");
+    }
 
     // Define the viewport dimensions
     int frame_width, frame_height;
     glfwGetFramebufferSize(this->_window, &frame_width, &frame_height);  
+
+    if (this->_window == nullptr)
+    {
+        glfwTerminate( );
+        throw std::string("Failed to create GLFW Window\n");
+    }
+
     glViewport(0, 0, frame_width, frame_height);
 
-    // Run Lib
+    // Set the required callback functions
+    glfwSetKeyCallback(this->_window, arcade::LibOpenGl::keyCallback);
+    // Set the required callback functions
+    glfwSetMouseButtonCallback(this->_window, arcade::LibOpenGl::mouseCallback);
+
+    // Initialize GL parameters
+    glEnable(GL_BLEND);
+    glEnable(GL_TEXTURE_2D);
+    glBlendFunc(GL_ONE, GL_ONE);
+
+    // Initialize Shaders
+    // this->_snake = std::make_unique<arcade::Game>();
+
+    // Run GL
     this->runGFX();
 }
 
@@ -66,30 +88,106 @@ arcade::LibOpenGl::~LibOpenGl() {
 */
 void    arcade::LibOpenGl::runGFX() {
 
-    // Game loop
-    glClearColor(0.2f, 0.6f, 0.9f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-    while (!glfwWindowShouldClose(this->_window)) {
+    // // Game loop
+    // while (!glfwWindowShouldClose(this->_window)) {
+    //     // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
+    //     glfwPollEvents();
 
-        // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
-        glfwPollEvents();
+    //     // Clear screen
+    //     this->clear();
 
-        // Render
-        // Clear the colorbuffer
+    //     // Update map
+    //     this->updateMap(this->_snake->getCurrentMap());
 
-        // Swap the screen buffers
-        glfwSwapBuffers(this->_window);
-    }
+    //     // Render
+    //     this->display();
+    // }
 }
 
 /*
 ** GRAPHIC
 */
 
-// void    arcade::LibOpenGl::updateMap(IMap const &map) {
-//     this->_map.reset();
-//     this->_map = std::make_unique<IMap>(map);
-// }
+void    arcade::LibOpenGl::updateMap(arcade::IMap const &map) {
+
+    // Save Map properties
+    size_t  nbLayers = map.getLayerNb();
+    size_t  height = map.getHeight();
+    size_t  width = map.getWidth();
+
+    // Adjust the ratio between the game map and de window
+    this->_tileWidth = this->_width / map.getWidth();
+    this->_tileHeight = this->_height / map.getHeight();
+
+    for (std::size_t layer = 0; layer < nbLayers; layer++) {
+
+        for (std::size_t x = 0; x < width; x++) {
+
+            for (std::size_t y = 0; y < height; y++) {
+                // if (x == 4 && y == 4 && layer == 1)
+                // {
+                //     putTileSprite(map.at(layer, x, y), x, y);
+                //     continue;
+                // }
+                // Check if the tile is a sprite
+                if (map.at(layer, x, y).hasSprite()) {
+                    putTileSprite(map.at(layer, x, y), x, y);
+                }
+                // If not, get the color
+                else {
+                    putTileColor(map.at(layer, x, y), x, y);
+                }
+            }
+        }
+    }
+}
+
+void    arcade::LibOpenGl::putTileColor(arcade::ITile const &tile, size_t x, size_t y) {
+
+    // Set Color
+    glColor4f((double)tile.getColor().r,
+               (double)tile.getColor().g,
+               (double)tile.getColor().b,
+               (double)tile.getColor().a);
+
+    // Adapt the coordinates for the viewport
+    double  x_begin = WIDTH_RATIO * x / (this->_width / 2.0) - 1;
+    double  x_end = WIDTH_RATIO * (x + 1) / (this->_width / 2.0) - 1;
+    double  y_begin = HEIGHT_RATIO * y / (this->_height / 2.0) - 1;
+    double  y_end = HEIGHT_RATIO * (y + 1) / (this->_height / 2.0) - 1;
+
+
+    glBegin(GL_QUADS);
+
+    glVertex2f(x_begin, y_end);     // Up Left
+    glVertex2f(x_end, y_end);     // Up Right
+    glVertex2f(x_end, y_begin);    // Bottom Right
+    glVertex2f(x_begin, y_begin);   // Bottom Left
+
+    glEnd();
+}
+
+void    arcade::LibOpenGl::putTileSprite(arcade::ITile const &tile, size_t x, size_t y) {
+
+    double  x_begin = WIDTH_RATIO * x / (this->_width / 2.0) - 1/* + tile.getShiftX()*/;
+    double  x_end = WIDTH_RATIO * (x + 1) / (this->_width / 2.0) - 1/* + tile.getShiftX()*/;
+    double  y_begin = HEIGHT_RATIO * y / (this->_height / 2.0) - 1/* + tile.getShiftY()*/;
+    double  y_end = HEIGHT_RATIO * (y + 1) / (this->_height / 2.0) - 1/* + tile.getShiftY()*/;
+
+    glBegin(GL_QUADS);
+
+    glVertex2f(x_begin, y_end);     // Up Left
+    glVertex2f(x_end, y_end);     // Up Right
+    glVertex2f(x_end, y_begin);    // Bottom Right
+    glVertex2f(x_begin, y_begin);   // Bottom Left
+
+    glEnd();
+
+    (void)tile;
+    (void)x;
+    (void)y;
+}
+
 
 // void    arcade::LibOpenGl::updateGUI(IGUI const &GUI) {
 //     this->_GUI.reset();
@@ -102,7 +200,8 @@ void    arcade::LibOpenGl::clear() {
 }
 
 void    arcade::LibOpenGl::display() {
-    std::cout << "Display" << std::endl;   
+        // Swap the screen buffers
+        glfwSwapBuffers(this->_window);
 }
 
 /*

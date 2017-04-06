@@ -12,7 +12,7 @@ namespace arcade
     enum GameState
     {
         NONE = -1, /// Unknown game state
-	LOADING, /// The game was just loaded (need to load sounds and sprites)
+    	LOADING, /// The game was just loaded (need to load sounds and sprites)
         INGAME, /// In game
         MENU, /// In menu
         QUIT, /// Quitting
