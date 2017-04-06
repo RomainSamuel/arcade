@@ -60,14 +60,13 @@ void    sf::Enemy::eraseFromMap(std::unique_ptr<arcade::Map> &map) const
         0.0,
         0.0);
 }
-#include <iostream>
+
 int     sf::Enemy::fire()
 {
   bool  openFire = false;
 
   if (this->rcd == 0)
     {
-      std::cout << "Reloading !" << std::endl;
       this->ammos = this->ammos_max;
       this->rcd = this->reload_cd;
       this->fcd = 0;
@@ -75,20 +74,17 @@ int     sf::Enemy::fire()
     }
   else if (ammos == 0)
     {
-      std::cout << "Waiting for reload !" << std::endl;
       this->rcd--;
       openFire = false;
     }
   else if (this->fcd == 0)
     {
-      std::cout << "OPEN FIRE !" << std::endl;
       this->ammos--;
       this->fcd = this->fire_cd;
       openFire = true;
     }
   else
     {
-      std::cout << "Waiting for shot" << std::endl;
       this->fcd--;
       openFire = false;
     }
@@ -97,13 +93,12 @@ int     sf::Enemy::fire()
 
 void    sf::Enemy::move(std::unique_ptr<arcade::Map> &map, std::vector<std::unique_ptr<sf::Shot>> &shots)
 {
-  std::cout << this->x << std::endl;
   this->eraseFromMap(map);
   if (this->fire() == true)
     {
       shots.push_back(std::make_unique<sf::Shot>(this->layer,
-                                                 (this->mv == VERTICAL) ? this->x + this->fireDirection : this->x,
-                                                 (this->mv == HORIZONTAL) ? this->y + this->fireDirection : this->y,
+                                                 this->x,
+                                                 this->y,
                                                  30,
                                                  this->fireDirection,
                                                  0.6,

@@ -72,7 +72,7 @@ void arcade::Map::createLayer(size_t layer)
       this->_layers[layer][3][5]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
       this->_layers[layer][7][5]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
       this->_layers[layer][5][3]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
-      this->_layers[layer][10][9]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
+      this->_layers[layer][10][7]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
       this->_layers[layer][12][14]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
       this->_layers[layer][3][11]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
       this->_layers[layer][15][16]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);

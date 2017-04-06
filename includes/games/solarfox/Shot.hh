@@ -34,9 +34,13 @@ namespace sf
          bool);
     ~Shot();
 
+    bool    Collide(sf::Shot &) const;
     void    printOnMap(std::unique_ptr<arcade::Map> &) const;
     void    eraseFromMap(std::unique_ptr<arcade::Map> &) const;
     int     move(std::unique_ptr<arcade::Map> &);
+    bool    isAlive();
+    double  getX() const;
+    double  getY() const;
   };
 }
 

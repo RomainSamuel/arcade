@@ -49,6 +49,7 @@ namespace arcade
 
     Map                                 &getMap();
     int                                 getActionToPerform(arcade::Event) const;
+    void                                checkShots(std::unique_ptr<arcade::Map> &);
   };
 }
 

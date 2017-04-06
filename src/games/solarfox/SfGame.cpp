@@ -12,8 +12,8 @@ arcade::SfGame::SfGame()
   this->_player = std::unique_ptr<sf::Player>(new sf::Player());
   this->_player->printOnMap(this->_map);
   this->_remainingScrap = 10;
-  this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 1, 1, 19, 1, 1, 0.1, sf::mvType::HORIZONTAL, 2, 2, 18, 9));
-  this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 9.5, 18, 1, 19, -1, -1, 0.1, sf::mvType::HORIZONTAL, 2, 2, 18, 9));
+  this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 0.5, 1, 19, 1, 1, 0.1, sf::mvType::HORIZONTAL, 2, 2, 18, 9));
+  this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 9.5, 19.5, 1, 19, -1, -1, 0.1, sf::mvType::HORIZONTAL, 2, 2, 18, 9));
 
   for (size_t i = 0; i < this->_enemies.size(); i++)
     this->_enemies[i]->printOnMap(this->_map);
@@ -79,9 +79,32 @@ int arcade::SfGame::getActionToPerform(arcade::Event event) const
   return (-1);
 }
 
+void  arcade::SfGame::checkShots(std::unique_ptr<arcade::Map> &map)
+{
+  size_t  i = 0;
+
+  while (i < this->_shots.size())
+    {
+      if (this->_shots[i]->isAlive() == false)
+        {
+          this->_shots[i]->eraseFromMap(this->_map);
+          this->_shots.erase(this->_shots.begin() + i);
+        }
+      else if (this->_player->hasShot() &&
+               this->_shots[i]->Collide(this->_player->getShot()))
+        {
+          this->_player->getShot().eraseFromMap(map);
+          this->_player->deleteShot();
+          this->_shots[i]->eraseFromMap(this->_map);
+          this->_shots.erase(this->_shots.begin() + i);
+        }
+      else
+        i++;
+    }
+}
+
 void  arcade::SfGame::process()
 {
-  int ret;
   int actionNb = -1;
 
   if (this->_state == QUIT)
@@ -100,19 +123,41 @@ void  arcade::SfGame::process()
       if (actionNb >= 0 && actionNb < 4)
         this->_player->setDirection(static_cast<sf::Direction>(actionNb));
     }
+
+  //HANDLE PLAYER SHOTS
+  if (this->_player->hasShot() == true)
+    {
+      if (this->_player->checkShotDuration(this->_map))
+        if (this->_player->getShot().move(this->_map))
+          {
+            this->_player->deleteShot();
+            this->_score += 100;
+            std::cout << "Score = " << this->_score << std::endl;
+            this->_remainingScrap--;
+            this->_gui->getComponent(0).setText("Score : " + std::to_string(this->_score));
+            if (this->_remainingScrap == 0)
+              {
+                this->_state = QUIT;
+                return;
+              }
+          }
+    }
+
+  //HANDLE ENEMIES
   for (size_t i = 0; i < this->_enemies.size(); i++)
     this->_enemies[i]->move(this->_map, this->_shots);
+
+  //HANDLE ENEMY SHOTS
+  this->checkShots(this->_map);
   for (size_t i = 0; i < this->_shots.size(); i++)
     this->_shots[i]->move(this->_map);
-  ret = this->_player->move(this->_map);
-  if (ret == 1)
+
+  //HANDLE PLAYER
+  if (this->_player->move(this->_map) == -1)
     {
-      this->_score += 100;
-      this->_remainingScrap--;
-      this->_gui->getComponent(0).setText("Score : " + std::to_string(this->_score));
+      this->_state = QUIT;
+      return;
     }
-  if (this->_remainingScrap == 0)
-    this->_state = QUIT;
 }
 
 std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::SfGame::getSpritesToLoad() const
