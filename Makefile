@@ -70,7 +70,7 @@ $(OBJECTS):			$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 	                        @echo $(COMPILATION_MSG)
 				@$(eval COUNT=$(shell echo $$((($(COUNT)+1)))))
 
-lib:				compile_sfml
+lib:				compile_sfml compile_opengl
 
 game:				compile_snake
 
@@ -79,6 +79,9 @@ compile_sfml:
 
 compile_snake:
 					make -C src/games/snake
+
+compile_opengl:
+					make -C src/lib/opengl
 
 .PHONY: 			clean fclean re
 

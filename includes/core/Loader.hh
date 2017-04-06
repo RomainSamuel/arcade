@@ -40,6 +40,10 @@ namespace arcade
         std::string                 getCurrentLib() const;
         std::vector<std::string> getGamePath() const;
         std::string                 getCurrentGame() const;
+        void    getPrevLib();
+        void    getNextLib();
+        void    getPrevGame();
+        void    getNextGame();
         void                        *getSym(std::string const &, std::string const &) const;
     };
 }

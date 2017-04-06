@@ -65,41 +65,51 @@ void    arcade::Core::setGameState(const arcade::GameState state)
 void    arcade::Core::display()
 {
     _menu = new arcade::Menu();
-    
-    void *loader = getLoader().getSym(getLoader().getCurrentLib(), "loader");
-    _libLoad = reinterpret_cast<arcade::IGfxLib *(*)()>(loader)();
-    void *mkr = getLoader().getSym(getLoader().getCurrentGame(), "maker");
-    _gameLoad = reinterpret_cast<arcade::IGame *(*)()>(mkr)();
+    arcade::Loader _loader = getLoader();
+
+    void *loader = _loader.getSym(getLoader().getCurrentLib(), "loader");
+    _libLoad = ((arcade::IGfxLib *(*)())loader)();
+    void *mkr = _loader.getSym(getLoader().getCurrentGame(), "maker");
+    _gameLoad = ((arcade::IGame *(*)())mkr)();
     
     while (getGameState() != arcade::GameState::QUIT)
     {
-
-        /*if (getGameState() == arcade::GameState::MENU)
-        {
-            _libLoad->display();
+        _libLoad->clear();
+        if (getGameState() == arcade::GameState::MENU)
             menu();
-        }
-        else if (getGameState() == arcade::GameState::INGAME)*/
+        else if (getGameState() == arcade::GameState::INGAME)
             play();
     }
 }
 
 void    arcade::Core::menu()
 {
-    _libLoad->clear();
+    Event   event;
+
+    if (_libLoad->pollEvent(event))
+    {
+
+    }
     _menu->display();
 }
 
 void    arcade::Core::play()
 {
-    Event e;
+    Event event;
+    std::vector<Event> _events;
 
-    _libLoad->clear();
-    if (_libLoad->pollEvent(e))
+    if (_libLoad->pollEvent(event))
     {
+        _events.push_back(event);
+        //_gameLoad->notifyEvent(&&_events);
     }
-    _libLoad->updateMap(_gameLoad->getCurrentMap());
-    //_libLoad->updateGUI(_gameLoad->getGUI());
-    _libLoad->display();
-    std::cout << "Let's play!!" << std::endl;
+    _gameLoad->process();
+    if (_gameLoad->getGameState() == arcade::GameState::QUIT)
+        setGameState(arcade::GameState::QUIT);
+    if (_gameState != arcade::GameState::QUIT)
+    {
+        _libLoad->updateMap(_gameLoad->getCurrentMap());
+        //_libLoad->updateGUI(_gameLoad->getGUI());
+        _libLoad->display();
+    }
 }

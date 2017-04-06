@@ -28,7 +28,7 @@ arcade::Loader::Loader()
     {
         pos = std::string(entry->d_name).find(".so");
         if (pos != std::string::npos)
-            _libPath.push_back(std::string(entry->d_name));
+            _libPath.push_back("lib/" + std::string(entry->d_name));
     }
     closedir(dir);
     if ((dir = opendir("games")) == nullptr)
@@ -37,7 +37,7 @@ arcade::Loader::Loader()
     {
         pos = std::string(entry->d_name).find(".so");
         if (pos != std::string::npos)
-            _gamePath.push_back(std::string(entry->d_name));
+            _gamePath.push_back("games/" + std::string(entry->d_name));
     }
     closedir(dir);
 }
@@ -90,13 +90,94 @@ std::string     arcade::Loader::getCurrentGame() const
     return (_currentGame);
 }
 
+void    arcade::Loader::getPrevLib()
+{
+    std::vector<std::string>::const_iterator prev = _libPath.begin();
+    int i = 0;
+    int present = 0;
+
+     for (std::vector<std::string>::const_iterator it = _libPath.begin(); it != _libPath.end(); it++)
+    {
+        if (_currentLib == *it && i != 0)
+        {
+            setCurrentLib(*prev);
+            present = 1;
+        }
+        prev = it;
+        i++;
+    }
+    if (present == 0)
+        setCurrentLib(*prev);
+}
+
+void    arcade::Loader::getNextLib()
+{
+   std::vector<std::string>::const_iterator prev = _libPath.begin();
+    int i = 0;
+    int present = 0;
+
+     for (std::vector<std::string>::const_iterator it = _libPath.end() - 1; it >= _libPath.begin(); it--)
+    {
+        if (_currentLib == *it && i != 0)
+        {
+            setCurrentLib(*prev);
+            present = 1;
+        }
+        prev = it;
+        i++;
+    }
+    if (present == 0)
+        setCurrentLib(*prev);
+}
+
+void    arcade::Loader::getPrevGame()
+{
+    std::vector<std::string>::const_iterator prev = _gamePath.begin();
+    int i = 0;
+    int present = 0;
+
+     for (std::vector<std::string>::const_iterator it = _gamePath.begin(); it != _gamePath.end(); it++)
+    {
+        if (_currentGame == *it && i != 0)
+        {
+            setCurrentGame(*prev);
+            present = 1;
+        }
+        prev = it;
+        i++;
+    }
+    if (present == 0)
+        setCurrentGame(*prev);    
+}
+
+void    arcade::Loader::getNextGame()
+{
+    std::vector<std::string>::const_iterator prev = _gamePath.begin();
+    int i = 0;
+    int present = 0;
+
+     for (std::vector<std::string>::const_iterator it = _gamePath.end() - 1; it >= _gamePath.begin(); it--)
+    {
+        if (_currentGame == *it && i != 0)
+        {
+            setCurrentGame(*prev);
+            present = 1;
+        }
+        prev = it;
+        i++;
+    }
+    if (present == 0)
+        setCurrentGame(*prev);    
+}
+
 void    *arcade::Loader::getSym(std::string const &lib, std::string const &sym) const
 {
     void    *mkr;
     void    *handle;
 
+    std::cout << lib << std::endl;
     if ((handle = dlopen(lib.c_str(), RTLD_NOW)) == NULL)
-        throw arcade::Error("dlopene Failed");
+        throw arcade::Error("dlopen Failed");
     if ((mkr = dlsym(handle, sym.c_str())) == NULL)
         throw arcade::Error("dlsym Failed");
     return (mkr);

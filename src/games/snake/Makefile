@@ -13,8 +13,7 @@ SRC		=	$(COMMON)Color.cpp \
 				Food.cpp \
 				SnakeGame.cpp \
 				Map.cpp	\
-				SnakePart.cpp \
-				main.cpp
+				SnakePart.cpp
 
 GAMESDIR	=	../../../games/
 
@@ -25,9 +24,9 @@ CXXFLAGS    =   -std=c++14
 CXXFLAGS    +=  -W -Wall -Wextra -fPIC
 
 CXXFLAGS    +=  -I../../../includes/common \
-								-I../../../includes \
-								-I../../../includes/games/common \
-								-I../../../includes/games/snake
+				-I../../../includes \
+				-I../../../includes/games/common \
+				-I../../../includes/games/snake
 
 LDFLAGS			=	-shared
 
