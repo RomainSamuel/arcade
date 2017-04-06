@@ -1,10 +1,10 @@
 #include "Map.hh"
 
-arcade::Map::Map(size_t width, size_t height)
+arcade::Map::Map(size_t width, size_t height, size_t lnb)
 {
   this->_width = width;
   this->_height = height;
-  this->_layersNb = 2;
+  this->_layersNb = lnb;
 
   this->createLayer(0);
   this->createLayer(1);

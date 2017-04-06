@@ -114,3 +114,22 @@ void  arcade::Tile::setShiftY(double shiftY)
 {
   this->_shiftY = shiftY;
 }
+
+void arcade::Tile::set(arcade::TileType type,
+                       arcade::TileTypeEvolution typeEv,
+                       arcade::Color color,
+                       bool hasSprite,
+                       size_t spriteId,
+                       size_t spritePos,
+                       double shiftX,
+                       double shiftY)
+{
+  this->_type = type;
+  this->_typeEv = typeEv;
+  this->_color = color;
+  this->_hasSprite = hasSprite;
+  this->_spriteId = spriteId;
+  this->_spritePos = spritePos;
+  this->_shiftX = shiftX;
+  this->_shiftY = shiftY;
+}

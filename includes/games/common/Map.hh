@@ -16,7 +16,7 @@ namespace arcade
     std::vector<std::vector<std::vector<std::unique_ptr<Tile>>>> _layers;
 
   public:
-    Map(size_t, size_t);
+    Map(size_t, size_t, size_t);
     virtual ~Map();
 
     virtual ITile const &at(size_t layer, size_t x, size_t y) const;

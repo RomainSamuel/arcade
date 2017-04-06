@@ -57,7 +57,7 @@ SOURCES  +=         $(wildcard $(SRCDIR)/menu/*.cpp)
 OBJECTS  := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM 	      = 		rm -rf
 
-$(BINDIR)/$(NAME):	$(OBJECTS) compile_sfml compile_snake
+$(BINDIR)/$(NAME):	$(OBJECTS)
 					@$(CXX) -o $@ $(OBJECTS) $(LDFLAGS)
 					@echo "\033[94mProject $(NAME) build successfully!\033[0m"
 
@@ -69,6 +69,10 @@ $(OBJECTS):			$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 				@$(eval PERCENT=$(shell echo $$((($(COUNT)*100/$(NBSOURCES))))))
 	                        @echo $(COMPILATION_MSG)
 				@$(eval COUNT=$(shell echo $$((($(COUNT)+1)))))
+
+lib:				compile_sfml
+
+game:				compile_snake
 
 compile_sfml:
 					make -C src/lib/sfml

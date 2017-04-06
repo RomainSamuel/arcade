@@ -11,7 +11,7 @@ SRC		=	$(COMMON)Color.cpp \
 				$(GAME_COMMON)GUI.cpp \
 				$(GAME_COMMON)Tile.cpp \
 				Food.cpp \
-				Game.cpp \
+				SnakeGame.cpp \
 				Map.cpp	\
 				SnakePart.cpp \
 				main.cpp

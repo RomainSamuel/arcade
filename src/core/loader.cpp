@@ -23,12 +23,21 @@ arcade::Loader::Loader()
     std::size_t  pos;
 
     if ((dir = opendir("lib")) == nullptr)
-        throw arcade::Error("Failed open lib directory");
+        throw arcade::Error("Failed to open lib directory");
     while ((entry = readdir(dir)) != nullptr)
     {
         pos = std::string(entry->d_name).find(".so");
         if (pos != std::string::npos)
             _libPath.push_back(std::string(entry->d_name));
+    }
+    closedir(dir);
+    if ((dir = opendir("games")) == nullptr)
+        throw arcade::Error("Failed to open games directory");
+    while ((entry = readdir(dir)) != nullptr)
+    {
+        pos = std::string(entry->d_name).find(".so");
+        if (pos != std::string::npos)
+            _gamePath.push_back(std::string(entry->d_name));
     }
     closedir(dir);
 }
@@ -56,6 +65,11 @@ void    arcade::Loader::setCurrentLib(std::string const &lib)
     _currentLib = lib;
 }
 
+void    arcade::Loader::setCurrentGame(std::string const &game)
+{
+    _currentGame = game;
+}
+
 std::vector<std::string>    arcade::Loader::getLibPath() const
 {
     return (_libPath);
@@ -76,14 +90,14 @@ std::string     arcade::Loader::getCurrentGame() const
     return (_currentGame);
 }
 
-void    *arcade::Loader::getSym(std::string const &lib) const
+void    *arcade::Loader::getSym(std::string const &lib, std::string const &sym) const
 {
     void    *mkr;
     void    *handle;
 
     if ((handle = dlopen(lib.c_str(), RTLD_NOW)) == NULL)
         throw arcade::Error("dlopene Failed");
-    if ((mkr = dlsym(handle, "loader")) == NULL)
+    if ((mkr = dlsym(handle, sym.c_str())) == NULL)
         throw arcade::Error("dlsym Failed");
     return (mkr);
 }

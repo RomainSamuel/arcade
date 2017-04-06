@@ -25,6 +25,10 @@ arcade::LibSfml::~LibSfml()
 bool    arcade::LibSfml::pollEvent(Event &e)
 {
     std::cout << "pollEvent" << std::endl;
+    sf::Event event;
+    while (_window.pollEvent(event))
+    {        
+	}
     (void) e;
     return (true);
 }
@@ -67,23 +71,13 @@ void    arcade::LibSfml::updateGUI(IGUI &gui)
 
 void    arcade::LibSfml::display()
 {
-        // Game loop
-  while (_window.isOpen())
-    {
-      sf::Event event;
-      while (_window.pollEvent(event))
-	{
-	  if (event.type == sf::Event::Closed)
-	    _window.close();        
-	}
-      _window.clear(sf::Color::Black);
-      _window.display();
-    }
+    _window.display();
     std::cout << "display" << std::endl;
 }
 
 void    arcade::LibSfml::clear()
 {
+    _window.clear();
     std::cout << "clear" << std::endl;
 }
 

@@ -8,30 +8,33 @@
 #include <array>
 #include "Map.hh"
 #include "GUI.hh"
-#include "SnakePart.hh"
-#include "Food.hh"
+#include "Scrap.hh"
+#include "Player.hh"
+#include "Enemy.hh"
+#include "Shot.hh"
 #include "IGame.hpp"
 
 namespace arcade
 {
-  class   Game : public IGame
+  class   SfGame : public IGame
   {
     std::unique_ptr<Map>                          _map;
     std::unique_ptr<GUI>                          _gui;
     GameState                                     _state;
     std::vector<int>                              _soundsToPlay;
-    std::list<std::unique_ptr<snake::SnakePart>>  _snake;
-    std::unique_ptr<snake::Food>                  _food;
-    size_t                                        _eaten;
+    std::unique_ptr<sf::Player>                   _player;
+    std::vector<std::unique_ptr<sf::Enemy>>       _enemies;
+    std::vector<std::unique_ptr<sf::Shot>>        _shots;
     size_t                                        _score;
     std::vector<arcade::Event>                    _events;
     std::array<arcade::Event, 4>                  _eventsBound;
     double                                        _cd;
     double                                        _cdRemaining;
+    size_t                                        _remainingScrap;
 
   public:
-    Game();
-    virtual ~Game();
+    SfGame();
+    virtual ~SfGame();
 
     virtual GameState                   getGameState() const;
     virtual void                        notifyEvent(std::vector<Event> &&events);
@@ -46,6 +49,7 @@ namespace arcade
 
     Map                                 &getMap();
     int                                 getActionToPerform(arcade::Event) const;
+    void                                checkShots(std::unique_ptr<arcade::Map> &);
   };
 }
 

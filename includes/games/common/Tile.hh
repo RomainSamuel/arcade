@@ -44,6 +44,8 @@ namespace arcade
 
     virtual double getShiftY() const;
     void setShiftY(double shift);
+
+    void set(TileType, TileTypeEvolution, Color, bool, size_t, size_t, double, double);
   };
 }
 

@@ -29,7 +29,6 @@ void    arcade::Menu::display() const
 {
     for (std::vector<arcade::AItem>::const_iterator it = _items.begin(); it != _items.end(); it++)
     {
-        std::cout << it->getText() << std::endl;
     }
 }
 

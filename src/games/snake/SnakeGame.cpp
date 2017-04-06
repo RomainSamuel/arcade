@@ -1,9 +1,9 @@
-#include "Game.hh"
+#include "SnakeGame.hh"
 #include <iostream>
 
-arcade::Game::Game()
+arcade::SnakeGame::SnakeGame()
 {
-  this->_map = std::unique_ptr<Map>(new Map(10, 10));
+  this->_map = std::unique_ptr<Map>(new Map(10, 10, 2));
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
   this->_snake.push_back(std::make_unique<snake::SnakePart>(4, 4, snake::PartType::HEAD, snake::Direction::WEST));
@@ -34,7 +34,7 @@ arcade::Game::Game()
   std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0,
                                                                              0,
                                                                              1,
-                                                                             1,
+                                                                             0.1,
                                                                              false,
                                                                              0,
                                                                              arcade::Color::Black,
@@ -42,31 +42,31 @@ arcade::Game::Game()
   this->_gui->addComponent(std::move(comp));
 }
 
-arcade::Game::~Game()
+arcade::SnakeGame::~SnakeGame()
 {
 }
 
-arcade::GameState arcade::Game::getGameState() const
+arcade::GameState arcade::SnakeGame::getGameState() const
 {
   return (_state);
 }
 
-void  arcade::Game::notifyEvent(std::vector<arcade::Event> &&events)
+void  arcade::SnakeGame::notifyEvent(std::vector<arcade::Event> &&events)
 {
   for (std::vector<arcade::Event>::iterator it = events.begin(); it != events.end(); it++)
     this->_events.push_back(std::move(*it));
 }
 
-void  arcade::Game::notifyNetwork(std::vector<arcade::NetworkPacket> &&)
+void  arcade::SnakeGame::notifyNetwork(std::vector<arcade::NetworkPacket> &&)
 {
 }
 
-std::vector<arcade::NetworkPacket>&& arcade::Game::getNetworkToSend()
+std::vector<arcade::NetworkPacket>&& arcade::SnakeGame::getNetworkToSend()
 {
   return (std::move(std::vector<arcade::NetworkPacket>()));
 }
 
-int arcade::Game::getActionToPerform(arcade::Event event) const
+int arcade::SnakeGame::getActionToPerform(arcade::Event event) const
 {
   for (size_t i = 0; i < 4; i++)
     {
@@ -78,13 +78,12 @@ int arcade::Game::getActionToPerform(arcade::Event event) const
   return (-1);
 }
 
-void  arcade::Game::process()
+void  arcade::SnakeGame::process()
 {
   int actionNb = -1;
   int ret;
 
   this->_cdRemaining -= (1.5 + static_cast<double>(this->_eaten) * 0.10);
-  std::cout << this->_cdRemaining << std::endl;
   if (this->_cdRemaining <= 0)
     {
       this->_cdRemaining = this->_cd;
@@ -109,34 +108,34 @@ void  arcade::Game::process()
     }
 }
 
-std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::Game::getSpritesToLoad() const
+std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::SnakeGame::getSpritesToLoad() const
 {
   return (std::move(std::vector<std::unique_ptr<arcade::ISprite>>()));
 }
 
-std::vector<std::pair<std::string, arcade::SoundType>> arcade::Game::getSoundsToLoad() const
+std::vector<std::pair<std::string, arcade::SoundType>> arcade::SnakeGame::getSoundsToLoad() const
 {
   std::vector<std::pair<std::string, SoundType>>  sounds;
 
   return (sounds);
 }
 
-std::vector<int>&& arcade::Game::getSoundsToPlay()
+std::vector<int>&& arcade::SnakeGame::getSoundsToPlay()
 {
   return (std::move(std::vector<int>()));
 }
 
-arcade::IMap const &arcade::Game::getCurrentMap() const
+arcade::IMap const &arcade::SnakeGame::getCurrentMap() const
 {
   return (*this->_map);
 }
 
-arcade::IGUI &arcade::Game::getGUI()
+arcade::IGUI &arcade::SnakeGame::getGUI()
 {
   return (*this->_gui);
 }
 
 extern "C" arcade::IGame *maker()
 {
-  return (new arcade::Game());
+  return (new arcade::SnakeGame());
 }

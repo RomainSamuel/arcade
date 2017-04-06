@@ -23,7 +23,6 @@ int	main(int ac, char **av)
         return 1;
     }
     std::unique_ptr<arcade::Core> core = std::make_unique<arcade::Core>(av[1], 50);
-    core->menu();
-    //core->play();
+    core->display();
     return 0;
 }

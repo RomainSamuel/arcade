@@ -6,6 +6,8 @@
 #include "Loader.hh"
 #include "GameState.hpp"
 #include "IGfxLib.hpp"
+#include "IGame.hpp"
+#include "Menu.hh"
 
 namespace arcade
 {
@@ -17,6 +19,8 @@ namespace arcade
         arcade::GameState _gameState;
         arcade::Loader    _loader;
         arcade::IGfxLib     *_libLoad;
+        arcade::IGame       *_gameLoad;
+        arcade::Menu        *_menu;
         
     public:
         Core(const std::string &, const int);
@@ -29,6 +33,7 @@ namespace arcade
         void setVolume(const int);
         arcade::GameState getGameState() const;
         void setGameState(const arcade::GameState);
+        void display();
         void menu();
         void play();
     };
