@@ -10,11 +10,13 @@
 # define GL_MAIN_HPP
 
 // GLEW
-#define GLEW_STATIC
+# define GLEW_STATIC
+
 #include <GL/glew.h>
 // GLFW
 #include <GLFW/glfw3.h>
 // SYSTEM
+#include <sstream>
 #include <functional>
 #include <exception>
 #include <memory>
@@ -32,7 +34,6 @@
 
 // MAP
 #include "Map.hh"
-
 #include "Game.hh"
 
 # define WIDTH_RATIO        this->_tileWidth
@@ -49,7 +50,7 @@ namespace arcade {
             // GRAPHIC
             size_t                  _tileWidth;
             size_t                  _tileHeight;
-            // std::unique_ptr<Game>   _snake;
+            std::unique_ptr<Game>   _snake;
 
             // std::unique_ptr<IGUI>   _GUI;
 
@@ -64,6 +65,7 @@ namespace arcade {
             void            putTileColor(ITile const &tile, size_t x, size_t y);
             void            putTileSprite(ITile const &tile, size_t x, size_t y);
             bool            loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
+            GLuint          LoadGLTexture(const std::string &filepath);
 
         public:
 

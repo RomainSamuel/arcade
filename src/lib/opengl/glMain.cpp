@@ -20,7 +20,7 @@ arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _heig
     // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Init GLFW
-    if (!glfwInit())
+    if (glfwInit() != GL_TRUE)
         throw std::string("Failed to init GLFW\n");
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
@@ -28,7 +28,6 @@ arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _heig
 
     // Set all the required options for GLFW
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
 
     if ((this->_window = glfwCreateWindow(this->_width, this->_height, "Arcade", nullptr, nullptr)) == nullptr) {
         glfwTerminate();
@@ -38,24 +37,41 @@ arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _heig
     // Create a GLFWwindow object that we can use for GLFW's functions
     glfwMakeContextCurrent(this->_window);
 
-    // Set the required callback functions
-    glfwSetKeyCallback(this->_window, arcade::LibOpenGl::keyCallback);
-    glfwSetMouseButtonCallback(this->_window, arcade::LibOpenGl::mouseCallback);
-
     // Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
     glewExperimental = GL_TRUE;
 
     // Initialize GLEW to setup the OpenGL Function pointers
-    if (glewInit() != GLEW_OK)
+    if (glewInit() != GLEW_OK) {
+        glfwTerminate( );
         throw std::string("Failed to initialize GLEW\n");
+    }
 
     // Define the viewport dimensions
     int frame_width, frame_height;
     glfwGetFramebufferSize(this->_window, &frame_width, &frame_height);  
+
+    if (this->_window == nullptr)
+    {
+        glfwTerminate( );
+        throw std::string("Failed to create GLFW Window\n");
+    }
+
     glViewport(0, 0, frame_width, frame_height);
 
+    // Set the required callback functions
+    glfwSetKeyCallback(this->_window, arcade::LibOpenGl::keyCallback);
+    // Set the required callback functions
+    glfwSetMouseButtonCallback(this->_window, arcade::LibOpenGl::mouseCallback);
+
+    // Initialize GL parameters
+    glEnable(GL_BLEND);
+    glEnable(GL_TEXTURE_2D);
+    glBlendFunc(GL_ONE, GL_ONE);
+
+    // Initialize Shaders
     // this->_snake = std::make_unique<arcade::Game>();
-    // Run Lib
+
+    // Run GL
     this->runGFX();
 }
 
@@ -72,25 +88,20 @@ arcade::LibOpenGl::~LibOpenGl() {
 */
 void    arcade::LibOpenGl::runGFX() {
 
-    glEnable(GL_BLEND);
-    glEnable(GL_TEXTURE_2D);
-    glBlendFunc(GL_ONE, GL_ONE);
-
-    // Game loop
+    // // Game loop
     // while (!glfwWindowShouldClose(this->_window)) {
-        // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
-        // glfwPollEvents();
+    //     // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
+    //     glfwPollEvents();
 
-        // Clear screen
-        // this->clear();
+    //     // Clear screen
+    //     this->clear();
 
-        // Update map
-        // this->updateMap(this->_snake->getCurrentMap());
+    //     // Update map
+    //     this->updateMap(this->_snake->getCurrentMap());
 
-        // Render
-        // this->display();
+    //     // Render
+    //     this->display();
     // }
-    while (42);
 }
 
 /*
