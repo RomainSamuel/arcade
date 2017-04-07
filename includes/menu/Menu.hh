@@ -10,6 +10,7 @@
 #include <vector>
 #include "AItem.hh"
 #include "IGUI.hh"
+#include "IGfxLib.hh"
 
 namespace arcade
 {
@@ -22,7 +23,7 @@ namespace arcade
         Menu();
         virtual ~Menu();
 
-        void display() const;
+        void display(arcade::IGfxLib *_libLoad) const;
         virtual std::size_t size() const;
         virtual IComponent &at(std::size_t n);
     };

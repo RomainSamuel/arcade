@@ -11,7 +11,7 @@
 arcade::LibSfml::LibSfml() : _width(800), _height(600)
 {
     std::cout << "Lib Sfml Launched" << std::endl;
-    _window.create(sf::VideoMode(_width, _height), "Arcade");
+    _window.create(sf::VideoMode(_width, _height), "Arcade", sf::Style::Close);
 }
 
 /*
@@ -24,10 +24,14 @@ arcade::LibSfml::~LibSfml()
 bool    arcade::LibSfml::pollEvent(Event &e)
 {
     sf::Event event;
+
+    (void)e;
     while (_window.pollEvent(event))
-    {        
+    {
+        if (event.type == sf::Event::Closed)
+            {
+            }
 	}
-    (void) e;
     return (true);
 }
 
@@ -67,19 +71,15 @@ void    arcade::LibSfml::updateMap(IMap const &map)
         for (std::size_t x = 0; x < width; x++) {
 
             for (std::size_t y = 0; y < height; y++) {
-                // if (x == 4 && y == 4 && layer == 1)
-                // {
-                //     putTileSprite(map.at(layer, x, y), x, y);
-                //     continue;
-                // }
+
                 // Check if the tile is a sprite
-                if (map.at(layer, x, y).hasSprite()) {
+                //if (map.at(layer, x, y).hasSprite()) {
                     putTileSprite(map.at(layer, x, y), x, y);
-                }
+                //}
                 // If not, get the color
-                else {
+                //else {
                     putTileColor(map.at(layer, x, y), x, y);
-                }
+                //}
             }
         }
     }
@@ -108,24 +108,34 @@ void    arcade::LibSfml::putTileColor(arcade::ITile const &tile, size_t x, size_
 
 void    arcade::LibSfml::putTileSprite(arcade::ITile const &tile, size_t x, size_t y) {
 
-    (void)tile;
-    (void)x;
-    (void)y;
+(void)tile;
+(void)x;
+(void)y;
+
 }
 
 void    arcade::LibSfml::updateGUI(IGUI &gui)
 {
     (void)gui;
+
 }
 
 void    arcade::LibSfml::display()
 {
+    sf::Texture texture;
+    texture.loadFromFile("resources/menu/arcade.png");
+    
+    sf::Sprite sprite;
+    sprite.setTexture(texture);
+    sprite.setPosition(sf::Vector2f(200, 10));
+    _window.draw(sprite);
+
     _window.display();
-}
+    }
 
 void    arcade::LibSfml::clear()
 {
-    _window.clear();
+    _window.clear(sf::Color::Black);
 }
 
 extern "C" arcade::IGfxLib  *loader()

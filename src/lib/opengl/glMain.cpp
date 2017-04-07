@@ -303,8 +303,11 @@ void    arcade::LibOpenGl::mouseCallback(GLFWwindow *window, int button, int act
     (void)mode;
 }
 
-bool    arcade::LibOpenGl::pollEvent(Event &event) {
+bool    arcade::LibOpenGl::pollEvent(Event &event) {   
+    std::cout << "event polled" << std::endl;
+    std::cout << "size = " << _lastEvents.size() << std::endl;
     if (_lastEvents.size() > 0) {
+        std::cout << "OK" << std::endl;
         arcade::Event   lastEvent = *_lastEvents.begin();
         event.type = lastEvent.type;
         event.action = lastEvent.action;
@@ -316,7 +319,6 @@ bool    arcade::LibOpenGl::pollEvent(Event &event) {
         } else {
             event.c_key = lastEvent.c_key;
         }
-
         event.pos_rel.x = lastEvent.pos_rel.x;
         event.pos_rel.y = lastEvent.pos_rel.y;
         event.pos_abs.x = lastEvent.pos_abs.x;

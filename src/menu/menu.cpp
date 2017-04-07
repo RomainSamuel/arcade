@@ -25,11 +25,12 @@ arcade::Menu::~Menu()
 
 }
 
-void    arcade::Menu::display() const
+void    arcade::Menu::display(arcade::IGfxLib *_libLoad) const
 {
-    for (std::vector<arcade::AItem>::const_iterator it = _items.begin(); it != _items.end(); it++)
+   /* for (std::vector<arcade::AItem>::const_iterator it = _items.begin(); it != _items.end(); it++)
     {
-    }
+    }*/
+    _libLoad->doesSupportSound();
 }
 
 std::size_t     arcade::Menu::size() const
