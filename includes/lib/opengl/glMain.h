@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-03-27 23:34:59 
+// Author: Marwane Khsime
+// Date: 2017-03-27 23:34:59
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-03-27 23:34:59
 //
 
@@ -13,6 +13,8 @@
 # define GLEW_STATIC
 
 #include <GL/glew.h>
+// GL
+#include <GL/gl.h>
 // GLFW
 #include <GLFW/glfw3.h>
 // SYSTEM
@@ -20,6 +22,7 @@
 #include <functional>
 #include <exception>
 #include <memory>
+#include <algorithm>
 // SOIL
 #include <SOIL/SOIL.h>
 // SOUND
@@ -31,10 +34,6 @@
 #include "GameState.hh"
 // IGFX
 #include "IGfxLib.hh"
-
-// MAP
-#include "Map.hh"
-#include "Game.hh"
 
 # define WIDTH_RATIO        this->_tileWidth
 # define HEIGHT_RATIO       this->_tileHeight
@@ -48,9 +47,9 @@ namespace arcade {
 
         private:
             // GRAPHIC
-            size_t                  _tileWidth;
-            size_t                  _tileHeight;
-            std::unique_ptr<Game>   _snake;
+            std::size_t                 _tileWidth;
+            std::size_t                 _tileHeight;
+            std::unordered_map<std::size_t, std::vector<GLuint> >   _sprites;
 
             // std::unique_ptr<IGUI>   _GUI;
 
@@ -62,10 +61,11 @@ namespace arcade {
             SoundManager    _soundManager;
             // Member Functions
             void            runGFX();
-            void            putTileColor(ITile const &tile, size_t x, size_t y);
-            void            putTileSprite(ITile const &tile, size_t x, size_t y);
-            //bool            loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
-            GLuint          LoadGLTexture(const std::string &filepath);
+            void            drawTileColor(ITile const &tile, std::size_t x, std::size_t y);
+            void            drawTileSprite(ITile const &tile, std::size_t x, std::size_t y);
+            void            drawComponent(const IComponent &component);
+            // void            drawStrokeText(const std::string &text, int x, int y);
+            GLuint          loadGLTexture(const std::string &filepath);
 
         public:
 
@@ -85,18 +85,14 @@ namespace arcade {
             void    soundControl(const Sound &soundToControl);
             void    loadSound(std::vector<std::pair<std::string, SoundType> > const &soundsToLoad);
 
-            // 
-            // Updates
-            //void    updateGUI(IGUI const &gui); 
-
             // Graphic
-            void    updateMap(IMap const &map);
+            void    loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
             // void    updateGUI(IGUI const &GUI);
+            void    updateMap(IMap const &map);
             void    clear();
             void    display();
 
             virtual void loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds);
-            virtual void loadSprites(std::vector<std::unique_ptr<ISprite> > &&sprites);
             virtual void updateGUI(IGUI &gui);
         };
 }

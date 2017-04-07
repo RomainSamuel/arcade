@@ -3,6 +3,8 @@
 
 #include <string>
 #include <memory>
+#include <chrono>
+#include <thread>
 #include "Loader.hh"
 #include "GameState.hh"
 #include "IGfxLib.hh"
@@ -14,10 +16,10 @@ namespace arcade
     class Core
     {
     private:
-        std::string _lib;
-        int _volume;
-        arcade::GameState _gameState;
-        arcade::Loader    _loader;
+        std::string         _lib;
+        int                 _volume;
+        arcade::GameState   _gameState;
+        arcade::Loader      _loader;
         arcade::IGfxLib     *_libLoad;
         arcade::IGame       *_gameLoad;
         arcade::Menu        *_menu;

@@ -22,14 +22,9 @@ arcade::Core::Core(const std::string &lib, const int volume) : _lib(lib), _volum
     _loader.setCurrentGame("games/lib_arcade_snake.so");
 }
 
-arcade::Core::~Core()
-{
+arcade::Core::~Core() {}
 
-}
-
-arcade::Core::Core(Core const &clone) : Core("", clone.getVolume())
-{
-}
+arcade::Core::Core(Core const &clone) : Core("", clone.getVolume()) {}
 
 arcade::Core    &arcade::Core::operator=(Core const &clone)
 {
@@ -85,7 +80,6 @@ void    arcade::Core::display()
 void    arcade::Core::menu()
 {
     //Event   event;
-
     _libLoad->display();
 }
 
@@ -94,7 +88,6 @@ void    arcade::Core::play()
     Event event;
     std::vector<Event> _events;
 
-    std::cout << "LOOP" << std::endl;
     if (_libLoad->pollEvent(event))
     {
         std::cout << event.kb_key << std::endl;
@@ -103,13 +96,18 @@ void    arcade::Core::play()
       _events.push_back(event);
       //_gameLoad->notifyEvent(_events);
     }
+
     _gameLoad->process();
+
     if (_gameLoad->getGameState() == arcade::GameState::QUIT)
         setGameState(arcade::GameState::MENU);
+
     if (_gameState != arcade::GameState::QUIT)
     {
-       _libLoad->updateMap(_gameLoad->getCurrentMap());
+        _libLoad->updateMap(_gameLoad->getCurrentMap());
         _libLoad->updateGUI(_gameLoad->getGUI());
         _libLoad->display();
     }
-}
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+} 

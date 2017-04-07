@@ -8,7 +8,6 @@
 
 #include "glMain.h"
 
-
 /*
 ** CONSTRUCTOR
 */
@@ -29,7 +28,7 @@ arcade::LibOpenGl::LibOpenGl() : _width(800), _height(600) {
     // Set all the required options for GLFW
     glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-    if ((this->_window = glfwCreateWindow(this->_width, this->_height, "Arcade", nullptr, nullptr)) == nullptr) {
+    if ((this->_window = glfwCreateWindow(this->_width, this->_height, "Arcade openGL", nullptr, nullptr)) == nullptr) {
         glfwTerminate();
         throw std::string("Failed to create GLFW window\n");
     }
@@ -89,19 +88,19 @@ arcade::LibOpenGl::~LibOpenGl() {
 void    arcade::LibOpenGl::runGFX() {
 
     // // Game loop
-    while (!glfwWindowShouldClose(this->_window)) {
+    // while (!glfwWindowShouldClose(this->_window)) {
         // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
-        glfwPollEvents();
+        // glfwPollEvents();
 
         // Clear screen
-        this->clear();
-
+        // this->clear();
+        // 
         // Update map
         //this->updateMap(this->_snake->getCurrentMap());
 
         // Render
-        this->display();
-    }
+    //     this->display();
+    // }
 }
 
 /*
@@ -123,20 +122,22 @@ void    arcade::LibOpenGl::updateMap(arcade::IMap const &map) {
         for (std::size_t x = 0; x < width; x++) {
 
             for (std::size_t y = 0; y < height; y++) {
+
                 // Check if the tile is a sprite
                 if (map.at(layer, x, y).hasSprite()) {
-                    putTileSprite(map.at(layer, x, y), x, y);
+                    drawTileSprite(map.at(layer, x, y), x, y);
                 }
-                // // If not, get the color
+                // If not, get the color
                 else {
-                    putTileColor(map.at(layer, x, y), x, y);
+                    drawTileColor(map.at(layer, x, y), x, y);
                 }
+
             }
         }
     }
 }
 
-void    arcade::LibOpenGl::putTileColor(arcade::ITile const &tile, size_t x, size_t y) {
+void    arcade::LibOpenGl::drawTileColor(arcade::ITile const &tile, size_t x, size_t y) {
 
     // Set Color
     glColor4f((double)tile.getColor().r,
@@ -162,7 +163,7 @@ void    arcade::LibOpenGl::putTileColor(arcade::ITile const &tile, size_t x, siz
 }
 
 
-void    arcade::LibOpenGl::putTileSprite(arcade::ITile const &tile, size_t x, size_t y) {
+void    arcade::LibOpenGl::drawTileSprite(arcade::ITile const &tile, size_t x, size_t y) {
 
     if (this->_sprites.find(tile.getSpriteId()) == this->_sprites.end() ||
         std::find(this->_sprites[tile.getSpriteId()].begin(),
@@ -178,7 +179,27 @@ void    arcade::LibOpenGl::putTileSprite(arcade::ITile const &tile, size_t x, si
     double  y_end = HEIGHT_RATIO * (y + 1) / (this->_height / 2.0) - 1 + tile.getShiftY();
 
     // Bind the texture (which was preloaded in loadSprites method)
+
     glBindTexture(GL_TEXTURE_2D, this->_sprites[tile.getSpriteId()].at(tile.getSpritePos()));
+    // glPushMatrix();
+    glBegin(GL_QUADS);
+
+    glTexCoord2d(0,1);  glVertex2f(x_begin, y_end);     // Up Left
+    glTexCoord2d(0,0);  glVertex2f(x_end, y_end);       // Up Right
+    glTexCoord2d(1,0);  glVertex2f(x_end, y_begin);     // Bottom Right
+    glTexCoord2d(1,1);  glVertex2f(x_begin, y_begin);   // Bottom Left
+    // glPopMatrix();
+    glEnd();
+}
+
+void    arcade::LibOpenGl::drawComponentSprite(const arcade::IComponent &component) {
+
+    double  x_begin = component.getX();
+    double  x_end = component.getX() + component.getWidth();
+    double  y_begin = component.getY();
+    double  y_end = component.getY() + component.getHeight();
+
+    glBindTexture(GL_TEXTURE_2D, this->_sprites[component.getBackgroundId()].at(0));
     glBegin(GL_QUADS);
 
     glTexCoord2d(0,1);  glVertex2f(x_begin, y_end);     // Up Left
@@ -186,10 +207,46 @@ void    arcade::LibOpenGl::putTileSprite(arcade::ITile const &tile, size_t x, si
     glTexCoord2d(1,0);  glVertex2f(x_end, y_begin);     // Bottom Right
     glTexCoord2d(1,1);  glVertex2f(x_begin, y_begin);   // Bottom Left
 
-    glEnd();
+    glEnd();    
 }
 
-void    arcade::LibOpenGl::loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites) {
+void    arcade::LibOpenGl::drawComponentColor(const arcade::IComponent &component) {
+
+    double  x_begin = component.getX();
+    double  x_end = component.getX() + component.getWidth();
+    double  y_begin = component.getY();
+    double  y_end = component.getY() + component.getHeight();
+
+    arcade::Color color = component.getBackgroundColor();
+
+    glColor4f((double)color.r,
+               (double)color.g,
+               (double)color.b,
+               (double)color.a);
+    
+    glBegin(GL_QUADS);
+
+    glTexCoord2d(0,1);  glVertex2f(x_begin, y_end);     // Up Left
+    glTexCoord2d(0,0);  glVertex2f(x_end, y_end);       // Up Right
+    glTexCoord2d(1,0);  glVertex2f(x_end, y_begin);     // Bottom Right
+    glTexCoord2d(1,1);  glVertex2f(x_begin, y_begin);   // Bottom Left
+
+    glEnd();    
+
+}
+
+void    arcade::LibOpenGl::drawComponent(const arcade::IComponent &component) {
+
+    // If component has a sprite
+    if (component.hasSprite()) {
+        this->drawComponentSprite(component);
+    } else { // If component is juste a block of color
+        this->drawComponentColor(component);
+    }
+
+}
+
+void    arcade::LibOpenGl::loadSprites(std::vector<std::unique_ptr<arcade::ISprite>> &&sprites) {
 
     // Clear alls olds textures
     this->_sprites.clear();
@@ -201,7 +258,7 @@ void    arcade::LibOpenGl::loadSprites(std::vector<std::unique_ptr<ISprite>> &&s
          GLuint  textureID = this->loadGLTexture(sprites[i]->getGraphicPath(nSprite));
 
         if (textureID == 0)
-             std::cerr << "Warning : couldn't load a texture." << std::endl;
+             std::cout << "Warning : couldn't load a texture." << std::endl;
         else
             this->_sprites[x].push_back(textureID);
 
@@ -232,8 +289,8 @@ void    arcade::LibOpenGl::clear() {
 }
 
 void    arcade::LibOpenGl::display() {
-        // Swap the screen buffers
-        glfwSwapBuffers(this->_window);
+    // Swap the screen buffers
+    glfwSwapBuffers(this->_window);
 }
 
 /*
@@ -241,11 +298,11 @@ void    arcade::LibOpenGl::display() {
 */
 // Is called whenever a key is pressed/released via GLFW
 void    arcade::LibOpenGl::keyCallback(GLFWwindow* window, int key, int scancode, int action, int mode) {
+
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GL_TRUE);
     }
 
-    std::cout << key << std::endl;
     if (action == GLFW_PRESS) {
         arcade::MousePos    current;
         arcade::MousePos    last;
@@ -275,7 +332,6 @@ void    arcade::LibOpenGl::keyCallback(GLFWwindow* window, int key, int scancode
 
 // Is caled whenever a mouse button is pressed/released via GLFW
 void    arcade::LibOpenGl::mouseCallback(GLFWwindow *window, int button, int action, int mode) {
-    std::cout << button << std::endl;
     if (action == GLFW_PRESS) {
         arcade::MousePos    current;
         arcade::MousePos    last;
@@ -303,11 +359,11 @@ void    arcade::LibOpenGl::mouseCallback(GLFWwindow *window, int button, int act
     (void)mode;
 }
 
-bool    arcade::LibOpenGl::pollEvent(Event &event) {   
-    std::cout << "event polled" << std::endl;
-    std::cout << "size = " << _lastEvents.size() << std::endl;
+bool    arcade::LibOpenGl::pollEvent(arcade::Event &event) {   
+
+    glfwPollEvents();
+
     if (_lastEvents.size() > 0) {
-        std::cout << "OK" << std::endl;
         arcade::Event   lastEvent = *_lastEvents.begin();
         event.type = lastEvent.type;
         event.action = lastEvent.action;
@@ -343,11 +399,11 @@ void    arcade::LibOpenGl::loadSound(std::vector<std::pair<std::string, SoundTyp
     this->_soundManager.loadSounds(soundsToLoad);
 }
 
-void    arcade::LibOpenGl::soundControl(const Sound &soundToControl) {
+void    arcade::LibOpenGl::soundControl(const arcade::Sound &soundToControl) {
     this->_soundManager.soundControl(soundToControl);
 }
 
-void    arcade::LibOpenGl::loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds)
+void    arcade::LibOpenGl::loadSounds(std::vector<std::pair<std::string, arcade::SoundType > > const &sounds)
 {
     (void)sounds;
 }
