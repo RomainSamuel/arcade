@@ -6,15 +6,13 @@
 // Last Modified time: 2017-03-28 00:04:58
 //
 
-#include <IGfxLib.hpp>
 #include "glMain.h"
 
 
 /*
 ** CONSTRUCTOR
 */
-arcade::LibOpenGl::LibOpenGl() : _width(800), _height(600) {
-
+arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _height(height) {
 
     std::cout << "Lib OpenGl 3.3 Launched" << std::endl;
 
@@ -71,7 +69,7 @@ arcade::LibOpenGl::LibOpenGl() : _width(800), _height(600) {
     glBlendFunc(GL_ONE, GL_ONE);
 
     // Initialize Shaders
-    // this->_snake = std::make_unique<arcade::Game>();
+    this->_snake = std::make_unique<arcade::Game>();
 
     // Run GL
     this->runGFX();
@@ -91,25 +89,24 @@ arcade::LibOpenGl::~LibOpenGl() {
 void    arcade::LibOpenGl::runGFX() {
 
     // // Game loop
-    // while (!glfwWindowShouldClose(this->_window)) {
-    //     // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
-    //     glfwPollEvents();
+    while (!glfwWindowShouldClose(this->_window)) {
+        // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
+        glfwPollEvents();
 
-    //     // Clear screen
-    //     this->clear();
+        // Clear screen
+        this->clear();
 
-    //     // Update map
-    //     this->updateMap(this->_snake->getCurrentMap());
+        // Update map
+        this->updateMap(this->_snake->getCurrentMap());
 
-    //     // Render
-    //     this->display();
-    // }
+        // Render
+        this->display();
+    }
 }
 
 /*
 ** GRAPHIC
 */
-
 void    arcade::LibOpenGl::updateMap(arcade::IMap const &map) {
 
     // Save Map properties
@@ -126,16 +123,11 @@ void    arcade::LibOpenGl::updateMap(arcade::IMap const &map) {
         for (std::size_t x = 0; x < width; x++) {
 
             for (std::size_t y = 0; y < height; y++) {
-                // if (x == 4 && y == 4 && layer == 1)
-                // {
-                //     putTileSprite(map.at(layer, x, y), x, y);
-                //     continue;
-                // }
                 // Check if the tile is a sprite
                 if (map.at(layer, x, y).hasSprite()) {
                     putTileSprite(map.at(layer, x, y), x, y);
                 }
-                // If not, get the color
+                // // If not, get the color
                 else {
                     putTileColor(map.at(layer, x, y), x, y);
                 }
@@ -162,38 +154,76 @@ void    arcade::LibOpenGl::putTileColor(arcade::ITile const &tile, size_t x, siz
     glBegin(GL_QUADS);
 
     glVertex2f(x_begin, y_end);     // Up Left
-    glVertex2f(x_end, y_end);     // Up Right
-    glVertex2f(x_end, y_begin);    // Bottom Right
+    glVertex2f(x_end, y_end);       // Up Right
+    glVertex2f(x_end, y_begin);     // Bottom Right
     glVertex2f(x_begin, y_begin);   // Bottom Left
 
     glEnd();
 }
+
 
 void    arcade::LibOpenGl::putTileSprite(arcade::ITile const &tile, size_t x, size_t y) {
 
-    double  x_begin = WIDTH_RATIO * x / (this->_width / 2.0) - 1/* + tile.getShiftX()*/;
-    double  x_end = WIDTH_RATIO * (x + 1) / (this->_width / 2.0) - 1/* + tile.getShiftX()*/;
-    double  y_begin = HEIGHT_RATIO * y / (this->_height / 2.0) - 1/* + tile.getShiftY()*/;
-    double  y_end = HEIGHT_RATIO * (y + 1) / (this->_height / 2.0) - 1/* + tile.getShiftY()*/;
+    if (this->_sprites.find(tile.getSpriteId()) == this->_sprites.end() ||
+        std::find(this->_sprites[tile.getSpriteId()].begin(),
+                  this->_sprites[tile.getSpriteId()].end(),
+                  tile.getSpritePos()) == this->_sprites[tile.getSpriteId()].end()) {
+        return ;
+    }
 
+    // Adapt the coordinates for the viewport
+    double  x_begin = WIDTH_RATIO * x / (this->_width / 2.0) - 1 + tile.getShiftX();
+    double  x_end = WIDTH_RATIO * (x + 1) / (this->_width / 2.0) - 1 + tile.getShiftX();
+    double  y_begin = HEIGHT_RATIO * y / (this->_height / 2.0) - 1 + tile.getShiftY();
+    double  y_end = HEIGHT_RATIO * (y + 1) / (this->_height / 2.0) - 1 + tile.getShiftY();
+
+    // Bind the texture (which was preloaded in loadSprites method)
+    glBindTexture(GL_TEXTURE_2D, this->_sprites[tile.getSpriteId()].at(tile.getSpritePos()));
     glBegin(GL_QUADS);
 
-    glVertex2f(x_begin, y_end);     // Up Left
-    glVertex2f(x_end, y_end);     // Up Right
-    glVertex2f(x_end, y_begin);    // Bottom Right
-    glVertex2f(x_begin, y_begin);   // Bottom Left
+    glTexCoord2d(0,1);  glVertex2f(x_begin, y_end);     // Up Left
+    glTexCoord2d(0,0);  glVertex2f(x_end, y_end);       // Up Right
+    glTexCoord2d(1,0);  glVertex2f(x_end, y_begin);     // Bottom Right
+    glTexCoord2d(1,1);  glVertex2f(x_begin, y_begin);   // Bottom Left
 
     glEnd();
-
-    (void)tile;
-    (void)x;
-    (void)y;
 }
 
+void    arcade::LibOpenGl::loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites) {
+
+    // Clear alls olds textures
+    this->_sprites.clear();
+
+    for (std::size_t i = 0, x = 0; i < sprites.size(); i++) {
+
+        for (std::size_t nSprite = 0; nSprite < sprites[i]->spritesCount(); nSprite++) {
+         
+         GLuint  textureID = this->loadGLTexture(sprites[i]->getGraphicPath(nSprite));
+
+        if (textureID == 0)
+             std::cerr << "Warning : couldn't load a texture." << std::endl;
+        else
+            this->_sprites[x].push_back(textureID);
+
+        }
+    }
+}
+
+GLuint  arcade::LibOpenGl::loadGLTexture(const std::string &filepath) {
+    return SOIL_load_OGL_texture // load an image file directly as a new OpenGL texture 
+	(
+		filepath.c_str(),
+		SOIL_LOAD_AUTO,
+		SOIL_CREATE_NEW_ID,
+		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
+	);
+}
+
+// void    arcade::LibOpenGl::drawStrokeText(const std::string &text, int x, int y) {
+// }
 
 // void    arcade::LibOpenGl::updateGUI(IGUI const &GUI) {
-//     this->_GUI.reset();
-//     this->_GUI = std::make_unique<IGUI>(GUI);
+
 // }
 
 void    arcade::LibOpenGl::clear() {
@@ -315,23 +345,13 @@ void    arcade::LibOpenGl::soundControl(const Sound &soundToControl) {
     this->_soundManager.soundControl(soundToControl);
 }
 
-void    arcade::LibOpenGl::loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds)
-{
-    (void)sounds;
+void    test() {
+    arcade::LibOpenGl   toto(800, 600);
+
+    (void)toto;
 }
 
-void    arcade::LibOpenGl::loadSprites(std::vector<std::unique_ptr<ISprite> > &&sprites)
-{
-    (void)sprites;
-}
-
-void    arcade::LibOpenGl::updateGUI(IGUI &gui)
-{
-    (void)gui;
-}
-
-
-extern "C" arcade::IGfxLib  *loader()
-{
-    return (new arcade::LibOpenGl());
+int main() {
+    test();
+    return 0;
 }
