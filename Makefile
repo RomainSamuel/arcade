@@ -27,7 +27,7 @@ COMPILATION_MSG	= $(DISPLAY_TWO)
 CXX		= g++
 
 # compiling flags here
-CXXFLAGS	= -W -Wall -Wextra -Werror -Weffc++ -std=c++14 -I./includes/ -I./includes/common/ -I./includes/core/ -I./includes/menu/ -O2
+CXXFLAGS	= -W -Wall -Wextra -Werror -Weffc++ -std=c++14 -I./includes/ -I./includes/common/ -I./includes/core/ -I./includes/menu/  -I.includes/common -O2
 #CXXFLAGS	+=		-pedantic -Wold-style-cast -Woverloaded-virtual -Wfloat-equal		
 #CXXFLAGS	+=		-Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion			
 #CXXFLAGS	+=		-Wshadow -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default	

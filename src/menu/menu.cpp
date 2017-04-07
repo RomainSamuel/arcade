@@ -8,7 +8,7 @@
 #include "gameButton.hh"
 #include "settingsButton.hh"
 #include "Menu.hh"
-#include "IComponent.hpp"
+#include "IComponent.hh"
 
 arcade::Menu::Menu() : _items {}
 {

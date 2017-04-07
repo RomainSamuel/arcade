@@ -44,7 +44,7 @@ namespace arcade {
     // EVENTS
     static std::vector<arcade::Event> _lastEvents;
 
-    class LibOpenGl {
+    class LibOpenGl : public IGfxLib {
 
         private:
             // GRAPHIC
@@ -64,13 +64,13 @@ namespace arcade {
             void            runGFX();
             void            putTileColor(ITile const &tile, size_t x, size_t y);
             void            putTileSprite(ITile const &tile, size_t x, size_t y);
-            bool            loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
+            //bool            loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
             GLuint          LoadGLTexture(const std::string &filepath);
 
         public:
 
             // Constructor / Destructor
-            LibOpenGl(GLuint width, GLuint height);
+            LibOpenGl();
             ~LibOpenGl();
 
             // Keyboard Management
@@ -94,6 +94,10 @@ namespace arcade {
             // void    updateGUI(IGUI const &GUI);
             void    clear();
             void    display();
+
+            virtual void loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds);
+            virtual void loadSprites(std::vector<std::unique_ptr<ISprite> > &&sprites);
+            virtual void updateGUI(IGUI &gui);
         };
 }
 

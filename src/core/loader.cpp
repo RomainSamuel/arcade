@@ -175,7 +175,7 @@ void    *arcade::Loader::getSym(std::string const &lib, std::string const &sym) 
     void    *mkr;
     void    *handle;
 
-    std::cout << lib << std::endl;
+    std::cout << lib << " " << sym << std::endl;
     if ((handle = dlopen(lib.c_str(), RTLD_NOW)) == NULL)
         throw arcade::Error("dlopen Failed");
     if ((mkr = dlsym(handle, sym.c_str())) == NULL)

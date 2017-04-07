@@ -4,9 +4,9 @@
 #include <string>
 #include <memory>
 #include "Loader.hh"
-#include "GameState.hpp"
-#include "IGfxLib.hpp"
-#include "IGame.hpp"
+#include "GameState.hh"
+#include "IGfxLib.hh"
+#include "IGame.hh"
 #include "Menu.hh"
 
 namespace arcade
@@ -21,7 +21,7 @@ namespace arcade
         arcade::IGfxLib     *_libLoad;
         arcade::IGame       *_gameLoad;
         arcade::Menu        *_menu;
-        
+
     public:
         Core(const std::string &, const int);
         ~Core();

@@ -8,11 +8,24 @@
 #include <SFML/Graphics.hpp>
 #include "IGfxLib.hpp"
 
+# define WIDTH_RATIO        _tileWidth
+# define HEIGHT_RATIO       _tileHeight
+
 namespace arcade
 {
     class LibSfml : public IGfxLib
     {
+    private:
         sf::RenderWindow    _window;
+        size_t              _tileWidth;
+        size_t              _tileHeight;
+
+        size_t              _width;
+        size_t              _height;
+
+        void            putTileColor(ITile const &tile, size_t x, size_t y);
+            void            putTileSprite(ITile const &tile, size_t x, size_t y);
+            //bool            loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
 
     public:
         //Constructor / Destructor

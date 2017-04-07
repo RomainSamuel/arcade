@@ -6,13 +6,15 @@
 // Last Modified time: 2017-03-28 00:04:58
 //
 
+#include <IGfxLib.hpp>
 #include "glMain.h"
 
 
 /*
 ** CONSTRUCTOR
 */
-arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _height(height) {
+arcade::LibOpenGl::LibOpenGl() : _width(800), _height(600) {
+
 
     std::cout << "Lib OpenGl 3.3 Launched" << std::endl;
 
@@ -313,13 +315,23 @@ void    arcade::LibOpenGl::soundControl(const Sound &soundToControl) {
     this->_soundManager.soundControl(soundToControl);
 }
 
-void    test() {
-    arcade::LibOpenGl   toto(800, 600);
-
-    (void)toto;
+void    arcade::LibOpenGl::loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds)
+{
+    (void)sounds;
 }
 
-int main() {
-    test();
-    return 0;
+void    arcade::LibOpenGl::loadSprites(std::vector<std::unique_ptr<ISprite> > &&sprites)
+{
+    (void)sprites;
+}
+
+void    arcade::LibOpenGl::updateGUI(IGUI &gui)
+{
+    (void)gui;
+}
+
+
+extern "C" arcade::IGfxLib  *loader()
+{
+    return (new arcade::LibOpenGl());
 }
