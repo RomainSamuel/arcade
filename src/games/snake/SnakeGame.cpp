@@ -3,19 +3,19 @@
 
 arcade::SnakeGame::SnakeGame()
 {
-  this->_map = std::unique_ptr<Map>(new Map(10, 10, 2));
+  this->_map = std::unique_ptr<Map>(new Map(20, 20, 2));
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
-  this->_snake.push_back(std::make_unique<snake::SnakePart>(4, 4, snake::PartType::HEAD, snake::Direction::WEST));
-  this->_snake.push_back(std::make_unique<snake::SnakePart>(5, 4, snake::PartType::BODY, snake::Direction::WEST));
-  this->_snake.push_back(std::make_unique<snake::SnakePart>(6, 4, snake::PartType::BODY, snake::Direction::NORTH));
-  this->_snake.push_back(std::make_unique<snake::SnakePart>(6, 5, snake::PartType::TAIL, snake::Direction::NORTH));
+  this->_snake.push_back(std::make_unique<snake::SnakePart>(9, 9, snake::PartType::HEAD, snake::Direction::WEST));
+  this->_snake.push_back(std::make_unique<snake::SnakePart>(10, 9, snake::PartType::BODY, snake::Direction::WEST));
+  this->_snake.push_back(std::make_unique<snake::SnakePart>(11, 9, snake::PartType::BODY, snake::Direction::NORTH));
+  this->_snake.push_back(std::make_unique<snake::SnakePart>(11, 10, snake::PartType::TAIL, snake::Direction::NORTH));
   this->_snake.front()->printOnMap(this->_snake, this->_map);
   this->_food = std::unique_ptr<snake::Food>(new snake::Food(this->_map));
   this->_eaten = 0;
   this->_score = 0;
-  this->_cd = 10;
-  this->_cdRemaining = 10;
+  this->_cd = 40;
+  this->_cdRemaining = 0;
 
   // EVENTS
   arcade::Event event;

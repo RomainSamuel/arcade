@@ -99,9 +99,9 @@ void    sf::Enemy::move(std::unique_ptr<arcade::Map> &map, std::vector<std::uniq
       shots.push_back(std::make_unique<sf::Shot>(this->layer,
                                                  this->x,
                                                  this->y,
-                                                 30,
+                                                 120,
                                                  this->fireDirection,
-                                                 0.6,
+                                                 0.15,
                                                  (this->mv == VERTICAL) ? HORIZONTAL : VERTICAL,
                                                  false));
       shots.back()->printOnMap(map);
