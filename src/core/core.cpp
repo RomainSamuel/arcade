@@ -74,11 +74,11 @@ void    arcade::Core::display()
 
     while (getGameState() != arcade::GameState::QUIT)
     {
-        //_libLoad->clear();
+        _libLoad->clear();
         //if (getGameState() == arcade::GameState::MENU)
           //  menu();
         //else if (getGameState() == arcade::GameState::INGAME)
-           // play();
+            play();
     }
 }
 
@@ -95,21 +95,21 @@ void    arcade::Core::menu()
 
 void    arcade::Core::play()
 {
-    Event event;
-    std::vector<Event> _events;
+    //Event event;
+    //std::vector<Event> _events;
 
-    if (_libLoad->pollEvent(event))
-    {
-      _events.push_back(event);
+    //if (_libLoad->pollEvent(event))
+    //{
+      //_events.push_back(event);
       //_gameLoad->notifyEvent(&&_events);
-    }
+    //}
     _gameLoad->process();
-    if (_gameLoad->getGameState() == arcade::GameState::QUIT)
-        setGameState(arcade::GameState::QUIT);
-    if (_gameState != arcade::GameState::QUIT)
-    {
+    //if (_gameLoad->getGameState() == arcade::GameState::QUIT)
+      //  setGameState(arcade::GameState::QUIT);
+    //if (_gameState != arcade::GameState::QUIT)
+    //{
        _libLoad->updateMap(_gameLoad->getCurrentMap());
         //_libLoad->updateGUI(_gameLoad->getGUI());
         _libLoad->display();
-    }
+    //}
 }

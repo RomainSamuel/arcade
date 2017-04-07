@@ -6,7 +6,7 @@
 # define CPP_ARCADE_SFML_HH
 
 #include <SFML/Graphics.hpp>
-#include "IGfxLib.hpp"
+#include "IGfxLib.hh"
 
 # define WIDTH_RATIO        _tileWidth
 # define HEIGHT_RATIO       _tileHeight

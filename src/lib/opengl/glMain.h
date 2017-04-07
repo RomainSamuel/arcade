@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-03-27 23:34:59 
+// Author: Marwane Khsime
+// Date: 2017-03-27 23:34:59
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-03-27 23:34:59
 //
 
@@ -26,18 +26,14 @@
 // SOIL
 #include <SOIL/SOIL.h>
 // SOUND
-#include "SoundManager.hpp"
+#include "SoundManager.hh"
 // EVENTS
-#include "Event.hpp"
-#include "glEventsCorrespondence.hpp"
+#include "Event.hh"
+#include "glEventsCorrespondence.hh"
 // GAME STATE
-#include "GameState.hpp"
+#include "GameState.hh"
 // IGFX
-#include "IGfxLib.hpp"
-
-// MAP
-#include "Map.hh"
-#include "Game.hh"
+#include "IGfxLib.hh"
 
 # define WIDTH_RATIO        this->_tileWidth
 # define HEIGHT_RATIO       this->_tileHeight
@@ -47,13 +43,12 @@ namespace arcade {
     // EVENTS
     static std::vector<arcade::Event> _lastEvents;
 
-    class LibOpenGl {
+    class LibOpenGl : public IGfxLib {
 
         private:
             // GRAPHIC
             std::size_t                 _tileWidth;
             std::size_t                 _tileHeight;
-            std::unique_ptr<Game>       _snake;
             std::unordered_map<std::size_t, std::vector<GLuint> >   _sprites;
 
             // std::unique_ptr<IGUI>   _GUI;
@@ -74,7 +69,7 @@ namespace arcade {
         public:
 
             // Constructor / Destructor
-            LibOpenGl(GLuint width, GLuint height);
+            LibOpenGl();
             ~LibOpenGl();
 
             // Keyboard Management
@@ -95,6 +90,9 @@ namespace arcade {
             void    updateMap(IMap const &map);
             void    clear();
             void    display();
+
+            virtual void loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds);
+            virtual void updateGUI(IGUI &gui);
         };
 }
 

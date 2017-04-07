@@ -3,7 +3,7 @@
 
 # include <memory>
 # include <vector>
-# include "IMap.hpp"
+# include "IMap.hh"
 # include "Tile.hh"
 
 namespace arcade

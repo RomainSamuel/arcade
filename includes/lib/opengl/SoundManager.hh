@@ -21,7 +21,7 @@
 // SNDFILE
 #include <sndfile.h>
 // SOUND TYPES
-#include "Sound.hpp"
+#include "Sound.hh"
 
 namespace arcade
 {

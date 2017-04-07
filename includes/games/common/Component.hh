@@ -1,8 +1,8 @@
 #ifndef COMPONENT_HH_
 # define COMPONENT_HH_
 
-# include "IComponent.hpp"
-# include "Color.hpp"
+# include "IComponent.hh"
+# include "Color.hh"
 
 namespace arcade
 {

@@ -12,12 +12,6 @@ arcade::LibSfml::LibSfml() : _width(800), _height(600)
 {
     std::cout << "Lib Sfml Launched" << std::endl;
     _window.create(sf::VideoMode(_width, _height), "Arcade");
-
-    while (_window.isOpen())
-    {
-        _window.clear(sf::Color::Black);
-        _window.display();
-    }
 }
 
 /*
@@ -95,16 +89,19 @@ void    arcade::LibSfml::putTileColor(arcade::ITile const &tile, size_t x, size_
 
     (void)tile;
     // Adapt the coordinates for the viewport
-    double  x_begin = WIDTH_RATIO * x / (_width / 2.0) - 1;
-    double  x_end = WIDTH_RATIO * (x + 1) / (_width / 2.0) - 1;
-    double  y_begin = HEIGHT_RATIO * y / (_height / 2.0) - 1;
-    double  y_end = HEIGHT_RATIO * (y + 1) / (_height / 2.0) - 1;
+    double  x_begin = (x * WIDTH_RATIO);
+    double  x_end = (x + 1) * WIDTH_RATIO;
+    double  y_begin = (y * HEIGHT_RATIO);
+    double  y_end = (y + 1) * HEIGHT_RATIO;
 
-    sf::RectangleShape rectangle(sf::Vector2f(x_end - x_begin, y_end -y_begin));
-    rectangle.setPosition(x_begin, x_end);
+    sf::RectangleShape rectangle(sf::Vector2f(x_end - x_begin, y_end - y_begin));
+    rectangle.setPosition(x_begin, y_begin);
 
     // Set Color
-    rectangle.setFillColor(sf::Color::Red);
+    rectangle.setFillColor(sf::Color((double)tile.getColor().r,
+                            (double)tile.getColor().g,
+                            (double)tile.getColor().b,
+                            (double)tile.getColor().a));
 
     _window.draw(rectangle);
 }

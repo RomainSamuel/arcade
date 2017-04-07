@@ -2,7 +2,8 @@ GPP		=	g++
 
 NAME	=	lib_arcade_opengl.so
 
-SRC		=	glMain.cpp
+SRC		=	glMain.cpp \
+			SoundManager.cpp
 
 GAMESDIR	=	../../../lib/
 
@@ -12,7 +13,7 @@ CXXFLAGS    =   -std=c++14
 
 CXXFLAGS    +=  -W -Wall -Wextra -Werror -fPIC
 
-CXXFLAGS    +=  -I./ -I../../../includes/common -I../../../includes/lib/opengl
+CXXFLAGS    +=  -I./ -I../../../includes/common -I../../../includes/lib/opengl -I../../../includes/games/common
 
 LDFLAGS		=	-lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -lopenal -lsndfile -lSOIL
 

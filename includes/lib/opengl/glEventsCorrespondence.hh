@@ -17,7 +17,7 @@
 #include <GLFW/glfw3.h>
 
 #include <map>
-#include "Event.hpp"
+#include "Event.hh"
 
 namespace arcade
 {

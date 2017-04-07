@@ -1,8 +1,8 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-04-03 23:05:30 
+// Author: Marwane Khsime
+// Date: 2017-04-03 23:05:30
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-04-03 23:05:30
 //
 
@@ -21,7 +21,7 @@
 // SNDFILE
 #include <sndfile.h>
 // SOUND TYPES
-#include "Sound.hpp"
+#include "Sound.hh"
 
 namespace arcade
 {

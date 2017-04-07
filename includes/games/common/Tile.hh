@@ -1,7 +1,7 @@
 #ifndef TILE_HPP_
 # define TILE_HPP_
 
-#include "ITile.hpp"
+#include "ITile.hh"
 
 namespace arcade
 {

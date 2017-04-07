@@ -10,7 +10,7 @@
 #include "GUI.hh"
 #include "SnakePart.hh"
 #include "Food.hh"
-#include "IGame.hpp"
+#include "IGame.hh"
 
 namespace arcade
 {

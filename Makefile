@@ -54,6 +54,7 @@ BINDIR   = .
 SOURCES  := 		$(wildcard $(SRCDIR)/*.cpp)
 SOURCES  +=         $(wildcard $(SRCDIR)/core/*.cpp)
 SOURCES  +=         $(wildcard $(SRCDIR)/menu/*.cpp)
+SOURCES	+=			$(wildcard $(SRCDIR)/common/*.cpp)
 OBJECTS  := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM 	      = 		rm -rf
 

@@ -1,5 +1,5 @@
 #include "Component.hh"
-#include "IGUI.hpp"
+#include "IGUI.hh"
 
 namespace arcade
 {

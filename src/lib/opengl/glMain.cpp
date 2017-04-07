@@ -12,7 +12,7 @@
 /*
 ** CONSTRUCTOR
 */
-arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _height(height) {
+arcade::LibOpenGl::LibOpenGl() : _width(800), _height(600) {
 
     std::cout << "Lib OpenGl 3.3 Launched" << std::endl;
 
@@ -69,10 +69,10 @@ arcade::LibOpenGl::LibOpenGl(GLuint width, GLuint height) : _width(width), _heig
     glBlendFunc(GL_ONE, GL_ONE);
 
     // Initialize Shaders
-    this->_snake = std::make_unique<arcade::Game>();
+    //this->_snake = std::make_unique<arcade::Game>();
 
     // Run GL
-    this->runGFX();
+    //his->runGFX();
 }
 
 /*
@@ -97,7 +97,7 @@ void    arcade::LibOpenGl::runGFX() {
         this->clear();
 
         // Update map
-        this->updateMap(this->_snake->getCurrentMap());
+        //this->updateMap(this->_snake->getCurrentMap());
 
         // Render
         this->display();
@@ -345,13 +345,17 @@ void    arcade::LibOpenGl::soundControl(const Sound &soundToControl) {
     this->_soundManager.soundControl(soundToControl);
 }
 
-void    test() {
-    arcade::LibOpenGl   toto(800, 600);
-
-    (void)toto;
+void    arcade::LibOpenGl::loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds)
+{
+    (void)sounds;
 }
 
-int main() {
-    test();
-    return 0;
+void    arcade::LibOpenGl::updateGUI(IGUI &gui)
+{
+    (void)gui;
+}
+
+extern "C" arcade::IGfxLib *loader()
+{
+    return (new arcade::LibOpenGl());
 }

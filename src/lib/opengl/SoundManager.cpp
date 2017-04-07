@@ -1,12 +1,12 @@
 //
-// Author: Marwane Khsime 
-// Date: 2017-04-03 23:05:27 
+// Author: Marwane Khsime
+// Date: 2017-04-03 23:05:27
 //
-// Last Modified by:   Marwane Khsime 
+// Last Modified by:   Marwane Khsime
 // Last Modified time: 2017-04-03 23:05:27
 //
 
-#include "SoundManager.hpp"
+#include "SoundManager.hh"
 
 arcade::SoundManager::SoundManager() {
 
@@ -19,14 +19,14 @@ arcade::SoundManager::SoundManager() {
         this->_soundSupported = false;
         std::cerr << "No sound device found" << std::endl;
     }
- 
+
     // Create Context
     ALCcontext* Context = alcCreateContext(Device, NULL);
     if (Context == nullptr) {
         this->_soundSupported = false;
         std::cerr << "Failed to create context for sound" << std::endl;
     }
- 
+
     // Active Context
     if (!alcMakeContextCurrent(Context)) {
         this->_soundSupported = false;
@@ -116,7 +116,7 @@ void    arcade::SoundManager::loadSounds(std::vector<std::pair<std::string, arca
 
         // Fill with samples read
         alBufferData(Buffer, Format, &Samples[0], NbSamples * sizeof(ALushort), SampleRate);
-    
+
         // Check errors
         if (alGetError() != AL_NO_ERROR) {
             std::cerr << "Error : An error has occured with file '" + soundsToLoad[i].first + "'" << std::endl;
@@ -155,29 +155,29 @@ void    arcade::SoundManager::soundControl(const Sound &sound) {
                 alSourcei(this->_sounds[sound.id], AL_LOOPING, AL_TRUE);
                 alSourcePlay(this->_sounds[sound.id]);
                 break;
-            
+
             case arcade::SoundAction::VOLUME:
                 alSourcef(this->_sounds[sound.id], AL_GAIN, sound.volume);
                 break;
-            
+
             case arcade::SoundAction::PLAY:
                 alSourcef(this->_sounds[sound.id], AL_GAIN, sound.volume);
                 alSourcePlay(this->_sounds[sound.id]);
                 break;
-            
+
             case arcade::SoundAction::PAUSE:
                 alSourcePause(this->_sounds[sound.id]);
                 break;
-            
+
             case arcade::SoundAction::RESUME:
                 alSourcef(this->_sounds[sound.id], AL_GAIN, sound.volume);
                 alSourcePlay(this->_sounds[sound.id]);
                 break;
-            
+
             case arcade::SoundAction::STOP:
                 alSourceStop(this->_sounds[sound.id]);
                 break;
-            
+
             default:
                 std::cerr << "Sound : mode not found." << std::endl;
                 break;

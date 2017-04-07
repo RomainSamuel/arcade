@@ -10,34 +10,48 @@
 # define GL_MAIN_HPP
 
 // GLEW
-#define GLEW_STATIC
+# define GLEW_STATIC
+
 #include <GL/glew.h>
 // GLFW
 #include <GLFW/glfw3.h>
 // SYSTEM
+#include <sstream>
 #include <functional>
 #include <exception>
 #include <memory>
+// SOIL
+#include <SOIL/SOIL.h>
 // SOUND
-#include "SoundManager.hpp"
+#include "SoundManager.hh"
 // EVENTS
-#include "Event.hpp"
-#include "glEventsCorrespondence.hpp"
+#include "Event.hh"
+#include "glEventsCorrespondence.hh"
 // GAME STATE
-#include "GameState.hpp"
+#include "GameState.hh"
 // IGFX
-#include "IGfxLib.hpp"
+#include "IGfxLib.hh"
+
+// MAP
+#include "Map.hh"
+#include "Game.hh"
+
+# define WIDTH_RATIO        this->_tileWidth
+# define HEIGHT_RATIO       this->_tileHeight
 
 namespace arcade {
 
     // EVENTS
     static std::vector<arcade::Event> _lastEvents;
 
-    class LibOpenGl {
+    class LibOpenGl : public IGfxLib {
 
         private:
             // GRAPHIC
-            //            std::unique_ptr<IMap>   _map;
+            size_t                  _tileWidth;
+            size_t                  _tileHeight;
+            std::unique_ptr<Game>   _snake;
+
             // std::unique_ptr<IGUI>   _GUI;
 
             // GLFW
@@ -48,12 +62,15 @@ namespace arcade {
             SoundManager    _soundManager;
             // Member Functions
             void            runGFX();
-            bool            loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
+            void            putTileColor(ITile const &tile, size_t x, size_t y);
+            void            putTileSprite(ITile const &tile, size_t x, size_t y);
+            //bool            loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
+            GLuint          LoadGLTexture(const std::string &filepath);
 
         public:
 
             // Constructor / Destructor
-            LibOpenGl(GLuint width, GLuint height);
+            LibOpenGl();
             ~LibOpenGl();
 
             // Keyboard Management
@@ -73,10 +90,14 @@ namespace arcade {
             //void    updateGUI(IGUI const &gui); 
 
             // Graphic
-            // void    updateMap(IMap const &map);
+            void    updateMap(IMap const &map);
             // void    updateGUI(IGUI const &GUI);
             void    clear();
             void    display();
+
+            virtual void loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds);
+            virtual void loadSprites(std::vector<std::unique_ptr<ISprite> > &&sprites);
+            virtual void updateGUI(IGUI &gui);
         };
 }
 

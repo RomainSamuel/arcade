@@ -2,7 +2,7 @@ GPP		=	g++
 
 NAME	=	lib_arcade_snake.so
 
-COMMON	=	../../
+COMMON	=	../../common/
 
 GAME_COMMON	=	../common/
 
