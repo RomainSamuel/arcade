@@ -2,7 +2,7 @@ GPP		=	g++
 
 NAME	=	lib_arcade_solarfox.so
 
-COMMON	=	../../
+COMMON	=	../../common/
 
 GAME_COMMON	=	../common/
 
