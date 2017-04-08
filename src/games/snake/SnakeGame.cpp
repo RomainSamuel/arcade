@@ -3,6 +3,7 @@
 
 arcade::SnakeGame::SnakeGame()
 {
+  std::cout << "YAY" << std::endl;
   this->_map = std::unique_ptr<Map>(new Map(10, 10, 2));
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;

@@ -85,7 +85,7 @@ int   sf::Shot::move(std::unique_ptr<arcade::Map> &map)
     this->x += this->moveSpeed * static_cast<double>(this->direction);
   if (map->at(1, static_cast<size_t>(this->x), static_cast<size_t>(this->y)).getTypeEv() == arcade::TileTypeEvolution::FOOD)
     {
-      this->eraseFromMap();
+      this->eraseFromMap(map);
       return (1);
     }
   this->lifeDuration--;

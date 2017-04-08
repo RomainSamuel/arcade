@@ -163,6 +163,7 @@ void  arcade::SfGame::process()
 std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::SfGame::getSpritesToLoad() const
 {
   std::vector<std::unique_ptr<arcade::ISprite>> vec;
+  std::string str;
 
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
                                                            ({std::pair<std::string, char>("./resources/games/sprites/solarfox/scrap.png", '@')}))));
@@ -181,7 +182,10 @@ std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::SfGame::getSpritesToLoad
                                                                std::pair<std::string, char>("./resources/games/sprites/solarfox/drone_west.png", '<')}))));
   std::vector<std::pair<std::string, char>> pairs;
   for (size_t i = 0; i < 400; i++)
-    pairs.push_back(std::pair<std::string, char>("./resources/games/sprites/solarfox/Space/" + i + ".png", ' '));
+    {
+      str = std::string("./resources/games/sprites/solarfox/Space/") + std::to_string(i) + std::string(".png");
+      pairs.push_back(std::pair<std::string, char>(str, ' '));
+    }
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(pairs)));
   return (std::move(vec));
 }

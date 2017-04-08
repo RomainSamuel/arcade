@@ -9,7 +9,7 @@ arcade::Sprite::~Sprite()
 {
 }
 
-std::size_t arcade::Sprite::spritesCount()
+std::size_t arcade::Sprite::spritesCount() const
 {
   return (this->_sprites.size());
 }
