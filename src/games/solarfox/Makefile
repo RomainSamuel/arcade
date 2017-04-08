@@ -1,6 +1,6 @@
 GPP		=	g++
 
-NAME	=	lib_arcade_solarfox
+NAME	=	lib_arcade_solarfox.so
 
 COMMON	=	../../common/
 
@@ -15,8 +15,7 @@ SRC		=	$(COMMON)Color.cpp \
 				SfGame.cpp \
 				Map.cpp	\
 				Player.cpp \
-				Shot.cpp \
-				main.cpp
+				Shot.cpp
 
 GAMESDIR	=	../../../games/
 
@@ -34,7 +33,8 @@ CXXFLAGS    +=  -I../../../includes/common \
 LDFLAGS			=	-shared
 
 $(NAME):	$(OBJ)
-		    $(GPP) -o $(NAME) $(OBJ)
+		    $(GPP) -o $(NAME) $(OBJ) $(LDFLAGS)
+				mv $(NAME) $(GAMESDIR)
 
 all:		$(NAME)
 
