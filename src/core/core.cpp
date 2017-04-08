@@ -62,6 +62,7 @@ void    arcade::Core::display()
     _menu = new arcade::Menu();
     arcade::Loader _loader = getLoader();
 
+    std::cout << "HEY " << std::endl;
     void *loader = _loader.getSym(getLoader().getCurrentLib(), "loader");
     _libLoad = ((arcade::IGfxLib *(*)())loader)();
     void *mkr = _loader.getSym(getLoader().getCurrentGame(), "maker");

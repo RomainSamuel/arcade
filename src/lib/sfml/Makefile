@@ -2,7 +2,8 @@ GPP		=	g++
 
 NAME	=	lib_arcade_sfml.so
 
-SRC		=	sfml.cpp
+SRC		=	sfml.cpp			\
+                        ../../common/SoundManager.cpp
 
 GAMESDIR	=	../../../lib/
 
@@ -14,7 +15,7 @@ CXXFLAGS    +=  -W -Wall -Wextra -Werror -fPIC
 
 CXXFLAGS    +=  -I../../../includes/lib/sfml -I../../../includes -I../../../includes/common
 
-LDFLAGS		=	-lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS		=	-lsfml-graphics -lsfml-window -lsfml-system -lopenal -lsndfile
 
 LDFLAGS		+=	-shared
 

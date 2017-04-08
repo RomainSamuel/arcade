@@ -33,7 +33,7 @@ CXXFLAGS	= -W -Wall -Wextra -Werror -Weffc++ -std=c++14 -I./includes/ -I./includ
 #CXXFLAGS	+=		-Wshadow -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default	
 #CXXFLAGS	+=		-Wswitch-enum -Wundef -Wlogical-op -Winline
 
-LDFLAGS = -ldl
+LDFLAGS = -ldl -lopenal -lsndfile
 
 # if debug is set to yes, add -g3 flag
 ifeq ($(DEBUG),yes)
@@ -51,25 +51,25 @@ OBJDIR   = obj
 BINDIR   = .
 
 # Sources, Includes and Objects
-SOURCES  := 		$(wildcard $(SRCDIR)/*.cpp)
-SOURCES  +=         $(wildcard $(SRCDIR)/core/*.cpp)
-SOURCES  +=         $(wildcard $(SRCDIR)/menu/*.cpp)
-SOURCES	+=			$(wildcard $(SRCDIR)/common/*.cpp)
-OBJECTS  := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
-RM 	      = 		rm -rf
+SOURCES	:= 		$(wildcard $(SRCDIR)/*.cpp)
+SOURCES	+=      $(wildcard $(SRCDIR)/core/*.cpp)
+SOURCES	+=      $(wildcard $(SRCDIR)/menu/*.cpp)
+SOURCES	+=		$(wildcard $(SRCDIR)/common/*.cpp)
+OBJECTS := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
+RM 	   	= 		rm -rf
 
 $(BINDIR)/$(NAME):	$(OBJECTS)
 					@$(CXX) -o $@ $(OBJECTS) $(LDFLAGS)
 					@echo "\033[94mProject $(NAME) build successfully!\033[0m"
 
 $(OBJECTS):			$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
-				@mkdir -p $(dir $@)
-				@mkdir -p lib
-				@mkdir -p games
-				@$(CXX) $(CXXFLAGS) -c $< -o $@
-				@$(eval PERCENT=$(shell echo $$((($(COUNT)*100/$(NBSOURCES))))))
-	                        @echo $(COMPILATION_MSG)
-				@$(eval COUNT=$(shell echo $$((($(COUNT)+1)))))
+					@mkdir -p $(dir $@)
+					@mkdir -p lib
+					@mkdir -p games
+					@$(CXX) $(CXXFLAGS) -c $< -o $@
+					@$(eval PERCENT=$(shell echo $$((($(COUNT)*100/$(NBSOURCES))))))
+	                @echo $(COMPILATION_MSG)
+					@$(eval COUNT=$(shell echo $$((($(COUNT)+1)))))
 
 lib:				compile_sfml compile_opengl
 
