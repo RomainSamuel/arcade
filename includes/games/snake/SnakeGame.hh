@@ -11,6 +11,7 @@
 #include "SnakePart.hh"
 #include "Food.hh"
 #include "IGame.hh"
+#include "Sprite.hh"
 
 namespace arcade
 {

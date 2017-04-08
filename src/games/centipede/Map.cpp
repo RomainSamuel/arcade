@@ -53,9 +53,9 @@ void arcade::Map::createLayer(size_t layer)
                 this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::OBSTACLE,
                                                                                  arcade::TileTypeEvolution::OBSTACLE,
                                                                                  arcade::Color::White,
-                                                                                 false,
-                                                                                 1,
-                                                                                 5,
+                                                                                 true,
+                                                                                 4,
+                                                                                 3,
                                                                                  0.0,
                                                                                  0.0));
               else

@@ -41,20 +41,27 @@ size_t  arcade::Map::getHeight() const
 
 void arcade::Map::createLayer(size_t layer)
 {
-  arcade::Color color = (layer == 0) ? arcade::Color::Black : arcade::Color::Transparent;
-
   this->_layers.push_back(std::vector<std::vector<std::unique_ptr<Tile>>>());
   for (size_t y = 0; y < this->_height; y++)
     {
       this->_layers[layer].push_back(std::vector<std::unique_ptr<arcade::Tile>>());
       for (size_t x = 0; x < this->_width; x++)
         {
-          if (layer != 0 || (x > 2 && y > 2 && x + 3 < this->_width && y + 3 < this->_height))
+          if (layer != 0)
             this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::EMPTY,
                                                                              arcade::TileTypeEvolution::EMPTY,
-                                                                             color,
+                                                                             arcade::Color::Transparent,
                                                                              false,
                                                                              0,
+                                                                             0,
+                                                                             0.0,
+                                                                             0.0));
+          if (x > 2 && y > 2 && x + 3 < this->_width && y + 3 < this->_height)
+            this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::EMPTY,
+                                                                             arcade::TileTypeEvolution::EMPTY,
+                                                                             arcade::Color::Black,
+                                                                             true,
+                                                                             4 + (y * this->_height) + x,
                                                                              0,
                                                                              0.0,
                                                                              0.0));
@@ -62,8 +69,8 @@ void arcade::Map::createLayer(size_t layer)
             this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::BLOCK,
                                                                              arcade::TileTypeEvolution::BLOCK,
                                                                              arcade::Color::Black,
-                                                                             false,
-                                                                             9,
+                                                                             true,
+                                                                             4 + (y * this->_height) + x,
                                                                              0,
                                                                              0.0,
                                                                              0.0));
@@ -71,14 +78,14 @@ void arcade::Map::createLayer(size_t layer)
     }
   if (layer == 1)
     {
-      this->_layers[layer][3][5]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
-      this->_layers[layer][7][5]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
-      this->_layers[layer][5][3]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
-      this->_layers[layer][10][7]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
-      this->_layers[layer][12][14]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
-      this->_layers[layer][3][11]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
-      this->_layers[layer][15][16]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
-      this->_layers[layer][13][10]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
-      this->_layers[layer][8][13]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, false, 2, 0, 0.0, 0.0);
+      this->_layers[layer][3][5]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
+      this->_layers[layer][7][5]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
+      this->_layers[layer][5][3]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
+      this->_layers[layer][10][7]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
+      this->_layers[layer][12][14]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
+      this->_layers[layer][3][11]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
+      this->_layers[layer][15][16]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
+      this->_layers[layer][13][10]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
+      this->_layers[layer][8][13]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
     }
 }

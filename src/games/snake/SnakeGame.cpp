@@ -110,13 +110,40 @@ void  arcade::SnakeGame::process()
 
 std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::SnakeGame::getSpritesToLoad() const
 {
-  return (std::move(std::vector<std::unique_ptr<arcade::ISprite>>()));
+  std::vector<std::unique_ptr<arcade::ISprite>> vec;
+
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/apple.png", ' ')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/snake_body_horizontal.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/snake_body_vertical.png", ' ')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/snake_corner_1.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/snake_corner_2.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/snake_corner_3.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/snake_corner_4.png", ' ')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/snake_head_north.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/snake_head_east.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/snake_head_south.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/snake_head_west.png", ' ')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/snake_tail_north.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/snake_tail_east.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/snake_tail_south.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/snake_tail_west.png", ' ')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/empty.png", ' ')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/wall.png", ' ')}))));
+  return (std::move(vec));
 }
 
 std::vector<std::pair<std::string, arcade::SoundType>> arcade::SnakeGame::getSoundsToLoad() const
 {
   std::vector<std::pair<std::string, SoundType>>  sounds;
 
+  sounds.push_back(std::pair<std::string, SoundType>("./resources/games/sounds/snake/snake_eat.ogg", SoundType::SOUND));
   return (sounds);
 }
 

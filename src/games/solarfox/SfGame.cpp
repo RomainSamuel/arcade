@@ -162,13 +162,39 @@ void  arcade::SfGame::process()
 
 std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::SfGame::getSpritesToLoad() const
 {
-  return (std::move(std::vector<std::unique_ptr<arcade::ISprite>>()));
+  std::vector<std::unique_ptr<arcade::ISprite>> vec;
+
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/solarfox/scrap.png", '@')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/solarfox/laser_vertical.png", '-'),
+                                                               std::pair<std::string, char>("./resources/games/sprites/solarfox/laser_horizontal.png", '|')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/solarfox/Red-Tail_north.png", '^'),
+                                                               std::pair<std::string, char>("./resources/games/sprites/solarfox/Red-Tail_east.png", '>'),
+                                                               std::pair<std::string, char>("./resources/games/sprites/solarfox/Red-Tail_south.png", 'v'),
+                                                               std::pair<std::string, char>("./resources/games/sprites/solarfox/Red-Tail_west.png", '<')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/solarfox/drone_north.png", '^'),
+                                                               std::pair<std::string, char>("./resources/games/sprites/solarfox/drone_east.png", '>'),
+                                                               std::pair<std::string, char>("./resources/games/sprites/solarfox/drone_south.png", 'v'),
+                                                               std::pair<std::string, char>("./resources/games/sprites/solarfox/drone_west.png", '<')}))));
+  std::vector<std::pair<std::string, char>> pairs;
+  for (size_t i = 0; i < 400; i++)
+    pairs.push_back(std::pair<std::string, char>("./resources/games/sprites/solarfox/Space/" + i + ".png", ' '));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(pairs)));
+  return (std::move(vec));
 }
 
 std::vector<std::pair<std::string, arcade::SoundType>> arcade::SfGame::getSoundsToLoad() const
 {
   std::vector<std::pair<std::string, SoundType>>  sounds;
 
+  sounds.push_back(std::pair<std::string, SoundType>("./resources/games/sounds/solarfox/DeepSpace_Battle.ogg", SoundType::MUSIC));
+  sounds.push_back(std::pair<std::string, SoundType>("./resources/games/sounds/solarfox/Enemy_fire.ogg", SoundType::SOUND));
+  sounds.push_back(std::pair<std::string, SoundType>("./resources/games/sounds/solarfox/Player_death.ogg", SoundType::SOUND));
+  sounds.push_back(std::pair<std::string, SoundType>("./resources/games/sounds/solarfox/Player_fire.ogg", SoundType::SOUND));
+  sounds.push_back(std::pair<std::string, SoundType>("./resources/games/sounds/solarfox/Scrap_destroy.ogg", SoundType::SOUND));
   return (sounds);
 }
 

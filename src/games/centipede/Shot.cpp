@@ -17,7 +17,7 @@ void  centipede::Shot::eraseFromMap()
 {
   this->map.at(1, this->x, this->y).set(arcade::TileType::EMPTY,
                                         arcade::TileTypeEvolution::EMPTY,
-                                        arcade::Color::Black,
+                                        arcade::Color::Transparent,
                                         false,
                                         0,
                                         0,
@@ -30,9 +30,9 @@ void  centipede::Shot::printOnMap()
   this->map.at(1, this->x, this->y).set(arcade::TileType::EMPTY,
                                         arcade::TileTypeEvolution::SHOT_PLAYER,
                                         arcade::Color::Yellow,
-                                        false,
-                                        6,
-                                        0,
+                                        true,
+                                        1,
+                                        static_cast<int>(this->direction) % 2 == 0,
                                         0.0,
                                         0.0);
 }
@@ -46,7 +46,7 @@ int centipede::Shot::move(std::vector<std::shared_ptr<centipede::CentipedePart>>
     return (-1);
   else if (this->map.at(0, this->x, this->y).getTypeEv() == arcade::TileTypeEvolution::OBSTACLE)
     {
-      if (this->map.at(0, this->x, this->y).getSpritePos() == 1)
+      if (this->map.at(0, this->x, this->y).getSpritePos() == 0)
         this->map.at(0, this->x, this->y).set(arcade::TileType::EMPTY,
                                               arcade::TileTypeEvolution::EMPTY,
                                               arcade::Color::Black,

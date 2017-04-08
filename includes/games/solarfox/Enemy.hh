@@ -22,7 +22,6 @@ namespace   sf
     size_t  ammos;
     size_t  reload_cd;
     size_t  fire_cd;
-
     size_t  rcd;
     size_t  fcd;
 
@@ -42,6 +41,7 @@ namespace   sf
           size_t fire_cd);
     ~Enemy();
 
+    int     getAssociatedSpritePos() const;
     void    printOnMap(std::unique_ptr<arcade::Map> &) const;
     void    eraseFromMap(std::unique_ptr<arcade::Map> &) const;
     int     fire();

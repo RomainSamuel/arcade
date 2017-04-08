@@ -16,7 +16,7 @@ void  centipede::Player::eraseFromMap() const
 {
   this->map.at(1, this->x, this->y).set(arcade::TileType::EMPTY,
                                         arcade::TileTypeEvolution::EMPTY,
-                                        arcade::Color::Black,
+                                        arcade::Color::Transparent,
                                         false,
                                         0,
                                         0,
@@ -29,8 +29,8 @@ void  centipede::Player::printOnMap() const
   this->map.at(1, this->x, this->y).set(arcade::TileType::EMPTY,
                                         arcade::TileTypeEvolution::PLAYER,
                                         arcade::Color::Green,
-                                        false,
-                                        3,
+                                        true,
+                                        0,
                                         0,
                                         0.0,
                                         0.0);

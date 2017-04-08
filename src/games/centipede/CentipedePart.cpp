@@ -35,17 +35,16 @@ void  centipede::CentipedePart::setFollower(std::shared_ptr<CentipedePart> &foll
 {
   this->follower = follower;
 }
-#include <iostream>
+
 void  centipede::CentipedePart::die()
 {
-  std::cout << "yay" << std::endl;
   this->eraseFromMap();
   this->map.at(0, this->x, this->y).set(arcade::TileType::OBSTACLE,
                                         arcade::TileTypeEvolution::OBSTACLE,
                                         arcade::Color::White,
                                         false,
-                                        1,
-                                        5,
+                                        4,
+                                        3,
                                         0.0,
                                         0.0);
   this->follower->isLeader = true;
@@ -58,9 +57,9 @@ void  centipede::CentipedePart::printOnMap()
       this->map.at(1, this->x, this->y).set(arcade::TileType::EMPTY,
                                             arcade::TileTypeEvolution::ENEMY,
                                             arcade::Color::Red,
-                                            false,
-                                            2,
-                                            0,
+                                            true,
+                                            (this->isLeader == true) ? 2 : 3,
+                                            (this->direction == 1) ? 0 : 1,
                                             0.0,
                                             0.0);
     }
@@ -72,7 +71,7 @@ void  centipede::CentipedePart::eraseFromMap()
     {
       this->map.at(1, this->x, this->y).set(arcade::TileType::EMPTY,
                                             arcade::TileTypeEvolution::EMPTY,
-                                            arcade::Color::Black,
+                                            arcade::Color::Transparent,
                                             false,
                                             0,
                                             0,
