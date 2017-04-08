@@ -67,11 +67,6 @@ arcade::LibOpenGl::LibOpenGl() : _width(800), _height(600) {
     glEnable(GL_TEXTURE_2D);
     glBlendFunc(GL_ONE, GL_ONE);
 
-    // Initialize Shaders
-    //this->_snake = std::make_unique<arcade::Game>();
-
-    // Run GL
-    //his->runGFX();
 }
 
 /*
@@ -80,27 +75,6 @@ arcade::LibOpenGl::LibOpenGl() : _width(800), _height(600) {
 arcade::LibOpenGl::~LibOpenGl() {
     glfwDestroyWindow(this->_window);
     glfwTerminate();
-}
-
-/*
-**  Run GFX
-*/
-void    arcade::LibOpenGl::runGFX() {
-
-    // // Game loop
-    // while (!glfwWindowShouldClose(this->_window)) {
-        // Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
-        // glfwPollEvents();
-
-        // Clear screen
-        // this->clear();
-        // 
-        // Update map
-        //this->updateMap(this->_snake->getCurrentMap());
-
-        // Render
-    //     this->display();
-    // }
 }
 
 /*
@@ -135,6 +109,7 @@ void    arcade::LibOpenGl::updateMap(arcade::IMap const &map) {
             }
         }
     }
+
 }
 
 void    arcade::LibOpenGl::drawTileColor(arcade::ITile const &tile, size_t x, size_t y) {
@@ -190,6 +165,12 @@ void    arcade::LibOpenGl::drawTileSprite(arcade::ITile const &tile, size_t x, s
     glTexCoord2d(1,1);  glVertex2f(x_begin, y_begin);   // Bottom Left
     // glPopMatrix();
     glEnd();
+}
+
+void    arcade::LibOpenGl::updateGUI(IGUI &GUI) {
+    for (size_t i = 0; i < GUI.size(); i++) {
+        GUI.at(0);
+    }
 }
 
 void    arcade::LibOpenGl::drawComponentSprite(const arcade::IComponent &component) {
@@ -266,6 +247,7 @@ void    arcade::LibOpenGl::loadSprites(std::vector<std::unique_ptr<arcade::ISpri
     }
 }
 
+
 GLuint  arcade::LibOpenGl::loadGLTexture(const std::string &filepath) {
     return SOIL_load_OGL_texture // load an image file directly as a new OpenGL texture 
 	(
@@ -276,13 +258,8 @@ GLuint  arcade::LibOpenGl::loadGLTexture(const std::string &filepath) {
 	);
 }
 
-// void    arcade::LibOpenGl::drawStrokeText(const std::string &text, int x, int y) {
-// }
 
-// void    arcade::LibOpenGl::updateGUI(IGUI const &GUI) {
-
-// }
-
+// Black Screen
 void    arcade::LibOpenGl::clear() {
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -395,7 +372,8 @@ bool    arcade::LibOpenGl::doesSupportSound() const {
     return this->_soundManager.doesSupportSound();
 }
 
-void    arcade::LibOpenGl::loadSound(std::vector<std::pair<std::string, SoundType> > const &soundsToLoad) {
+void    arcade::LibOpenGl::loadSounds(std::vector<std::pair<std::string, arcade::SoundType > > const &soundsToLoad)
+{
     this->_soundManager.loadSounds(soundsToLoad);
 }
 
@@ -403,15 +381,6 @@ void    arcade::LibOpenGl::soundControl(const arcade::Sound &soundToControl) {
     this->_soundManager.soundControl(soundToControl);
 }
 
-void    arcade::LibOpenGl::loadSounds(std::vector<std::pair<std::string, arcade::SoundType > > const &sounds)
-{
-    (void)sounds;
-}
-
-void    arcade::LibOpenGl::updateGUI(IGUI &gui)
-{
-    (void)gui;
-}
 
 extern "C" arcade::IGfxLib *loader()
 {
