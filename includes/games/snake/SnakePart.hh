@@ -45,7 +45,7 @@ namespace   snake
     size_t  getY() const;
     PartType  getType() const;
     Direction getDirection() const;
-    std::string getAssociatedSprite(std::unique_ptr<snake::SnakePart> &, std::unique_ptr<snake::SnakePart> &) const;
+    std::string getAssociatedSprite() const;
     arcade::Color getAssociatedColor() const;
 
     // SETTERS

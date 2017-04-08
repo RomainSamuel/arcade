@@ -12,7 +12,7 @@
 #include "Player.hh"
 #include "Enemy.hh"
 #include "Shot.hh"
-#include "IGame.hh"
+#include "IGame.hpp"
 
 namespace arcade
 {

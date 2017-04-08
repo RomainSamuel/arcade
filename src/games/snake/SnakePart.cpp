@@ -38,7 +38,7 @@ snake::Direction  snake::SnakePart::getDirection() const
   return (this->direction);
 }
 
-std::string snake::SnakePart::getAssociatedSprite(std::unique_ptr<snake::SnakePart> &prev, std::unique_ptr<snake::SnakePart> &next) const
+std::string snake::SnakePart::getAssociatedSprite() const
 {
   return (std::string());
 }
@@ -85,7 +85,7 @@ void  snake::SnakePart::eraseFromMap(std::list<std::unique_ptr<SnakePart>> &list
       map->at(1, it->get()->getX(), it->get()->getY()).setTypeEv(arcade::TileTypeEvolution::EMPTY);
       map->at(1, it->get()->getX(), it->get()->getY()).setHasSprite(false);
       map->at(1, it->get()->getX(), it->get()->getY()).setSpriteId(0);
-      map->at(1, it->get()->getX(), it->get()->getY()).setColor(arcade::Color::Transparent);
+      map->at(1, it->get()->getX(), it->get()->getY()).setColor(arcade::Color::Black);
     }
 }
 

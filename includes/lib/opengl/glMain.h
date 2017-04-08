@@ -64,6 +64,8 @@ namespace arcade {
             void            drawTileColor(ITile const &tile, std::size_t x, std::size_t y);
             void            drawTileSprite(ITile const &tile, std::size_t x, std::size_t y);
             void            drawComponent(const IComponent &component);
+            void            drawComponentSprite(const IComponent &component);
+            void            drawComponentColor(const IComponent &component);
             // void            drawStrokeText(const std::string &text, int x, int y);
             GLuint          loadGLTexture(const std::string &filepath);
 

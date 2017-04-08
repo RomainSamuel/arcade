@@ -7,11 +7,11 @@ sf::Player::Player()
   this->xCell = 10;
   this->yCell = 10;
   this->direction = sf::Direction::NORTH;
-  this->pos[sf::Direction::NORTH] = std::pair<double, double>(0, -0.05);
-  this->pos[sf::Direction::EAST] = std::pair<double, double>(0.05, 0);
-  this->pos[sf::Direction::SOUTH] = std::pair<double, double>(0, 0.05);
-  this->pos[sf::Direction::WEST] = std::pair<double, double>(-0.05, 0);
-  this->fire_cd = 18;
+  this->pos[sf::Direction::NORTH] = std::pair<double, double>(0, -0.2);
+  this->pos[sf::Direction::EAST] = std::pair<double, double>(0.2, 0);
+  this->pos[sf::Direction::SOUTH] = std::pair<double, double>(0, 0.2);
+  this->pos[sf::Direction::WEST] = std::pair<double, double>(-0.2, 0);
+  this->fire_cd = 3;
   this->fcd = 0;
 }
 
@@ -63,9 +63,9 @@ bool  sf::Player::fire()
       this->shot = std::make_unique<sf::Shot>(1,
                                               this->x,
                                               this->y,
-                                              40,
+                                              10,
                                               (this->direction == EAST || this->direction == SOUTH) ? 1 : -1,
-                                              0.015,
+                                              0.6,
                                               (this->direction == NORTH || this->direction == SOUTH) ? VERTICAL : HORIZONTAL,
                                               true);
       this->fcd = this->fire_cd;

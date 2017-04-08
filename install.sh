@@ -1,3 +1,4 @@
+#! /bin/bash
 sudo apt-get install libglfw3-dev
 sudo apt-get install libsoil-dev
 sudo apt-get install libopenal-dev
