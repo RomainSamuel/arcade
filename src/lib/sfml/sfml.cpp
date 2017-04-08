@@ -12,7 +12,7 @@ arcade::LibSfml::LibSfml() : _width(800), _height(600)
 {
     std::cout << "Lib Sfml Launched" << std::endl;
 
-    if (!this->_font.loadFromFile("res/fonts/arial.ttf")) {
+    if (!this->_font.loadFromFile("resources/fonts/arial.ttf")) {
         std::cout << "Warning : couldn't load font" << std::endl;
     }
 

@@ -52,46 +52,57 @@ BINDIR   = .
 
 # Sources, Includes and Objects
 SOURCES	:= 		$(wildcard $(SRCDIR)/*.cpp)
-SOURCES	+=      $(wildcard $(SRCDIR)/core/*.cpp)
-SOURCES	+=      $(wildcard $(SRCDIR)/menu/*.cpp)
+SOURCES	+=      	$(wildcard $(SRCDIR)/core/*.cpp)
+SOURCES	+=		$(wildcard $(SRCDIR)/menu/*.cpp)
 SOURCES	+=		$(wildcard $(SRCDIR)/common/*.cpp)
 OBJECTS := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
-RM 	   	= 		rm -rf
+RM 	= 		rm -rf
 
 $(BINDIR)/$(NAME):	$(OBJECTS)
-					@$(CXX) -o $@ $(OBJECTS) $(LDFLAGS)
-					@echo "\033[94mProject $(NAME) build successfully!\033[0m"
+			@$(CXX) -o $@ $(OBJECTS) $(LDFLAGS)
+			@echo "\033[94mProject $(NAME) build successfully!\033[0m"
 
-$(OBJECTS):			$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
-					@mkdir -p $(dir $@)
-					@mkdir -p lib
-					@mkdir -p games
-					@$(CXX) $(CXXFLAGS) -c $< -o $@
-					@$(eval PERCENT=$(shell echo $$((($(COUNT)*100/$(NBSOURCES))))))
+$(OBJECTS):		$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
+			@mkdir -p $(dir $@)
+			@mkdir -p lib
+			@mkdir -p games
+			@$(CXX) $(CXXFLAGS) -c $< -o $@
+			@$(eval PERCENT=$(shell echo $$((($(COUNT)*100/$(NBSOURCES))))))
 	                @echo $(COMPILATION_MSG)
-					@$(eval COUNT=$(shell echo $$((($(COUNT)+1)))))
+			@$(eval COUNT=$(shell echo $$((($(COUNT)+1)))))
 
-lib:				compile_sfml compile_opengl
+lib:			compile_sfml compile_opengl compile_ncurses
 
-game:				compile_snake
+game:			compile_snake
 
+##
+##	LIBS
+##
 compile_sfml:
-					make -C src/lib/sfml
-
-compile_snake:
-					make -C src/games/snake
+			make -C src/lib/sfml
 
 compile_opengl:
-					make -C src/lib/opengl
+			make -C src/lib/opengl
 
-.PHONY: 			clean fclean re
+compile_ncurses:
+			make -C src/lib/ncurses
+
+
+##
+##	GAMES
+##
+compile_snake:
+			make -C src/games/snake
+
+
+.PHONY: 		clean fclean re
 
 clean:
-					@$(RM) $(OBJDIR)
-					@echo "\033[93mCleanup complete!\033[0m"
+			@$(RM) $(OBJDIR)
+			@echo "\033[93mCleanup complete!\033[0m"
 
-fclean: 			clean
-					@$(RM) $(BINDIR)/$(NAME) $(LIBNAME) lib games
-					@echo "\033[93mExecutable removed!\033[0m"
+fclean: 		clean
+			@$(RM) $(BINDIR)/$(NAME) $(LIBNAME) lib games
+			@echo "\033[93mExecutable removed!\033[0m"
 
-re:					fclean $(BINDIR)/$(NAME)
+re:			fclean $(BINDIR)/$(NAME)

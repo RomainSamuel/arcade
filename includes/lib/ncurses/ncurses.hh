@@ -1,64 +1,64 @@
 //
-// Created by maud on 26/03/17.
+// Author: Marwane Khsime 
+// Date: 2017-04-08 22:38:11 
+//
+// Last Modified by:   Marwane Khsime 
+// Last Modified time: 2017-04-08 22:38:11
 //
 
-#ifndef CPP_ARCADE_SFML_HH
-# define CPP_ARCADE_SFML_HH
 
-// SFML
-#include <SFML/Graphics.hpp>
+#ifndef CPP_ARCADE_NCURSES_HH
+# define CPP_ARCADE_NCURSES_HH
+
+// NCURSES
+#include <ncurses.h>
 // UTILS
 #include <vector>
 #include <algorithm>
 #include <memory>
+#include <sys/poll.h>
 // SOUND
 #include "SoundManager.hh"
-// EVENT
+// EVENTS
 #include "Event.hh"
-#include "sfmlEventsCorrespondence.hpp"
+#include "ncursesEventsCorrespondence.hpp"
 // GAME STATE
 #include "GameState.hh"
 // IGFX
 #include "IGfxLib.hh"
 
-# define WIDTH_RATIO        _tileWidth
-# define HEIGHT_RATIO       _tileHeight
+# define START_X    10
+# define START_Y    10
 
 namespace arcade
 {
-    class LibSfml : public IGfxLib
+    class LibNcurses : public IGfxLib
     {
 
     private:
 
         // PROPERTIES
-        sf::RenderWindow    _window;
-        size_t              _tileWidth;
-        size_t              _tileHeight;
+        SCREEN              *_screen;
         size_t              _width;
         size_t              _height;
 
         // SPRITES
-        std::unordered_map<std::size_t, std::vector<sf::Texture> >   _sprites;
+        std::unordered_map<std::size_t, std::vector<char> >   _sprites;
 
         // SOUND
         SoundManager        _soundManager;
 
-        // FONT
-        sf::Font            _font;
-
         // Member Functions (For gfx essentially)
-        void                putTileColor(ITile const &tile, size_t x, size_t y);
-        void                putTileSprite(ITile const &tile, size_t x, size_t y);
+        void                putTileColor(ITile const &tile, std::size_t x, std::size_t y);
+        void                putTileSprite(ITile const &tile, std::size_t x, std::size_t y, std::size_t bgColorSprite);
         void                drawComponent(const IComponent &component);
-        void                drawComponentSprite(const IComponent &component);
-        void                drawComponentColor(const IComponent &component);
         void                drawComponentText(const IComponent &component);
+        std::size_t         getColorInCurses(const arcade::Color &color);
 
     public:
         //Constructor / Destructor
-        LibSfml();
-        virtual ~LibSfml();
+        LibNcurses();
+        virtual ~LibNcurses();
 
         // Event
         virtual bool pollEvent(Event &e);
@@ -77,4 +77,4 @@ namespace arcade
     };
 }
 
-#endif //CPP_ARCADE_SFML_HH
+#endif //CPP_ARCADE_NCURSES_HH
