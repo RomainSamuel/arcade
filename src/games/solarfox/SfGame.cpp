@@ -7,13 +7,13 @@ arcade::SfGame::SfGame()
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
   this->_score = 0;
-  this->_cd = 20;
-  this->_cdRemaining = 20;
+  this->_cd = 5;
+  this->_cdRemaining = 5;
   this->_player = std::unique_ptr<sf::Player>(new sf::Player());
   this->_player->printOnMap(this->_map);
   this->_remainingScrap = 10;
-  this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 0.5, 1, 19, 1, 1, 0.025, sf::mvType::HORIZONTAL, 2, 2, 78, 39));
-  this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 9.5, 19.5, 1, 19, -1, -1, 0.025, sf::mvType::HORIZONTAL, 2, 2, 78, 39));
+  this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 0.5, 1, 19, 1, 1, 0.1, sf::mvType::HORIZONTAL, 2, 2, 18, 9));
+  this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 9.5, 19.5, 1, 19, -1, -1, 0.1, sf::mvType::HORIZONTAL, 2, 2, 18, 9));
 
   for (size_t i = 0; i < this->_enemies.size(); i++)
     this->_enemies[i]->printOnMap(this->_map);

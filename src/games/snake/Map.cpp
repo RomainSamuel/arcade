@@ -41,8 +41,6 @@ size_t  arcade::Map::getHeight() const
 
 void arcade::Map::createLayer(size_t layer)
 {
-  arcade::Color color = (layer == 0) ? arcade::Color(247, 230, 151) : arcade::Color::Transparent;
-
   this->_layers.push_back(std::vector<std::vector<std::unique_ptr<Tile>>>());
   for (size_t y = 0; y < this->_height; y++)
     {
@@ -52,7 +50,7 @@ void arcade::Map::createLayer(size_t layer)
           if (layer > 0 || (y > 0 && x > 0 && y < this->_height - 1 && x < this->_width - 1))
             this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::EMPTY,
                                                                              arcade::TileTypeEvolution::EMPTY,
-                                                                             color,
+                                                                             arcade::Color::Black,
                                                                              false,
                                                                              0,
                                                                              0,
@@ -61,7 +59,7 @@ void arcade::Map::createLayer(size_t layer)
           else
             this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::BLOCK,
                                                                              arcade::TileTypeEvolution::BLOCK,
-                                                                             arcade::Color(188, 174, 118),
+                                                                             arcade::Color::White,
                                                                              false,
                                                                              1,
                                                                              0,

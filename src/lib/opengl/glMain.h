@@ -10,9 +10,8 @@
 # define GL_MAIN_HPP
 
 // GLEW
-# define GLEW_STATIC
-
 #include <GL/glew.h>
+# define GLEW_STATIC
 // GL
 #include <GL/gl.h>
 // GLFW
@@ -61,38 +60,38 @@ namespace arcade {
             SoundManager    _soundManager;
             // Member Functions
             void            runGFX();
-            void            putTileColor(ITile const &tile, std::size_t x, std::size_t y);
-            void            putTileSprite(ITile const &tile, std::size_t x, std::size_t y);
-            void            drawStrokeText(const std::string &text, int x, int y);
+            void            drawTileColor(ITile const &tile, std::size_t x, std::size_t y);
+            void            drawTileSprite(ITile const &tile, std::size_t x, std::size_t y);
+            void            drawComponent(const IComponent &component);
+            void            drawComponentSprite(const IComponent &component);
+            void            drawComponentColor(const IComponent &component);
             GLuint          loadGLTexture(const std::string &filepath);
 
         public:
 
             // Constructor / Destructor
             LibOpenGl();
-            ~LibOpenGl();
+            virtual ~LibOpenGl();
 
             // Keyboard Management
             static void     keyCallback(GLFWwindow *, int key, int scancode, int action, int mode);
             static void     mouseCallback(GLFWwindow *,  int button, int action, int mode);
 
             // Event manager
-            bool    pollEvent(Event &);
+            virtual bool    pollEvent(Event &);
 
             // Sound Manager
-            bool    doesSupportSound() const;
-            void    soundControl(const Sound &soundToControl);
-            void    loadSound(std::vector<std::pair<std::string, SoundType> > const &soundsToLoad);
+            virtual bool    doesSupportSound() const;
+            virtual void    soundControl(const Sound &soundToControl);
+            virtual void    loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds);
 
             // Graphic
-            void    loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
-            // void    updateGUI(IGUI const &GUI);
-            void    updateMap(IMap const &map);
-            void    clear();
-            void    display();
+            virtual void    loadSprites(std::vector<std::unique_ptr<ISprite>> &&sprites);
+            virtual void    updateGUI(IGUI &GUI);
+            virtual void    updateMap(IMap const &map);
+            virtual void    clear();
+            virtual void    display();
 
-            virtual void loadSounds(std::vector<std::pair<std::string, SoundType > > const &sounds);
-            virtual void updateGUI(IGUI &gui);
         };
 }
 
