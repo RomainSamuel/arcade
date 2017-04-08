@@ -128,8 +128,8 @@ namespace arcade
     static const std::map<const int, const int>   _glMouseKey = {
         { GLFW_KEY_UNKNOWN, M_NONE },
         { GLFW_MOUSE_BUTTON_LEFT, M_LEFT_CLICK },
-        { GLFW_MOUSE_BUTTON_RIGHT, M_LEFT_CLICK },
-        { GLFW_MOUSE_BUTTON_MIDDLE, M_LEFT_CLICK },
+        { GLFW_MOUSE_BUTTON_RIGHT, M_RIGHT_CLICK },
+        { GLFW_MOUSE_BUTTON_MIDDLE, M_MIDDLE_CLICK },
         { GLFW_MOUSE_BUTTON_1, M_BT0 },
         { GLFW_MOUSE_BUTTON_2, M_BT1 },
         { GLFW_MOUSE_BUTTON_3, M_BT2 },

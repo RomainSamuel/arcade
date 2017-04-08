@@ -6,7 +6,7 @@
 // Last Modified time: 2017-03-28 00:04:58
 //
 
-#include "glMain.h"
+#include "glMain.hh"
 
 /*
 ** CONSTRUCTOR
@@ -167,9 +167,9 @@ void    arcade::LibOpenGl::drawTileSprite(arcade::ITile const &tile, size_t x, s
     glEnd();
 }
 
-void    arcade::LibOpenGl::updateGUI(IGUI &GUI) {
+void    arcade::LibOpenGl::updateGUI(arcade::IGUI &GUI) {
     for (size_t i = 0; i < GUI.size(); i++) {
-        GUI.at(0);
+        this->drawComponent(GUI.at(i));
     }
 }
 
@@ -232,7 +232,7 @@ void    arcade::LibOpenGl::loadSprites(std::vector<std::unique_ptr<arcade::ISpri
     // Clear alls olds textures
     this->_sprites.clear();
 
-    for (std::size_t i = 0, x = 0; i < sprites.size(); i++) {
+    for (std::size_t i = 0; i < sprites.size(); i++) {
 
         for (std::size_t nSprite = 0; nSprite < sprites[i]->spritesCount(); nSprite++) {
          
@@ -241,7 +241,7 @@ void    arcade::LibOpenGl::loadSprites(std::vector<std::unique_ptr<arcade::ISpri
         if (textureID == 0)
              std::cout << "Warning : couldn't load a texture." << std::endl;
         else
-            this->_sprites[x].push_back(textureID);
+            this->_sprites[i].push_back(textureID);
 
         }
     }
@@ -321,8 +321,8 @@ void    arcade::LibOpenGl::mouseCallback(GLFWwindow *window, int button, int act
 
         arcade::Event       newEvent;
 
-        newEvent.type = ET_MOUSE;
-        newEvent.action = AT_PRESSED;
+        newEvent.type = arcade::EventType::ET_MOUSE;
+        newEvent.action = arcade::ActionType::AT_PRESSED;
         newEvent.m_key = (arcade::MouseKey)arcade::_glMouseKey.find(button)->second;
         newEvent.pos_rel = last;
         newEvent.pos_abs = current;
