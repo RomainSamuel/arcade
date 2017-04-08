@@ -2,8 +2,8 @@ GPP		=	g++
 
 NAME	=	lib_arcade_opengl.so
 
-SRC		=	glMain.cpp \
-			SoundManager.cpp
+SRC		=	glMain.cpp			\
+			../../common/SoundManager.cpp
 
 GAMESDIR	=	../../../lib/
 
