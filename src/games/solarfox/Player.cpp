@@ -38,8 +38,8 @@ void  sf::Player::printOnMap(std::unique_ptr<arcade::Map> &map) const
                                            arcade::TileTypeEvolution::PLAYER,
                                            arcade::Color::Red,
                                            false,
-                                           1,
-                                           0,
+                                           2,
+                                           static_cast<int>(this->direction),
                                            this->x - 0.5 - static_cast<double>(this->xCell),
                                            this->y - 0.5 - static_cast<double>(this->yCell));
 }
@@ -48,7 +48,7 @@ void  sf::Player::eraseFromMap(std::unique_ptr<arcade::Map> &map) const
 {
   map->at(2, this->xCell, this->yCell).set(arcade::TileType::EMPTY,
                                            arcade::TileTypeEvolution::EMPTY,
-                                           arcade::Color::Black,
+                                           arcade::Color::Transparent,
                                            false,
                                            0,
                                            0,

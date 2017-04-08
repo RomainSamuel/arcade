@@ -57,8 +57,8 @@ void    sf::Shot::printOnMap(std::unique_ptr<arcade::Map> &map) const
         arcade::TileTypeEvolution::SHOT_ENEMY,
         arcade::Color::Yellow,
         false,
-        6,
-        0,
+        2,
+        static_cast<int>(this->mv),
         this->x - 0.5 - static_cast<double>(static_cast<int>(this->x)),
         this->y - 0.5 - static_cast<double>(static_cast<int>(this->y)));
 }
@@ -68,7 +68,7 @@ void    sf::Shot::eraseFromMap(std::unique_ptr<arcade::Map> &map) const
   map->at(this->layer, static_cast<size_t>(this->x), static_cast<size_t>(this->y)).
     set(arcade::TileType::EMPTY,
         arcade::TileTypeEvolution::EMPTY,
-        arcade::Color::Black,
+        arcade::Color::Transparent,
         false,
         0,
         0,
@@ -85,7 +85,7 @@ int   sf::Shot::move(std::unique_ptr<arcade::Map> &map)
     this->x += this->moveSpeed * static_cast<double>(this->direction);
   if (map->at(1, static_cast<size_t>(this->x), static_cast<size_t>(this->y)).getTypeEv() == arcade::TileTypeEvolution::FOOD)
     {
-      map->at(1, static_cast<size_t>(this->x), static_cast<size_t>(this->y)).set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::EMPTY, arcade::Color::Black, false, 0, 0, 0.0, 0.0);
+      this->eraseFromMap();
       return (1);
     }
   this->lifeDuration--;

@@ -11,6 +11,7 @@
 #include "CentipedePart.hh"
 #include "Player.hh"
 #include "IGame.hh"
+#include "Sprite.hh"
 
 namespace arcade
 {

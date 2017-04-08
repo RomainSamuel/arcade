@@ -35,14 +35,27 @@ sf::Enemy::~Enemy()
 {
 }
 
+int     sf::Enemy::getAssociatedSpritePos() const
+{
+  if (this->mv == VERTICAL && this->fireDirection == -1)
+    return (0);
+  else if (this->mv == HORIZONTAL && this->fireDirection == 1)
+    return (1);
+  else if (this->mv == VERTICAL)
+    return (2);
+  else
+    return (3);
+
+}
+
 void    sf::Enemy::printOnMap(std::unique_ptr<arcade::Map> &map) const
 {
   map->at(this->layer, static_cast<size_t>(this->x), static_cast<size_t>(this->y)).
     set(arcade::TileType::EMPTY,
         arcade::TileTypeEvolution::ENEMY,
         arcade::Color::Green,
-        false,
-        5,
+        true,
+        3,
         0,
         this->x - 0.5 - static_cast<double>(static_cast<int>(this->x)),
         this->y - 0.5 - static_cast<double>(static_cast<int>(this->y)));
@@ -53,7 +66,7 @@ void    sf::Enemy::eraseFromMap(std::unique_ptr<arcade::Map> &map) const
   map->at(this->layer, static_cast<size_t>(this->x), static_cast<size_t>(this->y)).
     set(arcade::TileType::EMPTY,
         arcade::TileTypeEvolution::EMPTY,
-        arcade::Color::Black,
+        arcade::Color::Transparent,
         false,
         0,
         0,

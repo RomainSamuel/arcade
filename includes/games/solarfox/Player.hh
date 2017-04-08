@@ -29,7 +29,7 @@ namespace sf
 
   public:
     Player();
-    ~Player();
+    ~Player();;
 
     Direction getDirection() const;
     void    setDirection(Direction);

@@ -167,7 +167,24 @@ void  arcade::CentipedeGame::process()
 
 std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::CentipedeGame::getSpritesToLoad() const
 {
-  return (std::move(std::vector<std::unique_ptr<arcade::ISprite>>()));
+  std::vector<std::unique_ptr<arcade::ISprite>> vec;
+
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/player.png", ' ')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/shot.png", ' ')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/body_east.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/body_west.png", ' ')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/head_east.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/head_west.png", ' ')}))));
+  vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/obstacle_1.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/obstacle_2.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/obstacle_3.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/snake/obstacle_4.png", ' ')}))));
+  return (std::move(vec));
 }
 
 std::vector<std::pair<std::string, arcade::SoundType>> arcade::CentipedeGame::getSoundsToLoad() const

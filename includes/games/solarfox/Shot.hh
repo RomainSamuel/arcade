@@ -34,6 +34,7 @@ namespace sf
          bool);
     ~Shot();
 
+    int     getAssociatedSpritePos() const;
     bool    Collide(sf::Shot &) const;
     void    printOnMap(std::unique_ptr<arcade::Map> &) const;
     void    eraseFromMap(std::unique_ptr<arcade::Map> &) const;

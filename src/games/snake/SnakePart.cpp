@@ -38,9 +38,43 @@ snake::Direction  snake::SnakePart::getDirection() const
   return (this->direction);
 }
 
-std::string snake::SnakePart::getAssociatedSprite() const
+int snake::SnakePart::getAssociatedSpriteId(const Direction &prev) const
 {
-  return (std::string());
+  if (this->type == BODY)
+    {
+      if (prev == this->direction)
+        return (1);
+      else
+        return (2);
+    }
+  else if (this->type == HEAD)
+    return (3);
+  else
+    return (4);
+}
+
+int snake::SnakePart::getAssociatedSpritePos(const Direction &prev) const
+{
+  if (this->type == HEAD)
+    return (static_cast<int>(this->direction) % 2 == 0);
+  else if (this->type == TAIL)
+    return (static_cast<int>(prev));
+  else
+    {
+      if (prev == this->direction)
+        return (static_cast<int>(this->direction) % 2 == 0);
+      else if ((prev == EAST && this->direction == NORTH ) ||
+               (prev == SOUTH && this->direction == WEST))
+        return (0);
+      else if ((prev == WEST && this->direction == NORTH) ||
+               (prev == SOUTH && this->direction == EAST))
+        return (1);
+      else if ((prev == NORTH && this->direction == WEST) ||
+               (prev == EAST && this->direction == SOUTH))
+        return (2);
+      else
+        return (3);
+    }
 }
 
 arcade::Color snake::SnakePart::getAssociatedColor() const
@@ -81,24 +115,34 @@ void  snake::SnakePart::eraseFromMap(std::list<std::unique_ptr<SnakePart>> &list
 {
   for (std::list<std::unique_ptr<SnakePart>>::iterator it = list.begin(); it != list.end(); it++)
     {
-      map->at(1, it->get()->getX(), it->get()->getY()).setType(arcade::TileType::EMPTY);
-      map->at(1, it->get()->getX(), it->get()->getY()).setTypeEv(arcade::TileTypeEvolution::EMPTY);
-      map->at(1, it->get()->getX(), it->get()->getY()).setHasSprite(false);
-      map->at(1, it->get()->getX(), it->get()->getY()).setSpriteId(0);
-      map->at(1, it->get()->getX(), it->get()->getY()).setColor(arcade::Color::Black);
+      map->at(1, it->get()->getX(), it->get()->getY()).set(arcade::TileType::EMPTY,
+                                                 arcade::TileTypeEvolution::EMPTY,
+                                                 arcade::Color::Black,
+                                                 true,
+                                                 5,
+                                                 0,
+                                                 0.0,
+                                                 0.0);
     }
 }
 
 void  snake::SnakePart::printOnMap(std::list<std::unique_ptr<SnakePart>> &list,
                                      std::unique_ptr<arcade::Map> &map)
 {
+  snake::Direction  prev;
+
   for (std::list<std::unique_ptr<SnakePart>>::iterator it = list.begin(); it != list.end(); it++)
     {
-      map->at(1, it->get()->getX(), it->get()->getY()).setType(arcade::TileType::EMPTY);
-      map->at(1, it->get()->getX(), it->get()->getY()).setTypeEv(arcade::TileTypeEvolution::PLAYER);
-      map->at(1, it->get()->getX(), it->get()->getY()).setHasSprite(false);
-      map->at(1, it->get()->getX(), it->get()->getY()).setSpriteId(7);
-      map->at(1, it->get()->getX(), it->get()->getY()).setColor(this->getAssociatedColor());
+      if (it != list.begin())
+        prev = std::prev(it)->get()->getDirection();
+      map->at(1, it->get()->getX(), it->get()->getY()).set(arcade::TileType::EMPTY,
+                                                           arcade::TileTypeEvolution::PLAYER,
+                                                           arcade::Color::Green,
+                                                           true,
+                                                           this->getAssociatedSpriteId(prev),
+                                                           this->getAssociatedSpritePos(prev),
+                                                           0.0,
+                                                           0.0);
     }
 }
 
