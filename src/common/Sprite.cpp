@@ -1,8 +1,7 @@
 #include "Sprite.hh"
 
-arcade::Sprite::Sprite(const std::vector<std::pair<std::string, char>> &sprites)
+arcade::Sprite::Sprite(const std::vector<std::pair<std::string, char>> &sprites) : _sprites(sprites)
 {
-  this->_sprites = sprites;
 }
 
 arcade::Sprite::~Sprite()
