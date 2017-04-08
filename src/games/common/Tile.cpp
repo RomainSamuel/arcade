@@ -92,7 +92,7 @@ size_t  arcade::Tile::getSpritePos() const
 
 void  arcade::Tile::setSpritePos(size_t spritePos)
 {
-  this->_spriteId = spritePos;
+  this->_spritePos = spritePos;
 }
 
 double  arcade::Tile::getShiftX() const

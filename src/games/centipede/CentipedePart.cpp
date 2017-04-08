@@ -1,13 +1,14 @@
-#include "Centipede.hh"
+#include "CentipedePart.hh"
 
 centipede::CentipedePart::CentipedePart(int x,
                                         int y,
+                                        int id,
                                         bool isLeader,
                                         bool isFollowed,
                                         arcade::Map &map,
                                         size_t initialMoveCD,
                                         int direction)
-  : x(x), y(y), isLeader(isLeader), isFollowed(isFollowed), map(map), initialMoveCD(initialMoveCD), direction(direction)
+  : x(x), y(y), id(id), isLeader(isLeader), isFollowed(isFollowed), map(map), initialMoveCD(initialMoveCD), direction(direction)
 {
 }
 
@@ -25,14 +26,21 @@ int  centipede::CentipedePart::getY() const
   return (this->y);
 }
 
+int   centipede::CentipedePart::getId() const
+{
+  return (this->id);
+}
+
 void  centipede::CentipedePart::setFollower(std::shared_ptr<CentipedePart> &follower)
 {
   this->follower = follower;
 }
-
+#include <iostream>
 void  centipede::CentipedePart::die()
 {
-  this->map.at(1, this->x, this->y).set(arcade::TileType::OBSTACLE,
+  std::cout << "yay" << std::endl;
+  this->eraseFromMap();
+  this->map.at(0, this->x, this->y).set(arcade::TileType::OBSTACLE,
                                         arcade::TileTypeEvolution::OBSTACLE,
                                         arcade::Color::White,
                                         false,
@@ -81,7 +89,9 @@ void  centipede::CentipedePart::move()
       this->y++;
       return;
     }
-  if (this->map.at(0, this->x + this->direction, this->y).getTypeEv() == arcade::TileTypeEvolution::OBSTACLE || this->x + this->direction < 0 || this->x + this->direction >= 40)
+  if (this->x + this->direction < 0 ||
+      this->x + this->direction >= 40 ||
+      this->map.at(0, this->x + this->direction, this->y).getTypeEv() == arcade::TileTypeEvolution::OBSTACLE)
     {
       this->direction = - this->direction;
       this->y++;

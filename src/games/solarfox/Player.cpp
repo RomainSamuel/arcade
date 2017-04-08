@@ -100,7 +100,7 @@ int   sf::Player::move(std::unique_ptr<arcade::Map> &map)
 
 bool  sf::Player::hasShot() const
 {
-  if (this->shot == nullptr)
+  if (this->shot.get() == nullptr)
     return (false);
   else
     return (true);
@@ -108,7 +108,7 @@ bool  sf::Player::hasShot() const
 
 sf::Shot  &sf::Player::getShot() const
 {
-  return (*this->shot);
+  return (*this->shot.get());
 }
 
 bool  sf::Player::checkShotDuration(std::unique_ptr<arcade::Map> &map)

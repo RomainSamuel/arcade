@@ -9,16 +9,17 @@ arcade::CentipedeGame::CentipedeGame()
   this->_map = std::unique_ptr<Map>(new Map(40, 40, 2));
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
-  this->_eaten = 0;
   this->_score = 0;
-  this->_cd = 10;
-  this->_cdRemaining = 10;
-  this->_initialCentipedeCD = 300;
+  this->_initialInputCD = 10;
+  this->_inputCD = 0;
+  this->_initialCentipedeCD = 150;
   this->_centipedeCD = 0;
-  this->createCentipede(4);
+  this->_player = std::make_unique<centipede::Player>(*this->_map);
+  this->_player->printOnMap();
+  this->_killed = 0;
 
   // EVENTS
-    // EVENTS
+  // EVENTS
   arcade::Event event;
   event.type = arcade::EventType::ET_KEYBOARD;
   event.action = arcade::ActionType::AT_PRESSED;
@@ -81,38 +82,87 @@ int arcade::CentipedeGame::getActionToPerform(arcade::Event event) const
 
 void  arcade::CentipedeGame::createCentipede(size_t nb)
 {
+  static int  id = 0;
+  int direction = (rand() % 2 == 0) ? -1 : 1;
+
   for (size_t i = 0; i < nb; i++)
     {
       this->_centipedes.push_back(std::make_shared<centipede::CentipedePart>(20,
                                                                              -i,
+                                                                             id,
                                                                              i == 0,
                                                                              i == nb - 1,
                                                                              *this->_map,
                                                                              1,
-                                                                             1));
+                                                                             direction));
+      this->_centipedes.back()->printOnMap();
       if (i != 0)
         {
           this->_centipedes[this->_centipedes.size() - 2]
             ->setFollower(this->_centipedes[this->_centipedes.size() - 1]);
         }
     }
+  id++;
+}
+
+void  arcade::CentipedeGame::killCentipede(int ret)
+{
+  bool  wasLast = true;
+
+  this->_player->deleteShot();
+  if (ret > 0)
+    {
+      this->_centipedes[ret]->die();
+      if (static_cast<size_t>(ret + 1) < this->_centipedes.size() && this->_centipedes[ret]->getId() == this->_centipedes[ret + 1]->getId())
+        wasLast = false;
+      else if (ret > 0 && this->_centipedes[ret]->getId() == this->_centipedes[ret - 1]->getId())
+        wasLast = false;
+      this->_score += 600;
+      this->_gui->getComponent(0).setText("Score : " + std::to_string(this->_score));
+      if (wasLast == true)
+        this->_killed++;
+      this->_centipedes.erase(this->_centipedes.begin() + ret);
+    }
 }
 
 void  arcade::CentipedeGame::process()
 {
   int actionNb = -1;
+  int ret;
 
   if (this->_state != INGAME)
     this->_state = INGAME;
   if (this->_events.size() > 0)
     {
-      actionNb = this->getActionToPerform(this->_events.front());
-      this->_events.erase(this->_events.begin());
+      if (this->_inputCD == 0)
+        {
+          actionNb = this->getActionToPerform(this->_events.front());
+          this->_events.erase(this->_events.begin());
+          this->_inputCD = this->_initialInputCD;
+          if (actionNb >= 0 && actionNb < 4)
+            this->_player->move(static_cast<centipede::Direction>(actionNb));
+          else if (actionNb == 4)
+            if (this->_player->hasShot() == false)
+              if ((ret = this->_player->fire(this->_centipedes)) != 0)
+                this->killCentipede(ret);
+        }
     }
+  else
+    if ((ret = this->_player->getShot().move(this->_centipedes)) != 0)
+      this->killCentipede(ret);
+  if (this->_killed == 10)
+    this->_state = QUIT;
   for (size_t i = 0; i < this->_centipedes.size(); i++)
+    this->_centipedes[i]->move();
+  if (this->_centipedeCD == 0)
     {
-      this->_centipedes[i]->move();
+      this->createCentipede(rand() % 4 + 3);
+      this->_centipedeCD = this->_initialCentipedeCD;
     }
+  else
+    this->_centipedeCD--;
+  if (this->_inputCD != 0)
+    this->_inputCD--;
 }
 
 std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::CentipedeGame::getSpritesToLoad() const
