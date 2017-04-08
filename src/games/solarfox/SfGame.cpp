@@ -38,7 +38,7 @@ arcade::SfGame::SfGame()
                                                                              1,
                                                                              false,
                                                                              0,
-                                                                             arcade::Color::Black,
+                                                                             arcade::Color::White,
                                                                              "Score : 0"));
   this->_gui->addComponent(std::move(comp));
 }

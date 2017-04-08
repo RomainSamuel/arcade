@@ -8,7 +8,8 @@
 #include <array>
 #include "Map.hh"
 #include "GUI.hh"
-#include "IGame.hpp"
+#include "IGame.hh"
+#include "Centipede.hh"
 
 namespace arcade
 {
@@ -21,9 +22,12 @@ namespace arcade
     size_t                                        _eaten;
     size_t                                        _score;
     std::vector<arcade::Event>                    _events;
-    std::array<arcade::Event, 2>                  _eventsBound;
+    std::array<arcade::Event, 4>                  _eventsBound;
     double                                        _cd;
     double                                        _cdRemaining;
+    size_t                                        _initialCentipedeCD;
+    size_t                                        _centipedeCD;
+    std::vector<std::shared_ptr<centipede::CentipedePart>>  _centipedes;
 
   public:
     CentipedeGame();
@@ -42,6 +46,7 @@ namespace arcade
 
     Map                                 &getMap();
     int                                 getActionToPerform(arcade::Event) const;
+    void                                createCentipede(size_t nb);
   };
 }
 

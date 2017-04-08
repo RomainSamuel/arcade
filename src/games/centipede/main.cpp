@@ -9,10 +9,16 @@ void  display(arcade::IGame *centipede)
     {
       for (size_t x = 0; x < centipede->getCurrentMap().getWidth(); x++)
         {
-          if (centipede->getCurrentMap().at(1, x, y).getSpriteId() != 0)
-            type = centipede->getCurrentMap().at(1, x, y).getSpriteId();
+          type = 0;
+          for (size_t i = 0; i < centipede->getCurrentMap().getLayerNb(); i++)
+            {
+              if (centipede->getCurrentMap().at(i, x, y).getSpriteId() != 0)
+                type = centipede->getCurrentMap().at(i, x, y).getSpriteId();
+            }
+          if (type > 0)
+            std::cout << type << " ";
           else
-            type = centipede->getCurrentMap().at(0, x, y).getSpriteId();
+            std::cout << "." << " ";
         }
       std::cout << std::endl;
     }
@@ -25,18 +31,64 @@ int main()
   display(centipede);
   std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   centipede->process();
+  display(centipede);
+  std::cout << std::endl;
+  centipede->process();
+  display(centipede);
+  std::cout << std::endl;
+  centipede->process();
+  display(centipede);
+  std::cout << std::endl;
+  centipede->process();
+  display(centipede);
+  std::cout << std::endl;
+  centipede->process();
+  display(centipede);
+  std::cout << std::endl;
+  centipede->process();
+  display(centipede);
+  std::cout << std::endl;
+  centipede->process();
+  display(centipede);
+  std::cout << std::endl;
   return (0);
 }

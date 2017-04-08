@@ -47,24 +47,38 @@ void arcade::Map::createLayer(size_t layer)
       this->_layers[layer].push_back(std::vector<std::unique_ptr<arcade::Tile>>());
       for (size_t x = 0; x < this->_width; x++)
         {
-          if (layer > 0 || (y > 0 && x > 0 && y < this->_height - 1 && x < this->_width - 1))
-            this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::EMPTY,
-                                                                             arcade::TileTypeEvolution::EMPTY,
-                                                                             arcade::Color::Black,
-                                                                             false,
-                                                                             0,
-                                                                             0,
-                                                                             0.0,
-                                                                             0.0));
+          if (layer == 0)
+            {
+              if (x < this->_height - 8 && rand() % 10 == 0 && (y != 0 || x != 20))
+                this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::OBSTACLE,
+                                                                                 arcade::TileTypeEvolution::OBSTACLE,
+                                                                                 arcade::Color::White,
+                                                                                 false,
+                                                                                 1,
+                                                                                 5,
+                                                                                 0.0,
+                                                                                 0.0));
+              else
+                this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>((y > (this->_height - 8)) ? arcade::TileType::EMPTY : arcade::TileType::BLOCK,
+                                                                                 (y > (this->_height - 8)) ? arcade::TileTypeEvolution::EMPTY : arcade::TileTypeEvolution::BLOCK,
+                                                                                 arcade::Color::Black,
+                                                                                 false,
+                                                                                 0,
+                                                                                 0,
+                                                                                 0.0,
+                                                                                 0.0));
+            }
           else
-            this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::BLOCK,
-                                                                             arcade::TileTypeEvolution::BLOCK,
-                                                                             arcade::Color::White,
-                                                                             false,
-                                                                             1,
-                                                                             0,
-                                                                             0.0,
-                                                                             0.0));
+            {
+              this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::EMPTY,
+                                                                               arcade::TileTypeEvolution::EMPTY,
+                                                                               arcade::Color::Transparent,
+                                                                               false,
+                                                                               0,
+                                                                               0,
+                                                                               0.0,
+                                                                               0.0));
+            }
         }
     }
 }

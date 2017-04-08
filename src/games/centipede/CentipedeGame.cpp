@@ -1,24 +1,35 @@
 #include "CentipedeGame.hh"
+#include <ctime>
+#include <cstdlib>
 #include <iostream>
 
 arcade::CentipedeGame::CentipedeGame()
 {
-  this->_map = std::unique_ptr<Map>(new Map(20, 20, 2));
+  srand(time(NULL));
+  this->_map = std::unique_ptr<Map>(new Map(40, 40, 2));
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
   this->_eaten = 0;
   this->_score = 0;
   this->_cd = 10;
   this->_cdRemaining = 10;
+  this->_initialCentipedeCD = 300;
+  this->_centipedeCD = 0;
+  this->createCentipede(4);
 
   // EVENTS
+    // EVENTS
   arcade::Event event;
   event.type = arcade::EventType::ET_KEYBOARD;
   event.action = arcade::ActionType::AT_PRESSED;
-  event.kb_key = arcade::KeyboardKey::KB_ARROW_RIGHT;
+  event.kb_key = arcade::KeyboardKey::KB_ARROW_UP;
   this->_eventsBound[0] = event;
-  event.kb_key = arcade::KeyboardKey::KB_ARROW_LEFT;
+  event.kb_key = arcade::KeyboardKey::KB_ARROW_RIGHT;
   this->_eventsBound[1] = event;
+  event.kb_key = arcade::KeyboardKey::KB_ARROW_DOWN;
+  this->_eventsBound[2] = event;
+  event.kb_key = arcade::KeyboardKey::KB_ARROW_LEFT;
+  this->_eventsBound[3] = event;
 
   // GUI
   std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0,
@@ -27,7 +38,7 @@ arcade::CentipedeGame::CentipedeGame()
                                                                              0.1,
                                                                              false,
                                                                              0,
-                                                                             arcade::Color::Black,
+                                                                             arcade::Color::White,
                                                                              "Score : 0"));
   this->_gui->addComponent(std::move(comp));
 }
@@ -58,7 +69,7 @@ std::vector<arcade::NetworkPacket>&& arcade::CentipedeGame::getNetworkToSend()
 
 int arcade::CentipedeGame::getActionToPerform(arcade::Event event) const
 {
-  for (size_t i = 0; i < 2; i++)
+  for (size_t i = 0; i < 4; i++)
     {
       if (event.type == this->_eventsBound[i].type &&
           event.action == this->_eventsBound[i].action &&
@@ -66,6 +77,25 @@ int arcade::CentipedeGame::getActionToPerform(arcade::Event event) const
         return (i);
     }
   return (-1);
+}
+
+void  arcade::CentipedeGame::createCentipede(size_t nb)
+{
+  for (size_t i = 0; i < nb; i++)
+    {
+      this->_centipedes.push_back(std::make_shared<centipede::CentipedePart>(20,
+                                                                             -i,
+                                                                             i == 0,
+                                                                             i == nb - 1,
+                                                                             *this->_map,
+                                                                             1,
+                                                                             1));
+      if (i != 0)
+        {
+          this->_centipedes[this->_centipedes.size() - 2]
+            ->setFollower(this->_centipedes[this->_centipedes.size() - 1]);
+        }
+    }
 }
 
 void  arcade::CentipedeGame::process()
@@ -78,6 +108,10 @@ void  arcade::CentipedeGame::process()
     {
       actionNb = this->getActionToPerform(this->_events.front());
       this->_events.erase(this->_events.begin());
+    }
+  for (size_t i = 0; i < this->_centipedes.size(); i++)
+    {
+      this->_centipedes[i]->move();
     }
 }
 
