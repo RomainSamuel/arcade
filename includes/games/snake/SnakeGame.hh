@@ -50,7 +50,6 @@ namespace arcade
     virtual IGUI                        &getGUI();
     virtual bool                        hasNetwork() const;
 
-    Map                                 &getMap();
     int                                 getActionToPerform(arcade::Event) const;
     struct GetMap                       getMap() const;
     struct WhereAmI                     getWhereAmI() const;
