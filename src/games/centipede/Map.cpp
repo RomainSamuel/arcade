@@ -49,7 +49,7 @@ void arcade::Map::createLayer(size_t layer)
         {
           if (layer == 0)
             {
-              if (y < this->_height - 8 && rand() % 10 == 0 && (y != 0 || x != 20))
+              if (y < this->_height - 8 && rand() % 20 == 0 && (y != 0 || x != 20))
                 this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::OBSTACLE,
                                                                                  arcade::TileTypeEvolution::OBSTACLE,
                                                                                  arcade::Color::White,

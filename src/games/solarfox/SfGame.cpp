@@ -261,7 +261,7 @@ std::vector<std::pair<std::string, arcade::SoundType>> arcade::SfGame::getSounds
 
 std::vector<arcade::Sound>  arcade::SfGame::getSoundsToPlay()
 {
-  return (std::vector<arcade::Sound>());
+  return (this->_sounds);
 }
 
 arcade::IMap const &arcade::SfGame::getCurrentMap() const
