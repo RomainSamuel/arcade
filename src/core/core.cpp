@@ -19,7 +19,6 @@ arcade::Core::Core(const std::string &lib, const int volume) : _lib(lib), _volum
         throw arcade::Error("Library : " + lib + " doesn't exist!");
 
     _loader.setCurrentLib(lib);
-    _loader.setCurrentGame("games/lib_arcade_snake.so");
 }
 
 arcade::Core::~Core() {}
@@ -75,59 +74,95 @@ void    arcade::Core::display()
     }
 }
 
-void    arcade::Core::menu()
+void    arcade::Core::loadLib()
+{
+    delete _libLoad;
+    void *loader = _loader.getSym(_loader.getCurrentLib(), "loader");
+    _libLoad = ((arcade::IGfxLib *(*)())loader)();
+    _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
+    _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
+}
+
+void    arcade::Core::loadGame()
+{
+    delete _gameLoad;
+    void *mkr = _loader.getSym(_loader.getCurrentGame(), "maker");
+    _gameLoad = ((arcade::IGame *(*)())mkr)();
+    _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
+    _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
+}
+
+void    arcade::Core::getEventMenu()
 {
     Event   event;
     std::vector<Event> _events;
 
     if (_libLoad->pollEvent(event))
     {
-        if (event.kb_key == arcade::KeyboardKey::KB_SPACE)
+        switch (event.kb_key)
         {
-            setGameState(arcade::GameState::INGAME);
-            void *mkr = _loader.getSym(_loader.getCurrentGame(), "maker");
-            _gameLoad = ((arcade::IGame *(*)())mkr)();
-            _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
-            _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
-        }
-        else if (event.kb_key == arcade::KeyboardKey::KB_ESCAPE)
-            setGameState(arcade::GameState::QUIT);
-        else if (event.kb_key == arcade::KeyboardKey::KB_ARROW_DOWN)
-        {
-            _menu.setPos(_menu.getPos() + 1);
-            _menu.updateGUI();
-        }
-        else if (event.kb_key == arcade::KeyboardKey::KB_ARROW_UP)
-        {
-            _menu.setPos(_menu.getPos() - 1);
-            _menu.updateGUI();
-        }
-        else if (event.kb_key == arcade::KeyboardKey::KB_ENTER)
-        {
-            if (_menu.getPos() != 4)
+            case arcade::KeyboardKey::KB_ESCAPE :
             {
-                if (_menu.getPos() == 1)
-                    _loader.setCurrentGame("games/lib_arcade_snake.so");
-                else if (_menu.getPos() == 2)
-                    _loader.setCurrentGame("games/lib_arcade_solarfox.so");
-                else if( _menu.getPos() == 3)
-                    _loader.setCurrentGame("games/lib_arcade_centipede.so");
-                setGameState(arcade::GameState::INGAME);
-                void *mkr = _loader.getSym(_loader.getCurrentGame(), "maker");
-                _gameLoad = ((arcade::IGame *(*)())mkr)();
-                _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
-                _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
-            }
-            else
                 setGameState(arcade::GameState::QUIT);
+                break;
+            }
+            case arcade::KeyboardKey::KB_ARROW_DOWN :
+            {
+                _menu.setPos(_menu.getPos() + 1);
+                _menu.updateGUI();
+                break;
+            }
+            case arcade::KeyboardKey::KB_ARROW_UP:
+            {
+                _menu.setPos(_menu.getPos() - 1);
+                _menu.updateGUI();
+                break;
+            }
+            case arcade::KeyboardKey::KB_ENTER :
+            {
+                std::cout << _menu.getPos() << std::endl;
+                if (_menu.getPos() != 4)
+                {
+                    if (_menu.getPos() == 1)
+                        _loader.setCurrentGame("games/lib_arcade_snake.so");
+                    else if (_menu.getPos() == 2)
+                        _loader.setCurrentGame("games/lib_arcade_solarfox.so");
+                    else if( _menu.getPos() == 3)
+                        _loader.setCurrentGame("games/lib_arcade_centipede.so");
+                    setGameState(arcade::GameState::INGAME);
+                    std::cout << _loader.getCurrentGame() << std::endl;
+                    loadGame();                
+                }
+                else
+                    setGameState(arcade::GameState::QUIT);
+                break;
+            }
+            case arcade::KeyboardKey::KB_2 :
+            {
+                _loader.getPrevLib();
+                loadLib();
+                break;
+            }
+            case arcade::KeyboardKey::KB_3 :
+            {
+                _loader.getNextLib();
+                loadLib();
+                break;
+            } 
+            default :
+                break;
         }
     }
+}
+
+void    arcade::Core::menu()
+{
+    getEventMenu();
     _libLoad->updateGUI(_menu.getGUI());
     _libLoad->display();
 }
 
-
-void    arcade::Core::play()
+void    arcade::Core::getEventGame()
 {
     Event event;
     std::vector<Event> _events;
@@ -141,48 +176,31 @@ void    arcade::Core::play()
                 case arcade::KeyboardKey::KB_2 :
                 {
                     _loader.getPrevLib();
-                    void *loader = _loader.getSym(_loader.getCurrentLib(), "loader");
-                    delete _libLoad;
-                     _libLoad = ((arcade::IGfxLib *(*)())loader)();
-                    _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
-                    _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
-
+                    loadLib();
                      break;
                 }
                 case arcade::KeyboardKey::KB_3 :
                 {
                     _loader.getNextLib();
-                    void *loader = _loader.getSym(_loader.getCurrentLib(), "loader");
-                    delete _libLoad;
-                    _libLoad = ((arcade::IGfxLib *(*)())loader)();
-                        _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
-                    _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
+                    loadLib();
                     break;
                 }
                 case arcade::KeyboardKey::KB_4 :
                 {
                     _loader.getPrevGame();
-                    void *mkr = _loader.getSym(_loader.getCurrentGame(), "maker");
-                    delete _gameLoad;
-                    _gameLoad = ((arcade::IGame *(*)())mkr)();
-                    _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
-                    _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
+                    loadGame();
                     break;
                 }            
                  case arcade::KeyboardKey::KB_5 :
                 {
                     _loader.getNextGame();
-                    void *mkr = _loader.getSym(_loader.getCurrentGame(), "maker");
-                    delete _gameLoad;
-                    _gameLoad = ((arcade::IGame *(*)())mkr)();
-                    _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
-                    _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
+                    loadGame();
                     break;
                 }
                 case arcade::KeyboardKey::KB_9 :
                 {
-                 setGameState(arcade::GameState::MENU);
-                _libLoad->loadSprites(_menu.getSpritesToLoad());
+                     setGameState(arcade::GameState::MENU);
+                    _libLoad->loadSprites(_menu.getSpritesToLoad());
                  break;
                 }
                 case arcade::KeyboardKey::KB_ESCAPE :
@@ -194,6 +212,12 @@ void    arcade::Core::play()
       _events.push_back(event);
       _gameLoad->notifyEvent(std::move(_events));
     }
+}
+
+
+void    arcade::Core::play()
+{
+    getEventGame();
     if (_gameLoad->getGameState() == arcade::GameState::MENU)
     {
         delete _libLoad;
@@ -202,7 +226,7 @@ void    arcade::Core::play()
         _libLoad->loadSprites(_menu.getSpritesToLoad());
         setGameState(arcade::GameState::MENU);
     }
-        _gameLoad->process();
+    _gameLoad->process();
     if (_gameState != arcade::GameState::MENU)
     {
         _gameLoad->getSoundsToPlay();

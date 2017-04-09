@@ -38,6 +38,10 @@ namespace arcade
         void display();
         void menu();
         void play();
+        void    loadLib();
+        void    loadGame();
+        void    getEventGame();
+        void    getEventMenu();
     };
 }
 
