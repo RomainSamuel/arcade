@@ -7,6 +7,8 @@ COMMON	=	../../common/
 GAME_COMMON	=	../common/
 
 SRC		=	$(COMMON)Color.cpp \
+				$(COMMON)Sprite.cpp \
+				$(COMMON)Sound.cpp \
 				$(GAME_COMMON)Component.cpp \
 				$(GAME_COMMON)GUI.cpp \
 				$(GAME_COMMON)Tile.cpp \
@@ -14,8 +16,7 @@ SRC		=	$(COMMON)Color.cpp \
 				CentipedePart.cpp \
 				Map.cpp \
 				Player.cpp \
-				Shot.cpp \
-				main.cpp
+				Shot.cpp
 
 GAMESDIR	=	../../../games/
 
