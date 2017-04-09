@@ -90,6 +90,9 @@ void    arcade::Core::loadGame()
     _gameLoad = ((arcade::IGame *(*)())mkr)();
     _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
     _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
+    std::vector<arcade::Sound> sounds = _gameLoad->getSoundsToPlay();
+    for (std::vector<arcade::Sound>::const_iterator it = sounds.begin(); it != sounds.end(); it++)   
+        _libLoad->soundControl(*it);
 }
 
 void    arcade::Core::getEventMenu()
@@ -229,7 +232,9 @@ void    arcade::Core::play()
     _gameLoad->process();
     if (_gameState != arcade::GameState::MENU)
     {
-        _gameLoad->getSoundsToPlay();
+        std::vector<arcade::Sound> sounds = _gameLoad->getSoundsToPlay();
+        for (std::vector<arcade::Sound>::const_iterator it = sounds.begin(); it != sounds.end(); it++)   
+            _libLoad->soundControl(*it);       
         _libLoad->updateMap(_gameLoad->getCurrentMap());
         _libLoad->updateGUI(_gameLoad->getGUI());
         _libLoad->display();
