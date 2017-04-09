@@ -1,11 +1,83 @@
 #include "Map.hh"
 
-arcade::Map::Map(size_t width, size_t height, size_t lnb)
+arcade::Map::Map(size_t width, size_t height, size_t lnb, size_t level)
 {
   this->_width = width;
   this->_height = height;
   this->_layersNb = lnb;
 
+  if (level == 0)
+    this->_level = std::vector<std::vector<bool>>
+      ({
+        std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          });
+  else if (level == 1)
+    this->_level = std::vector<std::vector<bool>>
+      ({
+        std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          });
+  else
+    this->_level = std::vector<std::vector<bool>>
+      ({
+        std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0}),
+          std::vector<bool>({0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0}),
+          std::vector<bool>({0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0}),
+          std::vector<bool>({0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0}),
+          std::vector<bool>({0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0}),
+          std::vector<bool>({0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0}),
+          std::vector<bool>({0, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0}),
+          std::vector<bool>({0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0}),
+          std::vector<bool>({0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0}),
+          std::vector<bool>({0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}),
+          });
   for (size_t i = 0; i < lnb; i++)
     this->createLayer(i);
 }
@@ -48,7 +120,16 @@ void arcade::Map::createLayer(size_t layer)
       this->_layers[layer].push_back(std::vector<std::unique_ptr<arcade::Tile>>());
       for (size_t x = 0; x < this->_width; x++)
         {
-          if (layer != 0)
+          if (layer == 1 && this->_level[y][x] == 1)
+            this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::EMPTY,
+                                                                             arcade::TileTypeEvolution::FOOD,
+                                                                             arcade::Color::White,
+                                                                             true,
+                                                                             0,
+                                                                             0,
+                                                                             0.0,
+                                                                             0.0));
+          else if (layer > 0)
             this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::EMPTY,
                                                                              arcade::TileTypeEvolution::EMPTY,
                                                                              arcade::Color::Transparent,
@@ -57,7 +138,7 @@ void arcade::Map::createLayer(size_t layer)
                                                                              0,
                                                                              0.0,
                                                                              0.0));
-          if (x > 2 && y > 2 && x + 3 < this->_width && y + 3 < this->_height)
+          else if (x > 2 && y > 2 && x + 3 < this->_width && y + 3 < this->_height)
             this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::EMPTY,
                                                                              arcade::TileTypeEvolution::EMPTY,
                                                                              arcade::Color::Black,
@@ -78,16 +159,4 @@ void arcade::Map::createLayer(size_t layer)
           i++;
         }
     }
-  // if (layer == 1)
-  //   {
-  //     this->_layers[layer][3][5]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
-  //     this->_layers[layer][7][5]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
-  //     this->_layers[layer][5][3]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
-  //     this->_layers[layer][10][7]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
-  //     this->_layers[layer][12][14]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
-  //     this->_layers[layer][3][11]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
-  //     this->_layers[layer][15][16]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
-  //     this->_layers[layer][13][10]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
-  //     this->_layers[layer][8][13]->set(arcade::TileType::EMPTY, arcade::TileTypeEvolution::FOOD, arcade::Color::White, true, 0, 0, 0.0, 0.0);
-  //   }
 }

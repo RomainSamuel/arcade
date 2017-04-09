@@ -1,6 +1,6 @@
 #include "Map.hh"
 
-arcade::Map::Map(size_t width, size_t height, size_t lnb)
+arcade::Map::Map(size_t width, size_t height, size_t lnb, size_t)
 {
   this->_width = width;
   this->_height = height;

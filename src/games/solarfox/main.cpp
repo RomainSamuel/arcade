@@ -11,7 +11,7 @@ void  display(arcade::IGame *sf)
         {
           // type = 0;
           // if (sf->getCurrentMap().at(, x, y).hasSprite())
-          std::cout << sf->getCurrentMap().at(2, x, y).hasSprite() << " ";
+          std::cout << sf->getCurrentMap().at(1, x, y).hasSprite() << " ";
           // else
           //   std::cout << ". ";
           // type = 0;

@@ -206,7 +206,7 @@ int snake::SnakePart::lead(std::list<std::unique_ptr<SnakePart>> &list,
       if (it != list.begin())
         it->get()->follow(*std::prev(it, 1));
     }
-  if (this->x == food->getX() && food->getY())
+  if (this->x == food->getX() && this->y == food->getY())
     return (1);
   else
     return (0);

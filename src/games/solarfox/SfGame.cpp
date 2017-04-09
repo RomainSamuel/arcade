@@ -3,7 +3,7 @@
 
 arcade::SfGame::SfGame()
 {
-  this->_map = std::unique_ptr<Map>(new Map(20, 20, 5));
+  this->_map = std::unique_ptr<Map>(new Map(20, 20, 5, 1));
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
   this->_score = 0;
