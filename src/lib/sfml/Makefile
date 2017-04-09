@@ -20,7 +20,7 @@ LDFLAGS		=	-lsfml-graphics -lsfml-window -lsfml-system -lopenal -lsndfile
 LDFLAGS		+=	-shared
 
 $(NAME):	$(OBJ)
-		    $(GPP) -g -o $(NAME) $(OBJ) $(LDFLAGS)
+		    $(GPP) -o $(NAME) $(OBJ) $(LDFLAGS)
 				mv $(NAME) $(GAMESDIR)
 
 all:		$(NAME)
