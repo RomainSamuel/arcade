@@ -22,7 +22,7 @@ namespace arcade
         arcade::Loader      _loader;
         arcade::IGfxLib     *_libLoad;
         arcade::IGame       *_gameLoad;
-        arcade::Menu        *_menu;
+        arcade::Menu        _menu;
 
     public:
         Core(const std::string &, const int);

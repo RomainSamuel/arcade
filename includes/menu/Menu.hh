@@ -26,6 +26,7 @@ namespace arcade
         double                                        _cd;
         double                                        _cdRemaining;
         std::vector<arcade::Sound>                    _sounds;
+        int                                           _pos;
 
     public:
         Menu();
@@ -44,6 +45,9 @@ namespace arcade
         virtual tick_t                      getTickRate() const;    
 
         int                                 getActionToPerform(arcade::Event) const;
+        int                                 getPos() const;
+        void                                setPos(int);
+        void                                updateGUI();
     
     };
 }
