@@ -176,21 +176,27 @@ bool        arcade::SnakeGame::hasNetwork() const
 
 struct  arcade::GetMap arcade::SnakeGame::getMap() const
 {
-  struct  GetMap  gm;
+  struct  arcade::GetMap  gm;
+  size_t  i = 0;
 
   gm.type = arcade::CommandType::GET_MAP;
   gm.width = 20;
   gm.height = 20;
-  for (size_t y = 0; y < 20; y++)
+  std::cout.write(reinterpret_cast<char *>(&gm), sizeof(arcade::GetMap));
+  TileType *tiles = new TileType[400];
+  for (uint16_t y = 0; y < 20; y++)
     {
-      for (size_t x = 0; x < 20; x++)
+      for (uint16_t x = 0; x < 20; x++)
         {
-          if (this->_map->at(1, x, y).hasSprite())
-            gm.tile[(y * 20) + x] = this->_map->at(1, x, y).getType();
+          if (this->_map->at(1, x, y).getType() != arcade::TileType::EMPTY)
+            tiles[i] = this->_map->at(1, x, y).getType();
           else
-            gm.tile[(y * 20) + x] = this->_map->at(0, x, y).getType();
+            tiles[i] = this->_map->at(0, x, y).getType();
+          i++;
         }
     }
+  std::cout.write(reinterpret_cast<char *>(tiles), sizeof(TileType) * 400);
+  delete []tiles;
   return (gm);
 }
 
@@ -200,13 +206,17 @@ struct  arcade::WhereAmI arcade::SnakeGame::getWhereAmI() const
 
   wai.type = arcade::CommandType::WHERE_AM_I;
   wai.lenght = this->_snake.size();
+  std::cout.write(reinterpret_cast<char *>(&wai), sizeof(arcade::WhereAmI));
+  Position *positions = new Position[wai.lenght];
   for (std::list<std::unique_ptr<snake::SnakePart>>::const_iterator it = this->_snake.begin();
        it != this->_snake.end();
        it++)
     {
-      wai.position[std::distance(this->_snake.begin(), it)].x = it->get()->getX();
-      wai.position[std::distance(this->_snake.begin(), it)].y = it->get()->getY();
+      positions[std::distance(this->_snake.begin(), it)].x = it->get()->getX();
+      positions[std::distance(this->_snake.begin(), it)].y = it->get()->getY();
     }
+  std::cout.write(reinterpret_cast<char *>(positions), sizeof(Position) * wai.lenght);
+  delete []positions;
   return (wai);
 }
 
@@ -228,13 +238,11 @@ extern  "C" void  Play(void)
       case arcade::CommandType::WHERE_AM_I :
         {
           struct arcade::WhereAmI wai = snake->getWhereAmI();
-          std::cout.write((char*)&wai, sizeof(wai));
           break;
         }
       case arcade::CommandType::GET_MAP :
         {
-        struct arcade::GetMap getmap = snake->getMap();
-        std::cout.write((char*)&getmap, sizeof(getmap));
+          struct arcade::GetMap getmap = snake->getMap();
           break;
         }
       case arcade::CommandType::GO_UP :
