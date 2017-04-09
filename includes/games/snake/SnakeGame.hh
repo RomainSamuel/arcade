@@ -52,6 +52,8 @@ namespace arcade
 
     Map                                 &getMap();
     int                                 getActionToPerform(arcade::Event) const;
+    struct  GetMap&                     getMap() const;
+    struct WhereAmI                     &getWhereAmI() const;
   };
 }
 

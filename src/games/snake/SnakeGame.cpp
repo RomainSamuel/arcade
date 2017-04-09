@@ -3,6 +3,7 @@
 
 arcade::SnakeGame::SnakeGame(bool mode)
 {
+  std::srand(std::time(NULL));
   this->_map = std::unique_ptr<Map>(new Map(20, 20, 2, 0));
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
@@ -64,7 +65,7 @@ void  arcade::SnakeGame::notifyNetwork(std::vector<arcade::NetworkPacket> &&)
 
 std::vector<arcade::NetworkPacket> arcade::SnakeGame::getNetworkToSend()
 {
-  return (std::move(std::vector<arcade::NetworkPacket>()));
+  return (std::vector<arcade::NetworkPacket>());
 }
 
 int arcade::SnakeGame::getActionToPerform(arcade::Event event) const
@@ -173,11 +174,38 @@ bool        arcade::SnakeGame::hasNetwork() const
   return (true);
 }
 
-struct  WhereAmI &arcade::SnakeGame::getWhereAmI() const
+struct  arcade::GetMap &arcade::SnakeGame::getMap() const
+{
+  struct  GetMap  gm;
+
+  gm.type = arcade::CommandType::GET_MAP;
+  gm.width = 20;
+  gm.height = 20;
+  for (size_t y = 0; y < 20; y++)
+    {
+      for (size_t x = 0; x < 20; x++)
+        {
+          if (this->_map->at(1, x, y).hasSprite())
+            gm.tile[(y * 20) + x] = this->_map->at(1, x, y).getType();
+          else
+            gm.tile[(y * 20) + x] = this->_map->at(0, x, y).getType();
+        }
+    }
+}
+
+struct  arcade::WhereAmI &arcade::SnakeGame::getWhereAmI() const
 {
   struct WhereAmI wai;
 
-  wai.;
+  wai.type = arcade::CommandType::WHERE_AM_I;
+  wai.lenght = this->_snake.size();
+  for (std::list<std::unique_ptr<snake::SnakePart>>::const_iterator it = this->_snake.begin();
+       it != this->_snake.end();
+       it++)
+    {
+      wai.position[std::distance(this->_snake.begin(), it)].x = it->get()->getX();
+      wai.position[std::distance(this->_snake.begin(), it)].y = it->get()->getY();
+    }
 }
 
 extern "C" arcade::IGame *maker()
@@ -187,5 +215,4 @@ extern "C" arcade::IGame *maker()
 
 extern  "C" void  Play(void)
 {
-  arcade::SnakeGame *snake = new arcade::SnakeGame;
 }
