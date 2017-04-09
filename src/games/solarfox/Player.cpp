@@ -41,9 +41,14 @@ void  sf::Player::setDirection(sf::Direction direction)
     return;
   this->direction = direction;
 }
-
+#include <iostream>
 void  sf::Player::printOnMap(std::unique_ptr<arcade::Map> &map) const
 {
+  std::cout << "x : " << this->x << std::endl;
+  std::cout << "y : " << this->y << std::endl;
+  std::cout << "x_shift : " << this->x - 0.5 - static_cast<double>(this->xCell) << std::endl;
+  std::cout << "y_shift ! " << this->y - 0.5 - static_cast<double>(this->yCell) << std::endl;
+
   map->at(2, this->xCell, this->yCell).set(arcade::TileType::EMPTY,
                                            arcade::TileTypeEvolution::PLAYER,
                                            arcade::Color::Red,

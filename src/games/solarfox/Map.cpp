@@ -143,8 +143,8 @@ void arcade::Map::createLayer(size_t layer)
                                                                              arcade::TileTypeEvolution::EMPTY,
                                                                              arcade::Color::Black,
                                                                              true,
+                                                                             4,
                                                                              i,
-                                                                             0,
                                                                              0.0,
                                                                              0.0));
           else
@@ -152,8 +152,8 @@ void arcade::Map::createLayer(size_t layer)
                                                                              arcade::TileTypeEvolution::BLOCK,
                                                                              arcade::Color::Black,
                                                                              true,
+                                                                             4,
                                                                              i,
-                                                                             0,
                                                                              0.0,
                                                                              0.0));
           i++;

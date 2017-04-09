@@ -56,8 +56,8 @@ void    sf::Shot::printOnMap(std::unique_ptr<arcade::Map> &map) const
     set(arcade::TileType::EMPTY,
         arcade::TileTypeEvolution::SHOT_ENEMY,
         arcade::Color::Yellow,
-        false,
-        2,
+        true,
+        1,
         static_cast<int>(this->mv),
         this->x - 0.5 - static_cast<double>(static_cast<int>(this->x)),
         this->y - 0.5 - static_cast<double>(static_cast<int>(this->y)));

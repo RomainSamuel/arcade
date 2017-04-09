@@ -136,9 +136,11 @@ void  arcade::SfGame::checkShots(std::unique_ptr<arcade::Map> &map)
         i++;
     }
 }
-
+#include <chrono>
 void  arcade::SfGame::process()
 {
+  // std::chrono::time_point<std::chrono::system_clock> start, end;
+  // start = std::chrono::system_clock::now();
   int actionNb = -1;
 
   this->_sounds.clear();
@@ -202,6 +204,13 @@ void  arcade::SfGame::process()
       this->_state = QUIT;
       return;
     }
+  // end = std::chrono::system_clock::now();
+
+  // std::chrono::duration<double> elapsed_seconds = end-start;
+  // std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+
+  // std::cout << "finished computation at " << std::ctime(&end_time)
+  //           << "elapsed time: " << elapsed_seconds.count() << "s\n";
 }
 
 std::vector<std::unique_ptr<arcade::ISprite>> arcade::SfGame::getSpritesToLoad() const
@@ -228,6 +237,7 @@ std::vector<std::unique_ptr<arcade::ISprite>> arcade::SfGame::getSpritesToLoad()
   for (size_t i = 0; i < 400; i++)
     {
       str = std::string("./resources/games/sprites/solarfox/Space/") + std::to_string(i) + std::string(".png");
+      std::cout << str << std::endl;
       pairs.push_back(std::pair<std::string, char>(str, ' '));
     }
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(pairs)));

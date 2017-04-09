@@ -32,7 +32,8 @@ int main()
 {
   arcade::IGame  *sf = new arcade::SfGame();
 
-  display(sf);
+  sf->getSpritesToLoad();
+  // display(sf);
   // std::cout << std::endl;
   // sf->process();
   // display(sf);
