@@ -8,13 +8,15 @@ GAME_COMMON	=	../common/
 
 SRC		=	$(COMMON)Color.cpp \
 				$(COMMON)Sprite.cpp \
+				$(COMMON)Sound.cpp \
 				$(GAME_COMMON)Component.cpp \
 				$(GAME_COMMON)GUI.cpp \
 				$(GAME_COMMON)Tile.cpp \
 				Food.cpp \
 				SnakeGame.cpp \
 				Map.cpp	\
-				SnakePart.cpp
+				SnakePart.cpp \
+				main.cpp
 
 GAMESDIR	=	../../../games/
 
@@ -32,7 +34,7 @@ CXXFLAGS    +=  -I../../../includes/common \
 LDFLAGS			=	-shared
 
 $(NAME):	$(OBJ)
-		    $(GPP) -o $(NAME) $(OBJ) $(LDFLAGS)
+		    $(GPP) -o $(NAME) $(OBJ) $(LSFLAGS)
 				mv $(NAME) $(GAMESDIR)
 
 all:		$(NAME)

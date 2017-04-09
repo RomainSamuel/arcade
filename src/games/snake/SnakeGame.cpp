@@ -37,6 +37,7 @@ arcade::SnakeGame::SnakeGame()
                                                                              0.1,
                                                                              false,
                                                                              0,
+                                                                             arcade::Color::Black,
                                                                              arcade::Color::White,
                                                                              "Score : 0"));
   this->_gui->addComponent(std::move(comp));
@@ -83,6 +84,7 @@ void  arcade::SnakeGame::process()
   int actionNb = -1;
   int ret;
 
+  this->_sounds.clear();
   this->_cdRemaining -= (1.5 + static_cast<double>(this->_eaten) * 0.10);
   if (this->_cdRemaining <= 0)
     {
@@ -101,6 +103,7 @@ void  arcade::SnakeGame::process()
         this->_state = QUIT;
       else if (ret == 1)
         {
+          this->_sounds.push_back(arcade::Sound(0));
           this->_eaten++;
           this->_score += 100 * this->_eaten;
           this->_gui->getComponent(0).setText("Score : " + std::to_string(this->_score));

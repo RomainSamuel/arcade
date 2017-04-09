@@ -44,8 +44,8 @@ namespace   sf
     int     getAssociatedSpritePos() const;
     void    printOnMap(std::unique_ptr<arcade::Map> &) const;
     void    eraseFromMap(std::unique_ptr<arcade::Map> &) const;
-    int     fire();
-    void    move(std::unique_ptr<arcade::Map> &, std::vector<std::unique_ptr<sf::Shot>> &);
+    bool    fire(std::vector<std::unique_ptr<sf::Shot>> &);
+    void    move(std::unique_ptr<arcade::Map> &);
   };
 }
 

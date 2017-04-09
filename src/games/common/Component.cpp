@@ -7,6 +7,7 @@ arcade::Component::Component(double x,
                              bool hasSprite,
                              size_t backgroundId,
                              Color backgroundColor,
+                             Color textColor,
                              std::string text)
 {
   this->_x = x;
@@ -16,6 +17,7 @@ arcade::Component::Component(double x,
   this->_hasSprite = hasSprite;
   this->_backgroundId = backgroundId;
   this->_backgroundColor = backgroundColor;
+  this->_textColor = textColor;
   this->_text = text;
 }
 
@@ -71,4 +73,9 @@ void  arcade::Component::setClicked()
 void  arcade::Component::setText(const std::string &text)
 {
   this->_text = text;
+}
+
+arcade::Color arcade::Component::getTextColor() const
+{
+  return (this->_textColor);
 }
