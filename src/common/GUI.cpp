@@ -1,6 +1,6 @@
 #include "GUI.hh"
 
-arcade::GUI::GUI()
+arcade::GUI::GUI() : _components()
 {
 }
 

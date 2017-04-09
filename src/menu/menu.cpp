@@ -6,7 +6,7 @@
 #include <iostream>
 #include "Menu.hh"
 
-arcade::Menu::Menu()
+arcade::Menu::Menu() : _map(), _gui(), _state(), _soundsToPlay {}, _score(), _events {}, _eventsBound {}, _cd(), _cdRemaining(), _sounds(), _pos()
 {
     this->_gui = std::unique_ptr<GUI>(new GUI());
     _pos = 1;

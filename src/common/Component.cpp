@@ -9,16 +9,9 @@ arcade::Component::Component(double x,
                              Color backgroundColor,
                              Color textColor,
                              std::string text)
+: _x(x), _y(y), _width(width), _height(height), _hasSprite(hasSprite), _backgroundId(backgroundId),
+_backgroundColor(backgroundColor), _textColor(textColor), _text(text), _clicked()
 {
-  this->_x = x;
-  this->_y = y;
-  this->_width = width;
-  this->_height = height;
-  this->_hasSprite = hasSprite;
-  this->_backgroundId = backgroundId;
-  this->_backgroundColor = backgroundColor;
-  this->_textColor = textColor;
-  this->_text = text;
 }
 
 arcade::Component::~Component()
