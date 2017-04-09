@@ -70,30 +70,34 @@ bool    arcade::LibSfml::pollEvent(arcade::Event &e)
 
 void    arcade::LibSfml::updateMap(arcade::IMap const &map)
 {
-    // Save Map properties
-    size_t  nbLayers = map.getLayerNb();
-    size_t  height = map.getHeight();
-    size_t  width = map.getWidth();
 
-     // Adjust the ratio between the game map and de window
-    _tileWidth = _width / map.getWidth();
-    _tileHeight = _height / map.getHeight();
+    if (map.getWidth() != 0 && map.getHeight() != 0) {
 
-    for (std::size_t layer = 0; layer < nbLayers; layer++) {
+        // Save Map properties
+        size_t  nbLayers = map.getLayerNb();
+        size_t  height = map.getHeight();
+        size_t  width = map.getWidth();
 
-            for (std::size_t x = 0; x < width; x++) {
+        // Adjust the ratio between the game map and de window
+        _tileWidth = _width / map.getWidth();
+        _tileHeight = _height / map.getHeight();
 
-                for (std::size_t y = 0; y < height; y++) {
+        for (std::size_t layer = 0; layer < nbLayers; layer++) {
 
-                    // Check if the tile is a sprite
-                    if (map.at(layer, x, y).hasSprite())
-                        drawTileSprite(map.at(layer, x, y), x, y);
-                    // If not, get the color
-                    else {
-                        drawTileColor(map.at(layer, x, y), x, y);
+                for (std::size_t x = 0; x < width; x++) {
+
+                    for (std::size_t y = 0; y < height; y++) {
+
+                        // Check if the tile is a sprite
+                        if (map.at(layer, x, y).hasSprite())
+                            drawTileSprite(map.at(layer, x, y), x, y);
+                        // If not, get the color
+                        else {
+                            drawTileColor(map.at(layer, x, y), x, y);
+                        }
                     }
                 }
-            }
+        }
     }
 }   
 
@@ -222,7 +226,6 @@ void    arcade::LibSfml::loadSprites(std::vector<std::unique_ptr<arcade::ISprite
 
             sf::Texture texture;
 
-            std::cout << "[" << i << "]" << "[" << nSprite << "] = " << sprites[i]->getGraphicPath(nSprite) << std::endl;
             if (!texture.loadFromFile(sprites[i]->getGraphicPath(nSprite))) {
                 std::cout << "Warning, " << sprites[i]->getGraphicPath(nSprite) << " couldn't be load." << std::endl;
             } else {
@@ -256,7 +259,7 @@ void    arcade::LibSfml::soundControl(const Sound &soundToControl)
     this->_soundManager.soundControl(soundToControl);
 }
 
-extern "C" arcade::IGfxLib  *loader()
+extern "C" arcade::IGfxLib  *getLib()
 {
     return (new arcade::LibSfml());
 }

@@ -241,7 +241,7 @@ bool  arcade::CentipedeGame::hasNetwork() const
   return (true);
 }
 
-extern "C" arcade::IGame *maker()
+extern "C" arcade::IGame *getGame()
 {
   return (new arcade::CentipedeGame());
 }
