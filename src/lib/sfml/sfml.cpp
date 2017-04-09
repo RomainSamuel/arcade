@@ -260,7 +260,7 @@ void    arcade::LibSfml::soundControl(const Sound &soundToControl)
     this->_soundManager.soundControl(soundToControl);
 }
 
-extern "C" arcade::IGfxLib  *loader()
+extern "C" arcade::IGfxLib  *getLib()
 {
     return (new arcade::LibSfml());
 }

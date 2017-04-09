@@ -97,8 +97,6 @@ bool    arcade::LibNcurses::pollEvent(arcade::Event &e)
         e.type = arcade::EventType::ET_KEYBOARD;
 
         c = getch();
-
-        std::cout << "c = " << (int)c << "   " << std::endl;
         if (arcade::_ncursesKeyboardKeys.find(c) != arcade::_ncursesKeyboardKeys.end())
             e.kb_key = (arcade::KeyboardKey)arcade::_ncursesKeyboardKeys.find(c)->second;
         else
@@ -174,14 +172,7 @@ void    arcade::LibNcurses::updateMap(arcade::IMap const &map)
                 for (std::size_t x = 0; x < width; x++) {
 
                     for (std::size_t y = 0; y < height; y++) {
-
-                        // Check if the tile is a sprite
-                        // if (map.at(layer, x, y).hasSprite())
-                        //     drawTileSprite(map.at(layer, x, y), x, y, this->getColorInCurses(map.at(0, x, y).getColor()));
-                        // If not, get the color
-                        // else {
                             drawTileColor(map.at(layer, x, y), x, y);
-                        // }
                     }
                 }
         }
@@ -291,7 +282,7 @@ void    arcade::LibNcurses::soundControl(const Sound &soundToControl)
     this->_soundManager.soundControl(soundToControl);
 }
 
-extern "C" arcade::IGfxLib  *loader()
+extern "C" arcade::IGfxLib  *getLib()
 {
     return (new arcade::LibNcurses());
 }

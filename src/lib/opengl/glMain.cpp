@@ -187,7 +187,7 @@ void    arcade::LibOpenGl::updateGUI(arcade::IGUI &GUI) {
 }
 
 void    arcade::LibOpenGl::drawComponentSprite(const arcade::IComponent &component) {
-
+return ;
     double  x_begin = component.getX() - 1.0;
     double  x_end = component.getX() + component.getWidth() - 1.0;
     double  y_begin = component.getY() - 1.0;
@@ -392,7 +392,7 @@ void    arcade::LibOpenGl::soundControl(const arcade::Sound &soundToControl) {
 }
 
 
-extern "C" arcade::IGfxLib *loader()
+extern "C" arcade::IGfxLib *getLib()
 {
     return (new arcade::LibOpenGl());
 }
