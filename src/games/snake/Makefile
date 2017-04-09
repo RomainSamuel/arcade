@@ -15,8 +15,7 @@ SRC		=	$(COMMON)Color.cpp \
 				Food.cpp \
 				SnakeGame.cpp \
 				Map.cpp	\
-				SnakePart.cpp \
-				main.cpp
+				SnakePart.cpp
 
 GAMESDIR	=	../../../games/
 
@@ -34,7 +33,7 @@ CXXFLAGS    +=  -I../../../includes/common \
 LDFLAGS			=	-shared
 
 $(NAME):	$(OBJ)
-		    $(GPP) -o $(NAME) $(OBJ) $(LSFLAGS)
+		    $(GPP) -o $(NAME) $(OBJ) $(LDFLAGS)
 				mv $(NAME) $(GAMESDIR)
 
 all:		$(NAME)
