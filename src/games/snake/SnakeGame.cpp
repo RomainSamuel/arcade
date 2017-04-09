@@ -4,7 +4,7 @@
 arcade::SnakeGame::SnakeGame()
 {
   std::cout << "YAY" << std::endl;
-  this->_map = std::unique_ptr<Map>(new Map(10, 10, 2));
+  this->_map = std::unique_ptr<Map>(new Map(10, 10, 2, 0));
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
   this->_snake.push_back(std::make_unique<snake::SnakePart>(4, 4, snake::PartType::HEAD, snake::Direction::WEST));

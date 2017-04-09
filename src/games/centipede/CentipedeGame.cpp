@@ -6,7 +6,7 @@
 arcade::CentipedeGame::CentipedeGame()
 {
   srand(time(NULL));
-  this->_map = std::unique_ptr<Map>(new Map(40, 40, 2));
+  this->_map = std::unique_ptr<Map>(new Map(40, 40, 2, 0));
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
   this->_score = 0;
