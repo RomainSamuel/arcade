@@ -109,7 +109,7 @@ void    arcade::Core::menu()
                 if (_menu.getPos() == 1)
                     _loader.setCurrentGame("games/lib_arcade_snake.so");
                 else if (_menu.getPos() == 2)
-                    _loader.setCurrentGame("games/lib_arcade_snake.so");
+                    _loader.setCurrentGame("games/lib_arcade_solarfox.so");
                 else if( _menu.getPos() == 3)
                     _loader.setCurrentGame("games/lib_arcade_centipede.so");
                 setGameState(arcade::GameState::INGAME);

@@ -73,7 +73,7 @@ $(OBJECTS):		$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 
 lib:			compile_sfml compile_opengl compile_ncurses
 
-game:			compile_snake compile_centipede
+game:			compile_snake compile_centipede compile_solarfox
 
 ##
 ##	LIBS
