@@ -174,7 +174,7 @@ bool        arcade::SnakeGame::hasNetwork() const
   return (true);
 }
 
-struct  arcade::GetMap &arcade::SnakeGame::getMap() const
+struct  arcade::GetMap arcade::SnakeGame::getMap() const
 {
   struct  GetMap  gm;
 
@@ -191,9 +191,10 @@ struct  arcade::GetMap &arcade::SnakeGame::getMap() const
             gm.tile[(y * 20) + x] = this->_map->at(0, x, y).getType();
         }
     }
+  return (gm);
 }
 
-struct  arcade::WhereAmI &arcade::SnakeGame::getWhereAmI() const
+struct  arcade::WhereAmI arcade::SnakeGame::getWhereAmI() const
 {
   struct WhereAmI wai;
 
@@ -206,6 +207,7 @@ struct  arcade::WhereAmI &arcade::SnakeGame::getWhereAmI() const
       wai.position[std::distance(this->_snake.begin(), it)].x = it->get()->getX();
       wai.position[std::distance(this->_snake.begin(), it)].y = it->get()->getY();
     }
+  return (wai);
 }
 
 extern "C" arcade::IGame *maker()
@@ -225,7 +227,7 @@ extern  "C" void  Play(void)
     {
       case 0 :
         {
-          snake.getWherAmI();
+          snake->getWhereAmI();
           break;
         }
       case 1 :
