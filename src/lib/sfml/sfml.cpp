@@ -226,7 +226,6 @@ void    arcade::LibSfml::loadSprites(std::vector<std::unique_ptr<arcade::ISprite
 
             sf::Texture texture;
 
-            std::cout << "[" << i << "]" << "[" << nSprite << "] = " << sprites[i]->getGraphicPath(nSprite) << std::endl;
             if (!texture.loadFromFile(sprites[i]->getGraphicPath(nSprite))) {
                 std::cout << "Warning, " << sprites[i]->getGraphicPath(nSprite) << " couldn't be load." << std::endl;
             } else {
