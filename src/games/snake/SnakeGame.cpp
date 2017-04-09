@@ -229,10 +229,12 @@ extern  "C" void  Play(void)
 {
   std::unique_ptr<arcade::SnakeGame> snake = std::make_unique<arcade::SnakeGame>(0);
   arcade::CommandType command;
+  char  buf[1024];
 
   while (!std::cin.eof())
   {
-    command = (arcade::CommandType)std::cin.get();
+    // command = (arcade::CommandType)std::cin.get();
+    std::cin.read(buf, 1024);
     switch (command)
     {
       case arcade::CommandType::WHERE_AM_I :
