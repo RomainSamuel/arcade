@@ -129,17 +129,17 @@ void    arcade::LibSfml::drawTileSprite(arcade::ITile const &tile, size_t x, siz
     }
 
     // Adapt the coordinates for the viewport
-    double  x_begin = (x * WIDTH_RATIO);
-    double  x_end = (x + 1) * WIDTH_RATIO;
-    double  y_begin = (y * HEIGHT_RATIO);
-    double  y_end = (y + 1) * HEIGHT_RATIO;
+    double  x_begin = (x + tile.getShiftX()) * WIDTH_RATIO;
+    double  x_end = (x + 1 + tile.getShiftX()) * WIDTH_RATIO;
+    double  y_begin = (y + tile.getShiftY()) * HEIGHT_RATIO;
+    double  y_end = (y + 1 + tile.getShiftY()) * HEIGHT_RATIO;
 
     sf::Sprite      sprite;
-    sf::Vector2f    pos(x_end - x_begin + this->_width * tile.getShiftX(), y_end - y_begin + this->_height * tile.getShiftY());
+    sf::Vector2f    pos(x_end - x_begin, y_end - y_begin);
 
     sprite.setTexture(this->_sprites[tile.getSpriteId()].at(tile.getSpritePos()));
     sprite.setScale(pos.x / sprite.getLocalBounds().width, pos.y / sprite.getLocalBounds().height);
-    sprite.setPosition(x_begin, y_begin);
+    sprite.setPosition(x_begin, y_begin + tile.getShiftY());
 
     _window.draw(sprite);
 }
