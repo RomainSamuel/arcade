@@ -61,7 +61,6 @@ bool    arcade::SoundManager::doesSupportSound() const {
 }
 
 void    arcade::SoundManager::loadSounds(std::vector<std::pair<std::string, arcade::SoundType> > const &soundsToLoad) {
-    std::cout << "Loading sounds." << std::endl;
 
     // Check if sound is supported
     if (!this->_soundSupported) {
@@ -133,7 +132,6 @@ void    arcade::SoundManager::loadSounds(std::vector<std::pair<std::string, arca
 }
 
 void    arcade::SoundManager::soundControl(const Sound &sound) {
-    std::cout << "play sound" << std::endl;
 
     // Check if sound is supported
     if (!this->_soundSupported) {
