@@ -79,8 +79,11 @@ void    arcade::Core::loadLib()
     delete _libLoad;
     void *loader = _loader.getSym(_loader.getCurrentLib(), "loader");
     _libLoad = ((arcade::IGfxLib *(*)())loader)();
-    _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
-    _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
+    if (_gameLoad)
+    {
+        _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
+        _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
+    }
 }
 
 void    arcade::Core::loadGame()
@@ -142,12 +145,14 @@ void    arcade::Core::getEventMenu()
             {
                 _loader.getPrevLib();
                 loadLib();
+                 _libLoad->loadSprites(_menu.getSpritesToLoad());
                 break;
             }
             case arcade::KeyboardKey::KB_3 :
             {
                 _loader.getNextLib();
                 loadLib();
+                 _libLoad->loadSprites(_menu.getSpritesToLoad());
                 break;
             } 
             default :

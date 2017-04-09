@@ -67,9 +67,7 @@ void    arcade::Loader::setCurrentLib(std::string const &lib)
 
 void    arcade::Loader::setCurrentGame(std::string const &game)
 {
-    std::cout << game << std::endl;
     _currentGame = game;
-    std::cout << "|" << _currentGame << "|" << std::endl;
 }
 
 std::vector<std::string>    arcade::Loader::getLibPath() const
