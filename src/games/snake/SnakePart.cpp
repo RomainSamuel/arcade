@@ -197,8 +197,10 @@ int snake::SnakePart::lead(std::list<std::unique_ptr<SnakePart>> &list,
   size_t  next_y = this->y + this->pos[this->direction].second;
 
   if (map->at(0, next_x, next_y).getTypeEv() == arcade::TileTypeEvolution::BLOCK ||
-      map->at(1, next_x, next_y).getTypeEv() == arcade::TileTypeEvolution::PLAYER)
+      (map->at(1, next_x, next_y).getTypeEv() == arcade::TileTypeEvolution::PLAYER &&
+       (list.back()->getX() != next_x || list.back()->getY() != next_y)))
     return (-1);
+  this->eraseFromMap(list, map);
   this->x += this->pos[this->direction].first;
   this->y += this->pos[this->direction].second;
   for (std::list<std::unique_ptr<snake::SnakePart>>::iterator it = list.begin(); it != list.end(); it++)
@@ -218,7 +220,6 @@ int snake::SnakePart::move(std::list<std::unique_ptr<SnakePart>> &list,
 {
   int ret;
 
-  this->eraseFromMap(list, map);
   ret = this->lead(list, map, food);
   if (ret == -1)
     {
