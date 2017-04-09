@@ -22,6 +22,8 @@ namespace centipede
     Direction direction;
     std::map<Direction, std::pair<int, int>>  &pos;
     arcade::Map &map;
+    size_t  initialMoveCD;
+    size_t  moveCD;
 
   public:
     Shot(int,

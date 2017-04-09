@@ -21,13 +21,14 @@ namespace arcade
     std::unique_ptr<GUI>                          _gui;
     GameState                                     _state;
     std::vector<int>                              _soundsToPlay;
-    size_t                                        _score;
+    int                                           _score;
     std::vector<arcade::Event>                    _events;
-    std::array<arcade::Event, 4>                  _eventsBound;
+    std::array<arcade::Event, 5>                  _eventsBound;
     size_t                                        _initialInputCD;
     size_t                                        _inputCD;
     size_t                                        _initialCentipedeCD;
     size_t                                        _centipedeCD;
+    size_t                                        _timer;
     std::vector<std::shared_ptr<centipede::CentipedePart>>  _centipedes;
     std::unique_ptr<centipede::Player>            _player;
     size_t                                        _killed;

@@ -50,8 +50,20 @@ bool    sf::Shot::Collide(sf::Shot &other) const
   return (false);
 }
 
+bool    sf::Shot::destroyPLayer(std::unique_ptr<arcade::Map> &map) const
+{
+  if (this-> x < 0 || this-> y < 0 || this->x >= 20 || this->y >= 20)
+    return (false);
+  if (map->at(2, static_cast<int>(this->x), static_cast<int>(this->y)).getTypeEv() == arcade::TileTypeEvolution::PLAYER)
+    return (true);
+  else
+    return (false);
+}
+
 void    sf::Shot::printOnMap(std::unique_ptr<arcade::Map> &map) const
 {
+  if (this-> x < 0 || this-> y < 0 || this->x >= 20 || this->y >= 20)
+    return;
   map->at(this->layer, static_cast<size_t>(this->x), static_cast<size_t>(this->y)).
     set(arcade::TileType::EMPTY,
         arcade::TileTypeEvolution::SHOT_ENEMY,
@@ -59,12 +71,16 @@ void    sf::Shot::printOnMap(std::unique_ptr<arcade::Map> &map) const
         true,
         1,
         static_cast<int>(this->mv),
-        this->x - 0.5 - static_cast<double>(static_cast<int>(this->x)),
-        this->y - 0.5 - static_cast<double>(static_cast<int>(this->y)));
+        // this->x - 0.5 - static_cast<double>(static_cast<int>(this->x))
+        0.0,
+        // this->y - 0.5 - static_cast<double>(static_cast<int>(this->y))
+        0.0);
 }
 
 void    sf::Shot::eraseFromMap(std::unique_ptr<arcade::Map> &map) const
 {
+  if (this-> x < 0 || this-> y < 0 || this->x >= 20 || this->y >= 20)
+    return;
   map->at(this->layer, static_cast<size_t>(this->x), static_cast<size_t>(this->y)).
     set(arcade::TileType::EMPTY,
         arcade::TileTypeEvolution::EMPTY,
@@ -79,12 +95,25 @@ void    sf::Shot::eraseFromMap(std::unique_ptr<arcade::Map> &map) const
 int   sf::Shot::move(std::unique_ptr<arcade::Map> &map)
 {
   this->eraseFromMap(map);
+  if (this-> x < 0 || this-> y < 0 || this->x >= 20 || this->y >= 20)
+    return (-1);
   if (this->mv == VERTICAL)
     this->y += this->moveSpeed * static_cast<double>(this->direction);
   else
     this->x += this->moveSpeed * static_cast<double>(this->direction);
-  if (map->at(1, static_cast<size_t>(this->x), static_cast<size_t>(this->y)).getTypeEv() == arcade::TileTypeEvolution::FOOD)
+  if (this->x < 0 || this->y < 0 || this->x >= 20 || this->y >= 20)
+    return (-1);
+  if (map->at(1, static_cast<size_t>(this->x), static_cast<size_t>(this->y)).getTypeEv() == arcade::TileTypeEvolution::FOOD && this->player)
     {
+      map->at(1, static_cast<size_t>(this->x), static_cast<size_t>(this->y)).
+        set(arcade::TileType::EMPTY,
+            arcade::TileTypeEvolution::EMPTY,
+            arcade::Color::Transparent,
+            false,
+            0,
+            0,
+            0.0,
+            0.0);
       this->eraseFromMap(map);
       return (1);
     }
@@ -95,7 +124,7 @@ int   sf::Shot::move(std::unique_ptr<arcade::Map> &map)
 
 bool  sf::Shot::isAlive()
 {
-  return (this->lifeDuration > 0);
+  return (this->lifeDuration > 0 && this->x >= 0 && this->y >= 0 && this->x < 40 && this->y < 40);
 }
 
 double  sf::Shot::getX() const

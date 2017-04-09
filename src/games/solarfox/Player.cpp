@@ -4,14 +4,14 @@ sf::Player::Player()
 {
   this->x = 9.5;
   this->y = 9.5;
-  this->xCell = 10;
-  this->yCell = 10;
+  this->xCell = 9;
+  this->yCell = 9;
   this->direction = sf::Direction::NORTH;
-  this->pos[sf::Direction::NORTH] = std::pair<double, double>(0, -0.1);
-  this->pos[sf::Direction::EAST] = std::pair<double, double>(0.1, 0);
-  this->pos[sf::Direction::SOUTH] = std::pair<double, double>(0, 0.1);
-  this->pos[sf::Direction::WEST] = std::pair<double, double>(-0.1, 0);
-  this->fire_cd = 8;
+  this->pos[sf::Direction::NORTH] = std::pair<double, double>(0, -0.025);
+  this->pos[sf::Direction::EAST] = std::pair<double, double>(0.025, 0);
+  this->pos[sf::Direction::SOUTH] = std::pair<double, double>(0, 0.025);
+  this->pos[sf::Direction::WEST] = std::pair<double, double>(-0.025, 0);
+  this->fire_cd = 38;
   this->fcd = 0;
 }
 
@@ -41,22 +41,20 @@ void  sf::Player::setDirection(sf::Direction direction)
     return;
   this->direction = direction;
 }
-#include <iostream>
+
 void  sf::Player::printOnMap(std::unique_ptr<arcade::Map> &map) const
 {
-  std::cout << "x : " << this->x << std::endl;
-  std::cout << "y : " << this->y << std::endl;
-  std::cout << "x_shift : " << this->x - 0.5 - static_cast<double>(this->xCell) << std::endl;
-  std::cout << "y_shift ! " << this->y - 0.5 - static_cast<double>(this->yCell) << std::endl;
-
   map->at(2, this->xCell, this->yCell).set(arcade::TileType::EMPTY,
                                            arcade::TileTypeEvolution::PLAYER,
                                            arcade::Color::Red,
                                            true,
                                            2,
                                            static_cast<int>(this->direction),
-                                           this->x - 0.5 - static_cast<double>(this->xCell),
-                                           this->y - 0.5 - static_cast<double>(this->yCell));
+                                           // this->x - 0.5 - static_cast<double>(this->xCell)
+                                           0.0,
+                                           // this->y - 0.5 - static_cast<double>(this->yCell)
+                                           0.0
+                                           );
 }
 
 void  sf::Player::eraseFromMap(std::unique_ptr<arcade::Map> &map) const
@@ -78,9 +76,9 @@ bool  sf::Player::fire()
       this->shot = std::make_unique<sf::Shot>(1,
                                               this->x,
                                               this->y,
-                                              10,
+                                              40,
                                               (this->direction == EAST || this->direction == SOUTH) ? 1 : -1,
-                                              0.3,
+                                              0.075,
                                               (this->direction == NORTH || this->direction == SOUTH) ? VERTICAL : HORIZONTAL,
                                               true);
       this->fcd = this->fire_cd;

@@ -27,9 +27,9 @@ namespace arcade
     std::vector<std::unique_ptr<sf::Shot>>        _shots;
     size_t                                        _score;
     std::vector<arcade::Event>                    _events;
-    std::array<arcade::Event, 4>                  _eventsBound;
-    double                                        _cd;
-    double                                        _cdRemaining;
+    std::array<arcade::Event, 5>                  _eventsBound;
+    size_t                                        _initialInputCD;
+    size_t                                        _inputCD;
     size_t                                        _remainingScrap;
     std::vector<arcade::Sound>                    _sounds;
 

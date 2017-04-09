@@ -63,7 +63,7 @@ void  snake::Food::printOnMap(std::unique_ptr<arcade::Map> &map)
 {
   map->at(1, this->getX(), this->getY()).set(arcade::TileType::EMPTY,
                                              arcade::TileTypeEvolution::FOOD,
-                                             arcade::Color::Green,
+                                             arcade::Color::Red,
                                              true,
                                              0,
                                              0,

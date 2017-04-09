@@ -10,13 +10,14 @@ arcade::CentipedeGame::CentipedeGame()
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
   this->_score = 0;
-  this->_initialInputCD = 10;
+  this->_initialInputCD = 5;
   this->_inputCD = 0;
-  this->_initialCentipedeCD = 150;
+  this->_initialCentipedeCD = 600;
   this->_centipedeCD = 0;
   this->_player = std::make_unique<centipede::Player>(*this->_map);
   this->_player->printOnMap();
   this->_killed = 0;
+  this->_timer = 0;
 
   // EVENTS
   arcade::Event event;
@@ -30,6 +31,8 @@ arcade::CentipedeGame::CentipedeGame()
   this->_eventsBound[2] = event;
   event.kb_key = arcade::KeyboardKey::KB_ARROW_LEFT;
   this->_eventsBound[3] = event;
+  event.kb_key = arcade::KeyboardKey::KB_SPACE;
+  this->_eventsBound[4] = event;
 
   // GUI
   std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0,
@@ -70,7 +73,7 @@ std::vector<arcade::NetworkPacket>&& arcade::CentipedeGame::getNetworkToSend()
 
 int arcade::CentipedeGame::getActionToPerform(arcade::Event event) const
 {
-  for (size_t i = 0; i < 4; i++)
+  for (size_t i = 0; i < 5; i++)
     {
       if (event.type == this->_eventsBound[i].type &&
           event.action == this->_eventsBound[i].action &&
@@ -93,7 +96,7 @@ void  arcade::CentipedeGame::createCentipede(size_t nb)
                                                                              i == 0,
                                                                              i == nb - 1,
                                                                              *this->_map,
-                                                                             1,
+                                                                             10,
                                                                              direction));
       this->_centipedes.back()->printOnMap();
       if (i != 0)
@@ -129,7 +132,10 @@ void  arcade::CentipedeGame::process()
 {
   int actionNb = -1;
   int ret;
+  bool  moveShot = true;
 
+  if (this->_state == MENU)
+    return;
   if (this->_state != INGAME)
     this->_state = INGAME;
   if (this->_events.size() > 0)
@@ -137,25 +143,46 @@ void  arcade::CentipedeGame::process()
       if (this->_inputCD == 0)
         {
           actionNb = this->getActionToPerform(this->_events.front());
-          this->_events.erase(this->_events.begin());
+          this->_events.clear();
           this->_inputCD = this->_initialInputCD;
           if (actionNb >= 0 && actionNb < 4)
             this->_player->move(static_cast<centipede::Direction>(actionNb));
           else if (actionNb == 4)
             if (this->_player->hasShot() == false)
-              if ((ret = this->_player->fire(this->_centipedes)) != 0)
-                this->killCentipede(ret);
+              {
+                moveShot = false;
+                if ((ret = this->_player->fire(this->_centipedes)) != 0)
+                  this->killCentipede(ret);
+              }
         }
     }
-  if (this->_player->hasShot())
+  if (this->_player->hasShot() && moveShot == true && this->_timer % 2 == 0)
     if ((ret = this->_player->getShot().move(this->_centipedes)) != 0)
       this->killCentipede(ret);
   if (this->_killed == 10)
     this->_state = QUIT;
-  for (size_t i = 0; i < this->_centipedes.size(); i++)
-    this->_centipedes[i]->move();
+  if (this->_timer % 10 == 0)
+    {
+      for (size_t i = 0; i < this->_centipedes.size(); i++)
+        {
+          ret = this->_centipedes[i]->move();
+          if (ret == -1)
+            {
+              this->_state = MENU;
+              return;
+            }
+          else if (ret == 1)
+            {
+              this->_score -= 200;
+              this->_gui->getComponent(0).setText("Score : " + std::to_string(this->_score));
+              this->_centipedes.erase(this->_centipedes.begin() + i);
+            }
+        }
+    }
+  this->_timer++;
   if (this->_centipedeCD == 0)
     {
+      this->_initialCentipedeCD *= 0.9;
       this->createCentipede(rand() % 4 + 3);
       this->_centipedeCD = this->_initialCentipedeCD;
     }
@@ -170,20 +197,20 @@ std::vector<std::unique_ptr<arcade::ISprite>> arcade::CentipedeGame::getSpritesT
   std::vector<std::unique_ptr<arcade::ISprite>> vec;
 
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
-                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/player.png", ' ')}))));
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/centipede/player.png", ' ')}))));
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
-                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/shot.png", ' ')}))));
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/centipede/shot.png", ' ')}))));
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
-                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/body_east.png", ' '),
-                                                               std::pair<std::string, char>("./resources/games/sprites/snake/body_west.png", ' ')}))));
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/centipede/body_east.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/centipede/body_west.png", ' ')}))));
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
-                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/head_east.png", ' '),
-                                                               std::pair<std::string, char>("./resources/games/sprites/snake/head_west.png", ' ')}))));
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/centipede/head_east.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/centipede/head_west.png", ' ')}))));
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
-                                                           ({std::pair<std::string, char>("./resources/games/sprites/snake/obstacle_1.png", ' '),
-                                                               std::pair<std::string, char>("./resources/games/sprites/snake/obstacle_2.png", ' '),
-                                                               std::pair<std::string, char>("./resources/games/sprites/snake/obstacle_3.png", ' '),
-                                                               std::pair<std::string, char>("./resources/games/sprites/snake/obstacle_4.png", ' ')}))));
+                                                           ({std::pair<std::string, char>("./resources/games/sprites/centipede/obstacle_1.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/centipede/obstacle_2.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/centipede/obstacle_3.png", ' '),
+                                                               std::pair<std::string, char>("./resources/games/sprites/centipede/obstacle_4.png", ' ')}))));
   return (vec);
 }
 
