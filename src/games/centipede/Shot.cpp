@@ -17,7 +17,7 @@ centipede::Shot::~Shot()
 
 void  centipede::Shot::eraseFromMap()
 {
-  this->map.at(1, this->x, this->y).set(arcade::TileType::EMPTY,
+  this->map.at(0, this->x, this->y).set(arcade::TileType::EMPTY,
                                         arcade::TileTypeEvolution::EMPTY,
                                         arcade::Color::Transparent,
                                         false,
@@ -29,16 +29,16 @@ void  centipede::Shot::eraseFromMap()
 
 void  centipede::Shot::printOnMap()
 {
-  this->map.at(1, this->x, this->y).set(arcade::TileType::EMPTY,
+  this->map.at(0, this->x, this->y).set(arcade::TileType::EMPTY,
                                         arcade::TileTypeEvolution::SHOT_PLAYER,
                                         arcade::Color::Yellow,
                                         true,
                                         1,
-                                        static_cast<int>(this->direction) % 2 == 0,
+                                        0,
                                         0.0,
                                         0.0);
 }
-
+#include <iostream>
 int centipede::Shot::move(std::vector<std::shared_ptr<centipede::CentipedePart>> &centipedes)
 {
   if (this->moveCD == 0)
@@ -47,6 +47,8 @@ int centipede::Shot::move(std::vector<std::shared_ptr<centipede::CentipedePart>>
       this->eraseFromMap();
       this->x += this->pos[this->direction].first;
       this->y += this->pos[this->direction].second;
+      if (this->x < 0 || this->x > 39 || this->y < 0 || this->y > 39)
+        return (-1);
       if (this->x < 0 || this->x > 39 || this->y < 0 || this->y > 39)
         return (-1);
       else if (this->map.at(0, this->x, this->y).getTypeEv() == arcade::TileTypeEvolution::OBSTACLE)
@@ -64,7 +66,7 @@ int centipede::Shot::move(std::vector<std::shared_ptr<centipede::CentipedePart>>
             this->map.at(0, this->x, this->y).setSpritePos(this->map.at(0, this->x, this->y).getSpritePos() - 1);
           return (-1);
         }
-      else if (this->map.at(0, this->x, this->y).getTypeEv() == arcade::TileTypeEvolution::ENEMY)
+      else if (this->map.at(1, this->x, this->y).getTypeEv() == arcade::TileTypeEvolution::ENEMY)
         {
           for (size_t i = 0; i < centipedes.size(); i++)
             {
@@ -102,7 +104,7 @@ int centipede::Shot::checkCollisions(std::vector<std::shared_ptr<centipede::Cent
       this->eraseFromMap();
       return (-1);
     }
-  else if (this->map.at(0, this->x, this->y).getTypeEv() == arcade::TileTypeEvolution::ENEMY)
+  else if (this->map.at(1, this->x, this->y).getTypeEv() == arcade::TileTypeEvolution::ENEMY)
     {
       for (size_t i = 0; i < centipedes.size(); i++)
         {

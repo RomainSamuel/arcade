@@ -12,7 +12,7 @@ arcade::CentipedeGame::CentipedeGame()
   this->_score = 0;
   this->_initialInputCD = 5;
   this->_inputCD = 0;
-  this->_initialCentipedeCD = 600;
+  this->_initialCentipedeCD = 1000;
   this->_centipedeCD = 0;
   this->_player = std::make_unique<centipede::Player>(*this->_map);
   this->_player->printOnMap();
@@ -161,7 +161,7 @@ void  arcade::CentipedeGame::process()
       this->killCentipede(ret);
   if (this->_killed == 10)
     this->_state = QUIT;
-  if (this->_timer % 10 == 0)
+  if (this->_timer % 15 == 0)
     {
       for (size_t i = 0; i < this->_centipedes.size(); i++)
         {
@@ -182,7 +182,7 @@ void  arcade::CentipedeGame::process()
   this->_timer++;
   if (this->_centipedeCD == 0)
     {
-      this->_initialCentipedeCD *= 0.9;
+      this->_initialCentipedeCD *= 0.95;
       this->createCentipede(rand() % 4 + 3);
       this->_centipedeCD = this->_initialCentipedeCD;
     }

@@ -48,7 +48,7 @@ void  centipede::CentipedePart::die()
   this->map.at(0, this->x, this->y).set(arcade::TileType::OBSTACLE,
                                         arcade::TileTypeEvolution::OBSTACLE,
                                         arcade::Color::White,
-                                        false,
+                                        true,
                                         4,
                                         3,
                                         0.0,
