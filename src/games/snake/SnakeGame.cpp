@@ -184,7 +184,7 @@ extern "C" arcade::IGame *maker()
 {
   return (new arcade::SnakeGame());
 }
-/*
+
 extern  "C" void  Play(void)
 {
   arcade::SnakeGame *snake = new arcade::SnakeGame;
@@ -197,58 +197,82 @@ extern  "C" void  Play(void)
     {
       case 0 :
         {
-          std::cout << "ZERO" << std::endl;
+          snake.getWherAmI();
           break;
         }
       case 1 :
         {
-          std::cout << "ONE" << std::endl;
+          snake.getMap();
           break;
         }
       case 2 :
         {
           arcade::Event event;
+          std::vector<arcade::Event> events;
 
           event.type = arcade::EventType::ET_KEYBOARD;
           event.action = arcade::ActionType::AT_PRESSED;
           event.kb_key = arcade::KeyboardKey::KB_ARROW_UP;
-          notifyEvent(event);
-
+          events.push_back(event);
+          snake.notifyEvent(events);
+          snake.process();
           break;
         }
       case 3 :
         {
-          std::cout << "THREE" << std::endl;
+          arcade::Event event;
+          std::vector<arcade::Event> events;
+
+          event.type = arcade::EventType::ET_KEYBOARD;
+          event.action = arcade::ActionType::AT_PRESSED;
+          event.kb_key = arcade::KeyboardKey::KB_ARROW_DOWN;
+          events.push_back(event);
+          snake.notifyEvent(events);
+          snake.process();
           break;
         }
       case 4 :
         {
-          std::cout << "FOUR" << std::endl;
+          arcade::Event event;
+          std::vector<arcade::Event> events;
+
+          event.type = arcade::EventType::ET_KEYBOARD;
+          event.action = arcade::ActionType::AT_PRESSED;
+          event.kb_key = arcade::KeyboardKey::KB_ARROW_LEFT;
+          events.push_back(event);
+          snake.notifyEvent(events);
+          snake.process();
           break;
         }
       case 5 :
         {
-          std::cout << "FIVE" << std::endl;
+          arcade::Event event;
+          std::vector<arcade::Event> events;
+
+          event.type = arcade::EventType::ET_KEYBOARD;
+          event.action = arcade::ActionType::AT_PRESSED;
+          event.kb_key = arcade::KeyboardKey::KB_ARROW_RIGHT;
+          events.push_back(event);
+          snake.notifyEvent(events);
+          snake.process();
           break;
         }
       case 6 :
         {
-          std::cout << "SIX" << std::endl;
+          snake.process();
           break;
         }
       case 7 :
         {
-          std::cout << "SEVEN" << std::endl;
           break;
         }
       case 8 :
         {
-          std::cout << "EIGHT" << std::endl;
           break;
         }
       case 9 :
         {
-          std::cout << "NINE" << std::endl;
+          snake.process();
           break;
         }
         default:
@@ -256,4 +280,3 @@ extern  "C" void  Play(void)
     }
   }
 }
-*/

@@ -10,7 +10,7 @@
 NAME   = arcade
 
 # config
-DEBUG 		= yes
+DEBUG 		= no
 # if display_opt is set to "percentage", shows the progress of the compilation in percentage, else use the index.
 DISPLAY_OPT	= percentage
 
