@@ -215,7 +215,7 @@ extern "C" arcade::IGame *maker()
 
 extern  "C" void  Play(void)
 {
-  arcade::SnakeGame *snake = new arcade::SnakeGame;
+  std::unique_ptr<arcade::SnakeGame> snake = std::make_unique<arcade::SnakeGame>(0);
   std::string command;
 
   while (1)
