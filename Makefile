@@ -27,7 +27,7 @@ COMPILATION_MSG	= $(DISPLAY_TWO)
 CXX		= g++
 
 # compiling flags here
-CXXFLAGS	= -W -Wall -Wextra -Werror -Weffc++ -std=c++14 -I./includes/ -I./includes/common/ -I./includes/core/ -I./includes/menu/  -I.includes/common -O2
+CXXFLAGS	= -W -Wall -Wextra -std=c++14 -I./includes/ -I./includes/common/ -I./includes/core/ -I./includes/menu/  -I.includes/common -O2
 #CXXFLAGS	+=		-pedantic -Wold-style-cast -Woverloaded-virtual -Wfloat-equal		
 #CXXFLAGS	+=		-Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion			
 #CXXFLAGS	+=		-Wshadow -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default	
@@ -73,26 +73,32 @@ $(OBJECTS):		$(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 
 lib:			compile_sfml compile_opengl compile_ncurses
 
-game:			compile_snake
+game:			compile_snake compile_centipede
 
 ##
 ##	LIBS
 ##
 compile_sfml:
-			make -C src/lib/sfml
+			make re -C src/lib/sfml
 
 compile_opengl:
-			make -C src/lib/opengl
+			make re -C src/lib/opengl
 
 compile_ncurses:
-			make -C src/lib/ncurses
+			make re -C src/lib/ncurses
 
 
 ##
 ##	GAMES
 ##
 compile_snake:
-			make -C src/games/snake
+			make re -C src/games/snake
+
+compile_solarfox:
+			make re -C src/games/solarfox
+
+compile_centipede:
+			make re -C src/games/centipede
 
 
 .PHONY: 		clean fclean re
