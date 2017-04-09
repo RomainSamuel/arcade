@@ -204,14 +204,6 @@ void    arcade::LibSfml::drawComponentText(const arcade::IComponent &component) 
 
 void    arcade::LibSfml::display()
 {
-    sf::Texture texture;
-    texture.loadFromFile("resources/menu/arcade.png");
-    
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
-    sprite.setPosition(sf::Vector2f(200, 10));
-    _window.draw(sprite);
-
     // ICI
     _window.display();
 }
