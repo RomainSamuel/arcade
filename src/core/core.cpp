@@ -203,6 +203,11 @@ void    arcade::Core::getEventGame()
                     loadGame();
                     break;
                 }
+                case arcade::KeyboardKey::KB_8 :
+                {
+                    loadGame();
+                    break;
+                }
                 case arcade::KeyboardKey::KB_9 :
                 {
                      setGameState(arcade::GameState::MENU);

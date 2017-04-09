@@ -36,6 +36,7 @@ LDFLAGS			=	-shared
 
 $(NAME):	$(OBJ)
 		    $(GPP) -o $(NAME) $(OBJ)
+			mv $(NAME) $(GAMESDIR)
 
 all:		$(NAME)
 

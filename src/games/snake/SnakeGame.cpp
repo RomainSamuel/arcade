@@ -218,26 +218,28 @@ extern "C" arcade::IGame *getGame()
 extern  "C" void  Play(void)
 {
   std::unique_ptr<arcade::SnakeGame> snake = std::make_unique<arcade::SnakeGame>(0);
-  arcade::CommandType command;
+  int command;
+  char   buffer[1024];
 
   while (!std::cin.eof())
   {
-    command = (arcade::CommandType)std::cin.get();
+    std::cin.read(buffer, 1024);
+    command = std::stoi(buffer);
     switch (command)
     {
-      case arcade::CommandType::WHERE_AM_I :
+      case 1 :
         {
           struct arcade::WhereAmI wai = snake->getWhereAmI();
           std::cout.write((char*)&wai, sizeof(wai));
           break;
         }
-      case arcade::CommandType::GET_MAP :
+      case 2 :
         {
         struct arcade::GetMap getmap = snake->getMap();
         std::cout.write((char*)&getmap, sizeof(getmap));
           break;
         }
-      case arcade::CommandType::GO_UP :
+      case 3 :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -250,7 +252,7 @@ extern  "C" void  Play(void)
           snake->process();
           break;
         }
-      case arcade::CommandType::GO_DOWN :
+      case 4 :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -263,7 +265,7 @@ extern  "C" void  Play(void)
           snake->process();
           break;
         }
-      case arcade::CommandType::GO_LEFT :
+      case 5 :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -276,7 +278,7 @@ extern  "C" void  Play(void)
           snake->process();
           break;
         }
-      case arcade::CommandType::GO_RIGHT :
+      case 6 :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -289,20 +291,20 @@ extern  "C" void  Play(void)
           snake->process();
           break;
         }
-      case arcade::CommandType::GO_FORWARD :
+      case 7 :
         {
           snake->process();
           break;
         }
-      case arcade::CommandType::SHOOT :
+      case 8 :
         {
           break;
         }
-      case arcade::CommandType::ILLEGAL :
+      case 9 :
         {
           break;
         }
-      case arcade::CommandType::PLAY :
+      case 10 :
         {
           snake->process();
           break;
