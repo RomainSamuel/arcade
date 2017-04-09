@@ -59,29 +59,36 @@ void    arcade::Core::setGameState(const arcade::GameState state)
 
 void    arcade::Core::display()
 {
-    _menu = new arcade::Menu();
     _loader = getLoader();
 
     void *loader = _loader.getSym(_loader.getCurrentLib(), "loader");
     _libLoad = ((arcade::IGfxLib *(*)())loader)();
     void *mkr = _loader.getSym(_loader.getCurrentGame(), "maker");
     _gameLoad = ((arcade::IGame *(*)())mkr)();
-    //_libLoad->loadSprites(_gameLoad->getSpritesToLoad());
+    _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
     _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
 
     while (getGameState() != arcade::GameState::QUIT)
     {
         _libLoad->clear();
-        //if (getGameState() == arcade::GameState::MENU)
-           //menu();
-        //else if (getGameState() == arcade::GameState::INGAME)
-        play();
+        if (getGameState() == arcade::GameState::MENU)
+           menu();
+        else if (getGameState() == arcade::GameState::INGAME)
+            play();
     }
 }
 
 void    arcade::Core::menu()
 {
-    //Event   event;
+    Event   event;
+    std::vector<Event> _events;
+
+    //_libLoad->loadSprites(_menu->getSpritesToLoad());
+    if (_libLoad->pollEvent(event))
+    {
+        if (event.kb_key == arcade::KeyboardKey::KB_SPACE)
+            setGameState(arcade::GameState::INGAME);
+    }
     _libLoad->display();
 }
 
@@ -148,9 +155,6 @@ void    arcade::Core::play()
     }
 
     _gameLoad->process();
-
-    if (_gameLoad->getGameState() == arcade::GameState::QUIT)
-        setGameState(arcade::GameState::MENU);
 
     if (_gameState != arcade::GameState::QUIT)
     {
