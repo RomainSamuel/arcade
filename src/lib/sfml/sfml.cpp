@@ -2,6 +2,8 @@
 // Created by maud on 26/03/17.
 //
 
+#include <chrono>
+#include <thread>
 #include <iostream>
 #include "Sfml.hh"
  
@@ -118,7 +120,8 @@ void    arcade::LibSfml::drawTileColor(arcade::ITile const &tile, size_t x, size
 void    arcade::LibSfml::drawTileSprite(arcade::ITile const &tile, size_t x, size_t y) {
 
     if (this->_sprites.find(tile.getSpriteId()) == this->_sprites.end()) {
-        std::cout << "Warning, couldn't draw tile's sprite (because sprite was not found)" << std::endl;        
+        std::cout << "not found for " << "[" << tile.getSpriteId() << "]" << "[" << tile.getSpritePos() << "]" << std::endl;
+        // std::cout << "Warning, couldn't draw tile's sprite (because sprite was not found)" << std::endl;        
         return ;
     }
 
@@ -128,10 +131,11 @@ void    arcade::LibSfml::drawTileSprite(arcade::ITile const &tile, size_t x, siz
     double  y_begin = (y * HEIGHT_RATIO);
     double  y_end = (y + 1) * HEIGHT_RATIO;
 
-    sf::Sprite  sprite;
+    sf::Sprite      sprite;
+    sf::Vector2f    pos(x_end - x_begin, y_end - y_begin);
 
     sprite.setTexture(this->_sprites[tile.getSpriteId()].at(tile.getSpritePos()));
-    sprite.setScale(sf::Vector2f(x_end - x_begin, y_end - y_begin));
+    sprite.setScale(pos.x / sprite.getLocalBounds().width, pos.y / sprite.getLocalBounds().height);
     sprite.setPosition(x_begin, y_begin);
 
     _window.draw(sprite);
@@ -159,15 +163,17 @@ void    arcade::LibSfml::drawComponent(const arcade::IComponent &component) {
 void    arcade::LibSfml::drawComponentSprite(const arcade::IComponent &component) {
 
     if (this->_sprites.find(component.getBackgroundId()) == this->_sprites.end()) {
-        std::cout << "Warning, couldn't draw component's sprite (because sprite was not found)" << std::endl;
+        // std::cout << "Warning, couldn't draw component's sprite (because sprite was not found)" << std::endl;
         return ;
     }
 
     sf::Sprite  sprite;
+    sf::Vector2f    pos((double)this->_width / (component.getX() + component.getWidth()) - (double)this->_width / component.getX(),
+                        (double)this->_height / (component.getY() + component.getHeight()) - (double)this->_height / component.getY());
 
     sprite.setTexture(this->_sprites[component.getBackgroundId()].at(0));
-    sprite.setScale(sf::Vector2f(component.getWidth(), component.getHeight()));
-    sprite.setPosition(component.getY(), component.getX());
+    sprite.setScale(pos.x / sprite.getLocalBounds().width, pos.y / sprite.getLocalBounds().height);
+    sprite.setPosition((double)this->_width / component.getX(), (double)this->_height / component.getY());
 
     _window.draw(sprite);
 }
@@ -204,6 +210,14 @@ void    arcade::LibSfml::drawComponentText(const arcade::IComponent &component) 
 
 void    arcade::LibSfml::display()
 {
+    sf::Texture texture;
+    texture.loadFromFile("resources/menu/arcade.png");
+    
+    sf::Sprite sprite;
+    sprite.setTexture(texture);
+    sprite.setPosition(sf::Vector2f(200, 10));
+    _window.draw(sprite);
+
     // ICI
     _window.display();
 }
@@ -219,12 +233,14 @@ void    arcade::LibSfml::loadSprites(std::vector<std::unique_ptr<arcade::ISprite
 
             sf::Texture texture;
 
+            std::cout << "[" << i << "]" << "[" << nSprite << "] = " << sprites[i]->getGraphicPath(nSprite) << std::endl;
             if (!texture.loadFromFile(sprites[i]->getGraphicPath(nSprite))) {
                 std::cout << "Warning, " << sprites[i]->getGraphicPath(nSprite) << " couldn't be load." << std::endl;
             } else {
                 this->_sprites[i].push_back(texture);
             }
-
+            // std::cout << "nSprite = " << nSprite << std::endl;
+            // std::cout << "i = " << i << std::endl; 
         }
     }
 }
