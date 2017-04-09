@@ -155,7 +155,7 @@ std::vector<std::pair<std::string, arcade::SoundType>> arcade::SnakeGame::getSou
 
 std::vector<arcade::Sound> arcade::SnakeGame::getSoundsToPlay()
 {
-  return (this->_sounds);
+  return (_sounds);
 }
 
 arcade::IMap const &arcade::SnakeGame::getCurrentMap() const

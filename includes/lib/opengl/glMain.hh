@@ -59,8 +59,8 @@ namespace arcade {
             // SOUND
             SoundManager    _soundManager;
             // Member Functions (For gfx essentially)
-            void            drawTileColor(ITile const &tile, std::size_t x, std::size_t y);
-            void            drawTileSprite(ITile const &tile, std::size_t x, std::size_t y);
+            void            drawTileColor(ITile const &tile, std::size_t x, std::size_t y, arcade::IMap const &map);
+            void            drawTileSprite(ITile const &tile, std::size_t x, std::size_t y, arcade::IMap const &map);
             void            drawComponent(const IComponent &component);
             void            drawComponentSprite(const IComponent &component);
             void            drawComponentColor(const IComponent &component);
