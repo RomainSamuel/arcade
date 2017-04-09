@@ -11,17 +11,17 @@ arcade::Menu::Menu() : _map(), _gui(), _state(), _soundsToPlay {}, _score(), _ev
     this->_gui = std::unique_ptr<GUI>(new GUI());
     _pos = 1;
 
-    std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0.38, 0.02, 1, 1, true, 0, arcade::Color::Blue, arcade::Color::White, "ARCADE"));
+    std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0.30, 0.02, 1, 1, true, 0, arcade::Color::Blue, arcade::Color::White, "ARCADE"));
     this->_gui->addComponent(std::move(comp));
-    std::unique_ptr<Component> comp2 = std::unique_ptr<Component>(new Component(0.54, 0.22, 0.5, 0.5, true, 6, arcade::Color::Blue, arcade::Color::White, "SNAKE"));
+    std::unique_ptr<Component> comp2 = std::unique_ptr<Component>(new Component(0.40, 0.22, 0.5, 0.5, true, 6, arcade::Color::Blue, arcade::Color::White, "SNAKE"));
     this->_gui->addComponent(std::move(comp2));
-    std::unique_ptr<Component> comp3 = std::unique_ptr<Component>(new Component(0.48, 0.37, 0.5, 0.5, true, 2, arcade::Color::Blue, arcade::Color::White, "SOLAR FOX"));
+    std::unique_ptr<Component> comp3 = std::unique_ptr<Component>(new Component(0.40, 0.37, 0.5, 0.5, true, 2, arcade::Color::Blue, arcade::Color::White, "SOLAR FOX"));
     this->_gui->addComponent(std::move(comp3));
-    std::unique_ptr<Component> comp4 = std::unique_ptr<Component>(new Component(0.48, 0.52, 0.5, 0.5, true, 3, arcade::Color::Blue, arcade::Color::White, "CENTIPEDE"));
+    std::unique_ptr<Component> comp4 = std::unique_ptr<Component>(new Component(0.40, 0.52, 0.5, 0.5, true, 3, arcade::Color::Blue, arcade::Color::White, "CENTIPEDE"));
     this->_gui->addComponent(std::move(comp4));
-    std::unique_ptr<Component> comp5 = std::unique_ptr<Component>(new Component(0.57, 0.67, 0.5, 0.5, true, 4, arcade::Color::Blue, arcade::Color::White, "QUIT"));
+    std::unique_ptr<Component> comp5 = std::unique_ptr<Component>(new Component(0.40, 0.67, 0.5, 0.5, true, 4, arcade::Color::Blue, arcade::Color::White, "QUIT"));
     this->_gui->addComponent(std::move(comp5));
-    std::unique_ptr<Component> comp6 = std::unique_ptr<Component>(new Component(0.41, 0.95, 0.5, 0.5, true, 5, arcade::Color::Blue, arcade::Color::White, "Made By : Khsime Marwane, Marel Maud & Samuel Romain - Epitech"));
+    std::unique_ptr<Component> comp6 = std::unique_ptr<Component>(new Component(0.20, 0.95, 0.5, 0.5, true, 5, arcade::Color::Blue, arcade::Color::White, "Made By : Khsime Marwane, Marel Maud & Samuel Romain - Epitech"));
     this->_gui->addComponent(std::move(comp6));   
                                            
 }
@@ -142,65 +142,65 @@ void    arcade::Menu::updateGUI()
     {
         case 1 :
         {
-            std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0.38, 0.02, 1, 1, true, 0, arcade::Color::Blue, arcade::Color::White, "ARCADE"));
+            std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0.30, 0.02, 1, 1, true, 0, arcade::Color::Blue, arcade::Color::White, "ARCADE"));
             this->_gui->addComponent(std::move(comp));
-            std::unique_ptr<Component> comp2 = std::unique_ptr<Component>(new Component(0.54, 0.22, 0.5, 0.5, true, 6, arcade::Color::Red, arcade::Color::White, "SNAKE"));
+            std::unique_ptr<Component> comp2 = std::unique_ptr<Component>(new Component(0.40, 0.22, 0.5, 0.5, true, 6, arcade::Color::Red, arcade::Color::White, "SNAKE"));
             this->_gui->addComponent(std::move(comp2));
-            std::unique_ptr<Component> comp3 = std::unique_ptr<Component>(new Component(0.48, 0.37, 0.5, 0.5, true, 2, arcade::Color::Blue, arcade::Color::White, "SOLAR FOX"));
+            std::unique_ptr<Component> comp3 = std::unique_ptr<Component>(new Component(0.40, 0.37, 0.5, 0.5, true, 2, arcade::Color::Blue, arcade::Color::White, "SOLAR FOX"));
             this->_gui->addComponent(std::move(comp3));
-            std::unique_ptr<Component> comp4 = std::unique_ptr<Component>(new Component(0.48, 0.52, 0.5, 0.5, true, 3, arcade::Color::Blue, arcade::Color::White, "CENTIPEDE"));
+            std::unique_ptr<Component> comp4 = std::unique_ptr<Component>(new Component(0.40, 0.52, 0.5, 0.5, true, 3, arcade::Color::Blue, arcade::Color::White, "CENTIPEDE"));
             this->_gui->addComponent(std::move(comp4));
-            std::unique_ptr<Component> comp5 = std::unique_ptr<Component>(new Component(0.57, 0.67, 0.5, 0.5, true, 4, arcade::Color::Blue, arcade::Color::White, "QUIT"));
+            std::unique_ptr<Component> comp5 = std::unique_ptr<Component>(new Component(0.40, 0.67, 0.5, 0.5, true, 4, arcade::Color::Blue, arcade::Color::White, "QUIT"));
             this->_gui->addComponent(std::move(comp5));
-            std::unique_ptr<Component> comp6 = std::unique_ptr<Component>(new Component(0.41, 0.95, 0.5, 0.5, true, 5, arcade::Color::Blue, arcade::Color::White, "Made By : Khsime Marwane, Marel Maud & Samuel Romain - Epitech"));
+            std::unique_ptr<Component> comp6 = std::unique_ptr<Component>(new Component(0.20, 0.95, 0.5, 0.5, true, 5, arcade::Color::Blue, arcade::Color::White, "Made By : Khsime Marwane, Marel Maud & Samuel Romain - Epitech"));
             this->_gui->addComponent(std::move(comp6));
             break;
         }
         case 2 :
         {
-            std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0.38, 0.02, 1, 1, true, 0, arcade::Color::Blue, arcade::Color::White, "ARCADE"));
+            std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0.30, 0.02, 1, 1, true, 0, arcade::Color::Blue, arcade::Color::White, "ARCADE"));
             this->_gui->addComponent(std::move(comp));
-            std::unique_ptr<Component> comp2 = std::unique_ptr<Component>(new Component(0.54, 0.22, 0.5, 0.5, true, 1, arcade::Color::Blue, arcade::Color::White, "SNAKE"));
+            std::unique_ptr<Component> comp2 = std::unique_ptr<Component>(new Component(0.40, 0.22, 0.5, 0.5, true, 1, arcade::Color::Blue, arcade::Color::White, "SNAKE"));
             this->_gui->addComponent(std::move(comp2));
-            std::unique_ptr<Component> comp3 = std::unique_ptr<Component>(new Component(0.48, 0.37, 0.5, 0.5, true, 7, arcade::Color::Red, arcade::Color::White, "SOLAR FOX"));
+            std::unique_ptr<Component> comp3 = std::unique_ptr<Component>(new Component(0.40, 0.37, 0.5, 0.5, true, 7, arcade::Color::Red, arcade::Color::White, "SOLAR FOX"));
             this->_gui->addComponent(std::move(comp3));
-            std::unique_ptr<Component> comp4 = std::unique_ptr<Component>(new Component(0.48, 0.52, 0.5, 0.5, true, 3, arcade::Color::Blue, arcade::Color::White, "CENTIPEDE"));
+            std::unique_ptr<Component> comp4 = std::unique_ptr<Component>(new Component(0.40, 0.52, 0.5, 0.5, true, 3, arcade::Color::Blue, arcade::Color::White, "CENTIPEDE"));
             this->_gui->addComponent(std::move(comp4));
-            std::unique_ptr<Component> comp5 = std::unique_ptr<Component>(new Component(0.57, 0.67, 0.5, 0.5, true, 4, arcade::Color::Blue, arcade::Color::White, "QUIT"));
+            std::unique_ptr<Component> comp5 = std::unique_ptr<Component>(new Component(0.40, 0.67, 0.5, 0.5, true, 4, arcade::Color::Blue, arcade::Color::White, "QUIT"));
             this->_gui->addComponent(std::move(comp5));
-            std::unique_ptr<Component> comp6 = std::unique_ptr<Component>(new Component(0.41, 0.95, 0.5, 0.5, true, 5, arcade::Color::Blue, arcade::Color::White, "Made By : Khsime Marwane, Marel Maud & Samuel Romain - Epitech"));
+            std::unique_ptr<Component> comp6 = std::unique_ptr<Component>(new Component(0.20, 0.95, 0.5, 0.5, true, 5, arcade::Color::Blue, arcade::Color::White, "Made By : Khsime Marwane, Marel Maud & Samuel Romain - Epitech"));
             this->_gui->addComponent(std::move(comp6)); 
             break;
         }
         case 3 :    
         {
-             std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0.38, 0.02, 1, 1, true, 0, arcade::Color::Blue, arcade::Color::White, "ARCADE"));
+             std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0.30, 0.02, 1, 1, true, 0, arcade::Color::Blue, arcade::Color::White, "ARCADE"));
             this->_gui->addComponent(std::move(comp));
-            std::unique_ptr<Component> comp2 = std::unique_ptr<Component>(new Component(0.54, 0.22, 0.5, 0.5, true, 1, arcade::Color::Blue, arcade::Color::White, "SNAKE"));
+            std::unique_ptr<Component> comp2 = std::unique_ptr<Component>(new Component(0.40, 0.22, 0.5, 0.5, true, 1, arcade::Color::Blue, arcade::Color::White, "SNAKE"));
             this->_gui->addComponent(std::move(comp2));
-            std::unique_ptr<Component> comp3 = std::unique_ptr<Component>(new Component(0.48, 0.37, 0.5, 0.5, true, 2, arcade::Color::Blue, arcade::Color::White, "SOLAR FOX²"));
+            std::unique_ptr<Component> comp3 = std::unique_ptr<Component>(new Component(0.40, 0.37, 0.5, 0.5, true, 2, arcade::Color::Blue, arcade::Color::White, "SOLAR FOX²"));
             this->_gui->addComponent(std::move(comp3));
-            std::unique_ptr<Component> comp4 = std::unique_ptr<Component>(new Component(0.48, 0.52, 0.5, 0.5, true, 8, arcade::Color::Red, arcade::Color::White, "CENTIPEDE"));
+            std::unique_ptr<Component> comp4 = std::unique_ptr<Component>(new Component(0.40, 0.52, 0.5, 0.5, true, 8, arcade::Color::Red, arcade::Color::White, "CENTIPEDE"));
             this->_gui->addComponent(std::move(comp4));
-            std::unique_ptr<Component> comp5 = std::unique_ptr<Component>(new Component(0.57, 0.67, 0.5, 0.5, true, 4, arcade::Color::Blue, arcade::Color::White, "QUIT"));
+            std::unique_ptr<Component> comp5 = std::unique_ptr<Component>(new Component(0.40, 0.67, 0.5, 0.5, true, 4, arcade::Color::Blue, arcade::Color::White, "QUIT"));
             this->_gui->addComponent(std::move(comp5));
-            std::unique_ptr<Component> comp6 = std::unique_ptr<Component>(new Component(0.41, 0.95, 0.5, 0.5, true, 5, arcade::Color::Blue, arcade::Color::White, "Made By : Khsime Marwane, Marel Maud & Samuel Romain - Epitech"));
+            std::unique_ptr<Component> comp6 = std::unique_ptr<Component>(new Component(0.20, 0.95, 0.5, 0.5, true, 5, arcade::Color::Blue, arcade::Color::White, "Made By : Khsime Marwane, Marel Maud & Samuel Romain - Epitech"));
             this->_gui->addComponent(std::move(comp6));  
             break;
         }
     case 4 :
             {
-            std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0.38, 0.02, 1, 1, true, 0, arcade::Color::Blue, arcade::Color::White, "ARCADE"));
+            std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0.30, 0.02, 1, 1, true, 0, arcade::Color::Blue, arcade::Color::White, "ARCADE"));
             this->_gui->addComponent(std::move(comp));
-            std::unique_ptr<Component> comp2 = std::unique_ptr<Component>(new Component(0.54, 0.22, 0.5, 0.5, true, 1, arcade::Color::Blue, arcade::Color::White, "SNAKE"));
+            std::unique_ptr<Component> comp2 = std::unique_ptr<Component>(new Component(0.40, 0.22, 0.5, 0.5, true, 1, arcade::Color::Blue, arcade::Color::White, "SNAKE"));
             this->_gui->addComponent(std::move(comp2));
-            std::unique_ptr<Component> comp3 = std::unique_ptr<Component>(new Component(0.48, 0.37, 0.5, 0.5, true, 2, arcade::Color::Blue, arcade::Color::White, "SOLAR FOX"));
+            std::unique_ptr<Component> comp3 = std::unique_ptr<Component>(new Component(0.40, 0.37, 0.5, 0.5, true, 2, arcade::Color::Blue, arcade::Color::White, "SOLAR FOX"));
             this->_gui->addComponent(std::move(comp3));
-            std::unique_ptr<Component> comp4 = std::unique_ptr<Component>(new Component(0.48, 0.52, 0.5, 0.5, true, 3, arcade::Color::Blue, arcade::Color::White, "CENTIPEDE"));
+            std::unique_ptr<Component> comp4 = std::unique_ptr<Component>(new Component(0.40, 0.52, 0.5, 0.5, true, 3, arcade::Color::Blue, arcade::Color::White, "CENTIPEDE"));
             this->_gui->addComponent(std::move(comp4));
-            std::unique_ptr<Component> comp5 = std::unique_ptr<Component>(new Component(0.57, 0.67, 0.5, 0.5, true, 9, arcade::Color::Red, arcade::Color::White, "QUIT"));
+            std::unique_ptr<Component> comp5 = std::unique_ptr<Component>(new Component(0.40, 0.67, 0.5, 0.5, true, 9, arcade::Color::Red, arcade::Color::White, "QUIT"));
             this->_gui->addComponent(std::move(comp5));
-            std::unique_ptr<Component> comp6 = std::unique_ptr<Component>(new Component(0.41, 0.95, 0.5, 0.5, true, 5, arcade::Color::Blue, arcade::Color::White, "Made By : Khsime Marwane, Marel Maud & Samuel Romain - Epitech"));
+            std::unique_ptr<Component> comp6 = std::unique_ptr<Component>(new Component(0.20, 0.95, 0.5, 0.5, true, 5, arcade::Color::Blue, arcade::Color::White, "Made By : Khsime Marwane, Marel Maud & Samuel Romain - Epitech"));
             this->_gui->addComponent(std::move(comp6)); 
             break;  
             }

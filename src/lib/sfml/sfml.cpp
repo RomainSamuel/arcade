@@ -162,19 +162,17 @@ void    arcade::LibSfml::drawComponent(const arcade::IComponent &component) {
 void    arcade::LibSfml::drawComponentSprite(const arcade::IComponent &component) {
 
     if (this->_sprites.find(component.getBackgroundId()) == this->_sprites.end()) {
-        // std::cout << "Warning, couldn't draw component's sprite (because sprite was not found)" << std::endl;
         return ;
     }
 
     sf::Sprite      sprite;
-    sf::Vector2f    pos((double)this->_width / (component.getX() + component.getWidth()) - (double)this->_width / component.getX(),
-                        (double)this->_height / (component.getY() + component.getHeight()) - (double)this->_height / component.getY());
-
     sprite.setTexture(this->_sprites[component.getBackgroundId()].at(0));
-    sprite.setScale(pos.x / sprite.getLocalBounds().width, pos.y / sprite.getLocalBounds().height);
-    sprite.setPosition((double)this->_width + component.getX(), (double)this->_height + component.getY());
+
+    sprite.setScale(component.getWidth(), component.getHeight());
+    sprite.setPosition(component.getX() * this->_width, component.getY() * this->_height);
 
     _window.draw(sprite);
+
 }
 
 void    arcade::LibSfml::drawComponentColor(const arcade::IComponent &component) {
