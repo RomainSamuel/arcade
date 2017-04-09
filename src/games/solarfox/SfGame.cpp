@@ -7,8 +7,8 @@ arcade::SfGame::SfGame()
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
   this->_score = 0;
-  this->_cd = 9;
-  this->_cdRemaining = 0;
+  this->_initialInputCD = 39;
+  this->_inputCD = 0;
   this->_sounds.push_back(arcade::Sound(0, REPEAT));
 
   // EVENTS
@@ -23,6 +23,8 @@ arcade::SfGame::SfGame()
   this->_eventsBound[2] = event;
   event.kb_key = arcade::KeyboardKey::KB_ARROW_LEFT;
   this->_eventsBound[3] = event;
+  event.kb_key = arcade::KeyboardKey::KB_SPACE;
+  this->_eventsBound[4] = event;
 
   // GUI
   std::unique_ptr<Component> comp = std::unique_ptr<Component>(new Component(0,
@@ -48,33 +50,31 @@ void  arcade::SfGame::setLevel(size_t lvl)
   this->_enemies.clear();
   this->_shots.clear();
   this->_events.clear();
-  this->_cdRemaining = 9;
-  this->_cd = 0;
   this->_player = std::unique_ptr<sf::Player>(new sf::Player());
   if (lvl == 0)
     {
       this->_map = std::unique_ptr<Map>(new Map(20, 20, 5, 0));
       this->_remainingScrap = 44;
-      this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 0.5, 1, 19, 1, 1, 0.05, sf::mvType::HORIZONTAL, 2, 2, 38, 19));
-      this->_enemies.push_back(std::make_unique<sf::Enemy>(4, 8.5, 19.5, 1, 19, -1, -1, 0.05, sf::mvType::HORIZONTAL, 2, 2, 38, 19));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 0.5, 1, 19, 1, 1, 0.0125, sf::mvType::HORIZONTAL, 2, 2, 138, 79));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(4, 8.5, 19.5, 1, 19, -1, -1, 0.0125, sf::mvType::HORIZONTAL, 2, 2, 138, 79));
     }
   else if (lvl == 1)
     {
       this->_map = std::unique_ptr<Map>(new Map(20, 20, 7, 1));
       this->_remainingScrap = 48;
-      this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 0.5, 1, 19, 1, 1, 0.1, sf::mvType::HORIZONTAL, 8, 3, 78, 9));
-      this->_enemies.push_back(std::make_unique<sf::Enemy>(4, 9.5, 19.5, 1, 19, -1, -1, 0.1, sf::mvType::HORIZONTAL, 8, 3, 78, 9));
-      this->_enemies.push_back(std::make_unique<sf::Enemy>(5, 0.5, 10.5, 1, 19, 1, 1, 0.05, sf::mvType::VERTICAL, 3, 3, 38, 19));
-      this->_enemies.push_back(std::make_unique<sf::Enemy>(6, 19.5, 9.5, 1, 19, -1, -1, 0.05, sf::mvType::VERTICAL, 3, 3, 38, 19));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 0.5, 4, 16, 1, 1, 0.0125, sf::mvType::HORIZONTAL, 8, 3, 158, 79));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(4, 9.5, 19.5, 4, 16, -1, -1, 0.0125, sf::mvType::HORIZONTAL, 8, 3, 138, 79));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(5, 0.5, 10.5, 4, 16, 1, 1, 0.0125, sf::mvType::VERTICAL, 3, 3, 138, 79));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(6, 19.5, 9.5, 4, 16, -1, -1, 0.0125, sf::mvType::VERTICAL, 3, 3, 138, 79));
     }
   else
     {
       this->_map = std::unique_ptr<Map>(new Map(20, 20, 7, 2));
       this->_remainingScrap = 112;
-      this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 0.5, 10.5, 1, 19, 1, 1, 0.05, sf::mvType::VERTICAL, 5, 0, 38, 19));
-      this->_enemies.push_back(std::make_unique<sf::Enemy>(4, 19.5, 9.5, 1, 19, -1, -1, 0.05, sf::mvType::VERTICAL, 5, 0, 38, 19));
-      this->_enemies.push_back(std::make_unique<sf::Enemy>(5, 0.5, 15.5, 1, 19, 1, 1, 0.05, sf::mvType::VERTICAL, 5, 0, 38, 19));
-      this->_enemies.push_back(std::make_unique<sf::Enemy>(6, 19.5, 14.5, 1, 19, -1, -1, 0.05, sf::mvType::VERTICAL, 5, 0, 38, 19));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 0.5, 10.5, 1, 19, 1, 1, 0.0125, sf::mvType::VERTICAL, 5, 0, 138, 79));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(4, 19.5, 9.5, 1, 19, -1, -1, 0.0125, sf::mvType::VERTICAL, 5, 0, 138, 79));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(5, 0.5, 15.5, 1, 19, 1, 1, 0.0125, sf::mvType::VERTICAL, 5, 0, 138, 79));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(6, 19.5, 14.5, 1, 19, -1, -1, 0.0125, sf::mvType::VERTICAL, 5, 0, 138, 79));
     }
   this->_player->printOnMap(this->_map);
   for (size_t i = 0; i < this->_enemies.size(); i++)
@@ -103,7 +103,7 @@ std::vector<arcade::NetworkPacket>&& arcade::SfGame::getNetworkToSend()
 
 int arcade::SfGame::getActionToPerform(arcade::Event event) const
 {
-  for (size_t i = 0; i < 4; i++)
+  for (size_t i = 0; i < 5; i++)
     {
       if (event.type == this->_eventsBound[i].type &&
           event.action == this->_eventsBound[i].action &&
@@ -136,32 +136,29 @@ void  arcade::SfGame::checkShots(std::unique_ptr<arcade::Map> &map)
         i++;
     }
 }
-#include <chrono>
+
 void  arcade::SfGame::process()
 {
-  // std::chrono::time_point<std::chrono::system_clock> start, end;
-  // start = std::chrono::system_clock::now();
   int actionNb = -1;
 
   this->_sounds.clear();
-  if (this->_state == QUIT)
+  if (this->_state == MENU)
     return;
   if (this->_state != INGAME)
     this->_state = INGAME;
-  this->_cdRemaining--;
-  if (this->_cdRemaining == 0)
+  if (this->_events.size() > 0)
     {
-      this->_cdRemaining = this->_cd;
-      if (this->_events.size() > 0)
+      if (this->_inputCD == 0)
         {
           actionNb = this->getActionToPerform(this->_events.front());
           this->_events.erase(this->_events.begin());
+          this->_inputCD = this->_initialInputCD;
+          if (actionNb >= 0 && actionNb < 4)
+            this->_player->setDirection(static_cast<sf::Direction>(actionNb));
+          else if (actionNb == 4)
+            if (this->_player->fire())
+              this->_sounds.push_back(arcade::Sound(3));
         }
-      if (actionNb >= 0 && actionNb < 4)
-        this->_player->setDirection(static_cast<sf::Direction>(actionNb));
-      else if (actionNb == 4)
-        if (this->_player->fire())
-          this->_sounds.push_back(arcade::Sound(3));
     }
 
   //HANDLE PLAYER SHOTS
@@ -177,7 +174,7 @@ void  arcade::SfGame::process()
             this->_gui->getComponent(0).setText("Score : " + std::to_string(this->_score));
             if (this->_remainingScrap == 0)
               {
-                this->_state = QUIT;
+                this->_state = MENU;
                 return;
               }
           }
@@ -194,23 +191,30 @@ void  arcade::SfGame::process()
 
   //HANDLE ENEMY SHOTS
   this->checkShots(this->_map);
-  for (size_t i = 0; i < this->_shots.size(); i++)
-    this->_shots[i]->move(this->_map);
+  for (std::vector<std::unique_ptr<sf::Shot>>::iterator it = this->_shots.begin(); it != this->_shots.end(); it++)
+    {
+      if (it->get()->destroyPLayer(this->_map))
+        {
+          this->_state = MENU;
+          return;
+        }
+      it->get()->move(this->_map);
+      if (it->get()->destroyPLayer(this->_map))
+        {
+          this->_state = MENU;
+          return;
+        }
+    }
 
   //HANDLE PLAYER
   if (this->_player->move(this->_map) == -1)
     {
       this->_sounds.push_back(arcade::Sound(2));
-      this->_state = QUIT;
+      this->_state = MENU;
       return;
     }
-  // end = std::chrono::system_clock::now();
-
-  // std::chrono::duration<double> elapsed_seconds = end-start;
-  // std::time_t end_time = std::chrono::system_clock::to_time_t(end);
-
-  // std::cout << "finished computation at " << std::ctime(&end_time)
-  //           << "elapsed time: " << elapsed_seconds.count() << "s\n";
+  if (this->_inputCD != 0)
+    this->_inputCD--;
 }
 
 std::vector<std::unique_ptr<arcade::ISprite>> arcade::SfGame::getSpritesToLoad() const
@@ -237,7 +241,6 @@ std::vector<std::unique_ptr<arcade::ISprite>> arcade::SfGame::getSpritesToLoad()
   for (size_t i = 0; i < 400; i++)
     {
       str = std::string("./resources/games/sprites/solarfox/Space/") + std::to_string(i) + std::string(".png");
-      std::cout << str << std::endl;
       pairs.push_back(std::pair<std::string, char>(str, ' '));
     }
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(pairs)));

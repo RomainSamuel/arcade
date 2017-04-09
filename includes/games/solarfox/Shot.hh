@@ -36,6 +36,7 @@ namespace sf
 
     int     getAssociatedSpritePos() const;
     bool    Collide(sf::Shot &) const;
+    bool    destroyPLayer(std::unique_ptr<arcade::Map> &) const;
     void    printOnMap(std::unique_ptr<arcade::Map> &) const;
     void    eraseFromMap(std::unique_ptr<arcade::Map> &) const;
     int     move(std::unique_ptr<arcade::Map> &);

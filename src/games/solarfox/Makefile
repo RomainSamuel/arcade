@@ -24,7 +24,7 @@ OBJ 	    =	$(SRC:.cpp=.o)
 
 CXXFLAGS    =   -std=c++14
 
-CXXFLAGS    +=  -W -Wall -Wextra -fPIC
+CXXFLAGS    +=  -W -Wall -Wextra -fPIC -g
 
 CXXFLAGS    +=  -I../../../includes/common \
 								-I../../../includes \

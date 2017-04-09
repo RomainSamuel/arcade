@@ -36,6 +36,12 @@ void  centipede::CentipedePart::setFollower(std::shared_ptr<CentipedePart> &foll
   this->follower = follower;
 }
 
+void  centipede::CentipedePart::deleteFollower()
+{
+  if (this->follower.get() != nullptr)
+    this->follower.reset();
+}
+
 void  centipede::CentipedePart::die()
 {
   this->eraseFromMap();
@@ -47,7 +53,8 @@ void  centipede::CentipedePart::die()
                                         3,
                                         0.0,
                                         0.0);
-  this->follower->isLeader = true;
+  if (this->follower.get() != nullptr && !this->follower.unique())
+    this->follower->isLeader = true;
 }
 
 void  centipede::CentipedePart::printOnMap()
@@ -58,7 +65,7 @@ void  centipede::CentipedePart::printOnMap()
                                             arcade::TileTypeEvolution::ENEMY,
                                             arcade::Color::Red,
                                             true,
-                                            (this->isLeader == true) ? 2 : 3,
+                                            (this->isLeader) ? 3 : 2,
                                             (this->direction == 1) ? 0 : 1,
                                             0.0,
                                             0.0);
@@ -80,22 +87,34 @@ void  centipede::CentipedePart::eraseFromMap()
     }
 }
 
-void  centipede::CentipedePart::move()
+int   centipede::CentipedePart::move()
 {
+  int ret = 0;
+
   this->eraseFromMap();
   if (this->y < 0)
     {
       this->y++;
-      return;
+      return (false);
     }
   if (this->x + this->direction < 0 ||
       this->x + this->direction >= 40 ||
       this->map.at(0, this->x + this->direction, this->y).getTypeEv() == arcade::TileTypeEvolution::OBSTACLE)
     {
+
       this->direction = - this->direction;
       this->y++;
     }
   else
     this->x += this->direction;
+  if (this->y == 40)
+    {
+      if (this->follower.get() != nullptr && !this->follower.unique())
+        this->follower->isLeader = true;
+      return (1);
+    }
+  if (this->map.at(1, this->x, this->y).getTypeEv() == arcade::TileTypeEvolution::PLAYER)
+    ret = -1;
   this->printOnMap();
+  return (ret);
 }

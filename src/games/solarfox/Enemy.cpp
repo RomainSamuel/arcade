@@ -57,8 +57,10 @@ void    sf::Enemy::printOnMap(std::unique_ptr<arcade::Map> &map) const
         true,
         3,
         this->getAssociatedSpritePos(),
-        this->x - 0.5 - static_cast<double>(static_cast<int>(this->x)),
-        this->y - 0.5 - static_cast<double>(static_cast<int>(this->y)));
+        // this->x - 0.5 - static_cast<double>(static_cast<int>(this->x))
+        0.0,
+        // this->y - 0.5 - static_cast<double>(static_cast<int>(this->y))
+        0.0);
 }
 
 void    sf::Enemy::eraseFromMap(std::unique_ptr<arcade::Map> &map) const
@@ -106,9 +108,9 @@ bool    sf::Enemy::fire(std::vector<std::unique_ptr<sf::Shot>> &shots)
       shots.push_back(std::make_unique<sf::Shot>(this->layer,
                                                  this->x,
                                                  this->y,
-                                                 60,
+                                                 500,
                                                  this->fireDirection,
-                                                 0.3,
+                                                 0.075,
                                                  (this->mv == VERTICAL) ? HORIZONTAL : VERTICAL,
                                                  false));
     }
@@ -120,15 +122,15 @@ void    sf::Enemy::move(std::unique_ptr<arcade::Map> &map)
   this->eraseFromMap(map);
   if (this->mv == VERTICAL)
     {
-      if (this->y == this->firstBoundary ||
-          this->y == this->secondBoundary)
+      if (this->y <= this->firstBoundary ||
+          this->y >= this->secondBoundary)
         this->direction = -this->direction;
       this->y += this->moveSpeed * static_cast<double>(this->direction);
     }
   else
     {
-      if (this->x == this->firstBoundary ||
-          this->x == this->secondBoundary)
+      if (this->x <= this->firstBoundary ||
+          this->x >= this->secondBoundary)
         this->direction = -this->direction;
       this->x += this->moveSpeed * static_cast<double>(this->direction);
     }

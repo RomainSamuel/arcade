@@ -34,11 +34,12 @@ namespace   centipede
     int  getId() const;
 
     void  setFollower(std::shared_ptr<CentipedePart> &);
+    void  deleteFollower();
 
     void  die();
     void  printOnMap();
     void  eraseFromMap();
-    void  move();
+    int   move();
   };
 }
 

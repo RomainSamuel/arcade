@@ -14,8 +14,8 @@ arcade::SnakeGame::SnakeGame()
   this->_food = std::unique_ptr<snake::Food>(new snake::Food(this->_map));
   this->_eaten = 0;
   this->_score = 0;
-  this->_cd = 40;
-  this->_cdRemaining = 40;
+  this->_cd = 70;
+  this->_cdRemaining = 70;
 
   // EVENTS
   arcade::Event event;
