@@ -210,7 +210,7 @@ struct  arcade::WhereAmI arcade::SnakeGame::getWhereAmI() const
   return (wai);
 }
 
-extern "C" arcade::IGame *maker()
+extern "C" arcade::IGame *getGame()
 {
   return (new arcade::SnakeGame());
 }

@@ -389,7 +389,7 @@ void    arcade::LibOpenGl::soundControl(const arcade::Sound &soundToControl) {
 }
 
 
-extern "C" arcade::IGfxLib *loader()
+extern "C" arcade::IGfxLib *getLib()
 {
     return (new arcade::LibOpenGl());
 }

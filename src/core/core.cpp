@@ -60,7 +60,7 @@ void    arcade::Core::display()
 {
     _loader = getLoader();
 
-    void *loader = _loader.getSym(_loader.getCurrentLib(), "loader");
+    void *loader = _loader.getSym(_loader.getCurrentLib(), "getLib");
     _libLoad = ((arcade::IGfxLib *(*)())loader)();
     _libLoad->loadSprites(_menu.getSpritesToLoad());
 
@@ -77,7 +77,7 @@ void    arcade::Core::display()
 void    arcade::Core::loadLib()
 {
     delete _libLoad;
-    void *loader = _loader.getSym(_loader.getCurrentLib(), "loader");
+    void *loader = _loader.getSym(_loader.getCurrentLib(), "getLib");
     _libLoad = ((arcade::IGfxLib *(*)())loader)();
     if (_gameLoad)
     {
@@ -89,7 +89,7 @@ void    arcade::Core::loadLib()
 void    arcade::Core::loadGame()
 {
     delete _gameLoad;
-    void *mkr = _loader.getSym(_loader.getCurrentGame(), "maker");
+    void *mkr = _loader.getSym(_loader.getCurrentGame(), "getGame");
     _gameLoad = ((arcade::IGame *(*)())mkr)();
     _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
     _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
@@ -227,7 +227,7 @@ void    arcade::Core::play()
     if (_gameLoad->getGameState() == arcade::GameState::MENU)
     {
         delete _libLoad;
-        void *loader = _loader.getSym(_loader.getCurrentLib(), "loader");
+        void *loader = _loader.getSym(_loader.getCurrentLib(), "getLib");
         _libLoad = ((arcade::IGfxLib *(*)())loader)();
         _libLoad->loadSprites(_menu.getSpritesToLoad());
         setGameState(arcade::GameState::MENU);
