@@ -239,6 +239,7 @@ int snake::SnakePart::move(std::list<std::unique_ptr<SnakePart>> &list,
 
 void  snake::SnakePart::addToBack(std::list<std::unique_ptr<SnakePart>> &list)
 {
+  list.back()->setPartType(BODY);
   list.push_back(std::make_unique<snake::SnakePart>(list.back()->x - list.back()->pos[list.back()->direction].first,
                                                     list.back()->y - list.back()->pos[list.back()->direction].second,
                                                     snake::PartType::TAIL,

@@ -6,6 +6,8 @@
 #include <map>
 #include <functional>
 #include <array>
+#include <thread>
+#include <chrono>
 #include "Map.hh"
 #include "GUI.hh"
 #include "SnakePart.hh"

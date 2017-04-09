@@ -14,8 +14,8 @@ arcade::SnakeGame::SnakeGame()
   this->_food = std::unique_ptr<snake::Food>(new snake::Food(this->_map));
   this->_eaten = 0;
   this->_score = 0;
-  this->_cd = 15;
-  this->_cdRemaining = 15;
+  this->_cd = 40;
+  this->_cdRemaining = 40;
 
   // EVENTS
   arcade::Event event;
@@ -100,7 +100,10 @@ void  arcade::SnakeGame::process()
         this->_snake.front()->setDirection(static_cast<snake::Direction>(actionNb));
       ret = this->_snake.front()->move(this->_snake, this->_map, this->_food);
       if (ret == -1 || ret == 2)
-        this->_state = QUIT;
+        {
+          std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+          this->_state = MENU;
+        }
       else if (ret == 1)
         {
           this->_sounds.push_back(arcade::Sound(0));
