@@ -27,7 +27,6 @@ snake::FoodType  snake::Food::getType() const
   return (this->type);
 }
 
-// SETTERS
 void  snake::Food::setX(size_t x)
 {
   this->x = x;
@@ -43,16 +42,15 @@ void  snake::Food::setType(snake::FoodType type)
   this->type = type;
 }
 
-// ACTIONS
 void  snake::Food::eraseFromMap(std::unique_ptr<arcade::Map> &map)
 {
   if (map->at(1, this->getX(), this->getY()).getTypeEv() == arcade::TileTypeEvolution::FOOD)
     {
       map->at(1, this->getX(), this->getY()).set(arcade::TileType::EMPTY,
                                                  arcade::TileTypeEvolution::EMPTY,
-                                                 arcade::Color::Black,
-                                                 true,
-                                                 5,
+                                                 arcade::Color::Transparent,
+                                                 false,
+                                                 0,
                                                  0,
                                                  0.0,
                                                  0.0);
@@ -61,7 +59,7 @@ void  snake::Food::eraseFromMap(std::unique_ptr<arcade::Map> &map)
 
 void  snake::Food::printOnMap(std::unique_ptr<arcade::Map> &map)
 {
-  map->at(1, this->getX(), this->getY()).set(arcade::TileType::EMPTY,
+  map->at(1, this->getX(), this->getY()).set(arcade::TileType::POWERUP,
                                              arcade::TileTypeEvolution::FOOD,
                                              arcade::Color::Red,
                                              true,
@@ -76,9 +74,6 @@ int snake::Food::placeOnMap(std::unique_ptr<arcade::Map> &map)
   size_t  nbFree = 0;
   size_t  pos;
 
-  // SRAND
-  std::srand(std::time(NULL));
-  //
   for (size_t y = 0; y < map->getHeight(); y++)
     for (size_t x = 0; x < map->getWidth(); x++)
       if (map->at(0, x, y).getTypeEv() == arcade::TileTypeEvolution::EMPTY &&
