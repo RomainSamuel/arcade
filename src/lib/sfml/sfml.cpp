@@ -132,7 +132,7 @@ void    arcade::LibSfml::drawTileSprite(arcade::ITile const &tile, size_t x, siz
     double  y_end = (y + 1) * HEIGHT_RATIO;
 
     sf::Sprite      sprite;
-    sf::Vector2f    pos(x_end - x_begin, y_end - y_begin);
+    sf::Vector2f    pos(x_end - x_begin + this->_width * tile.getShiftX(), y_end - y_begin + this->_height * tile.getShiftY());
 
     sprite.setTexture(this->_sprites[tile.getSpriteId()].at(tile.getSpritePos()));
     sprite.setScale(pos.x / sprite.getLocalBounds().width, pos.y / sprite.getLocalBounds().height);
@@ -167,13 +167,13 @@ void    arcade::LibSfml::drawComponentSprite(const arcade::IComponent &component
         return ;
     }
 
-    sf::Sprite  sprite;
+    sf::Sprite      sprite;
     sf::Vector2f    pos((double)this->_width / (component.getX() + component.getWidth()) - (double)this->_width / component.getX(),
                         (double)this->_height / (component.getY() + component.getHeight()) - (double)this->_height / component.getY());
 
     sprite.setTexture(this->_sprites[component.getBackgroundId()].at(0));
     sprite.setScale(pos.x / sprite.getLocalBounds().width, pos.y / sprite.getLocalBounds().height);
-    sprite.setPosition((double)this->_width / component.getX(), (double)this->_height / component.getY());
+    sprite.setPosition((double)this->_width * component.getX(), (double)this->_height * component.getY());
 
     _window.draw(sprite);
 }
