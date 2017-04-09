@@ -123,7 +123,6 @@ void    arcade::Core::getEventMenu()
             }
             case arcade::KeyboardKey::KB_ENTER :
             {
-                std::cout << _menu.getPos() << std::endl;
                 if (_menu.getPos() != 4)
                 {
                     if (_menu.getPos() == 1)
@@ -133,7 +132,6 @@ void    arcade::Core::getEventMenu()
                     else if( _menu.getPos() == 3)
                         _loader.setCurrentGame("games/lib_arcade_centipede.so");
                     setGameState(arcade::GameState::INGAME);
-                    std::cout << _loader.getCurrentGame() << std::endl;
                     loadGame();                
                 }
                 else

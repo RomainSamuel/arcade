@@ -202,7 +202,7 @@ extern  "C" void  Play(void)
         }
       case 1 :
         {
-          snake.getMap();
+          snake->getMap();
           break;
         }
       case 2 :
@@ -214,8 +214,8 @@ extern  "C" void  Play(void)
           event.action = arcade::ActionType::AT_PRESSED;
           event.kb_key = arcade::KeyboardKey::KB_ARROW_UP;
           events.push_back(event);
-          snake.notifyEvent(events);
-          snake.process();
+          snake-> notifyEvent(std::move(events));
+          snake-> process();
           break;
         }
       case 3 :
@@ -227,8 +227,8 @@ extern  "C" void  Play(void)
           event.action = arcade::ActionType::AT_PRESSED;
           event.kb_key = arcade::KeyboardKey::KB_ARROW_DOWN;
           events.push_back(event);
-          snake.notifyEvent(events);
-          snake.process();
+          snake-> notifyEvent(std::move(events));
+          snake-> process();
           break;
         }
       case 4 :
@@ -240,8 +240,8 @@ extern  "C" void  Play(void)
           event.action = arcade::ActionType::AT_PRESSED;
           event.kb_key = arcade::KeyboardKey::KB_ARROW_LEFT;
           events.push_back(event);
-          snake.notifyEvent(events);
-          snake.process();
+          snake-> notifyEvent(std::move(events));
+          snake-> process();
           break;
         }
       case 5 :
@@ -253,13 +253,13 @@ extern  "C" void  Play(void)
           event.action = arcade::ActionType::AT_PRESSED;
           event.kb_key = arcade::KeyboardKey::KB_ARROW_RIGHT;
           events.push_back(event);
-          snake.notifyEvent(events);
-          snake.process();
+          snake-> notifyEvent(std::move(events));
+          snake-> process();
           break;
         }
       case 6 :
         {
-          snake.process();
+          snake-> process();
           break;
         }
       case 7 :
@@ -272,7 +272,7 @@ extern  "C" void  Play(void)
         }
       case 9 :
         {
-          snake.process();
+          snake-> process();
           break;
         }
         default:
