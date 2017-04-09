@@ -1,7 +1,7 @@
 // v1.0.3
 
-#ifndef IMAP_HPP_
-#define IMAP_HPP_
+#ifndef IMAP_HH_
+#define IMAP_HH_
 
 #include <cstddef>
 #include "ITile.hh"
@@ -49,4 +49,4 @@ namespace arcade
   };
 }
 
-#endif // !IMAP_HPP_
+#endif // !IMAP_HH_

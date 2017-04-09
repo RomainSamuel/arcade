@@ -1,9 +1,9 @@
 //
-// Created by duhieu_b on 17/03/17.
+// Created by marel_m on 17/03/17.
 //
 
-#ifndef CPP_ARCADE_ICOMPONENT_HPP
-#define CPP_ARCADE_ICOMPONENT_HPP
+#ifndef CPP_ARCADE_ICOMPONENT_HH
+#define CPP_ARCADE_ICOMPONENT_HH
 
 #include <string>
 #include "GameState.hh"
@@ -76,4 +76,4 @@ namespace arcade
     };
 }
 
-#endif //CPP_ARCADE_ICOMPONENT_HPP
+#endif //CPP_ARCADE_ICOMPONENT_Hh

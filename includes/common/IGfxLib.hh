@@ -1,7 +1,7 @@
 // v1.0.4
 
-#ifndef IGFXLIB_HPP_
-#define IGFXLIB_HPP_
+#ifndef IGFXLIB_HH_
+#define IGFXLIB_HH_
 
 #include <vector>
 #include <string>
@@ -99,4 +99,4 @@ namespace arcade
   };
 }
 
-#endif // !IGFXLIB_HPP_
+#endif // !IGFXLIB_HH_

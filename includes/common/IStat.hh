@@ -1,5 +1,5 @@
-#ifndef ISTAT_HPP_
-#define ISTAT_HPP_
+#ifndef ISTAT_HH_
+#define ISTAT_HH_
 
 #include <string>
 
@@ -33,4 +33,4 @@ namespace arcade
   };
 }
 
-#endif // !ISTAT_HPP_
+#endif // !ISTAT_HH_

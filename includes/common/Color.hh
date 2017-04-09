@@ -1,5 +1,13 @@
-#ifndef COLOR_HPP_
-#define COLOR_HPP_
+//
+// Author: Maud Marel 
+// Date: 2017-04-09 18:47:41 
+//
+// Last Modified by:   Maud Marel 
+// Last Modified time: 2017-04-09 18:47:41
+//
+
+#ifndef COLOR_HH_
+#define COLOR_HH_
 
 #include <cstdint>
 
@@ -69,4 +77,4 @@ namespace arcade
 	};
 }
 
-#endif // !COLOR_HPP_
+#endif // !COLOR_HH_

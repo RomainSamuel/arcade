@@ -1,5 +1,5 @@
-#ifndef NETWORKPACKET_HPP_
-#define NETWORKPACKET_HPP_
+#ifndef NETWORKPACKET_HH_
+#define NETWORKPACKET_HH_
 
 #include <cstddef>
 #include <cstdint>
@@ -11,6 +11,8 @@ namespace arcade
       NO_GAME		= 0x0,
       SNAKE,
       CENTIPEDE,
+      SOLAR_FOX,
+      PACMAN,
       PONG
     };
 
@@ -46,4 +48,4 @@ namespace arcade
   };
 }
 
-#endif // !NETWORKPACKET_HPP_
+#endif // !NETWORKPACKET_HH_
