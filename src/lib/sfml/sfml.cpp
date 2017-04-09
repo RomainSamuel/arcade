@@ -172,8 +172,10 @@ void    arcade::LibSfml::drawComponentSprite(const arcade::IComponent &component
                         (double)this->_height / (component.getY() + component.getHeight()) - (double)this->_height / component.getY());
 
     sprite.setTexture(this->_sprites[component.getBackgroundId()].at(0));
-    sprite.setScale(pos.x / sprite.getLocalBounds().width, pos.y / sprite.getLocalBounds().height);
-    sprite.setPosition((double)this->_width * component.getX(), (double)this->_height * component.getY());
+   // sprite.setScale(pos.x / sprite.getLocalBounds().width, pos.y / sprite.getLocalBounds().height);
+    //sprite.setPosition((double)this->_width * component.getX(), (double)this->_height * component.getY());
+    sprite.setScale(component.getWidth(), component.getHeight());
+    sprite.setPosition(component.getX(), component.getY());
 
     _window.draw(sprite);
 }
