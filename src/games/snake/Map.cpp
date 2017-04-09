@@ -16,12 +16,12 @@ arcade::Map::~Map()
 
 arcade::ITile const &arcade::Map::at(size_t layer, size_t x, size_t y) const
 {
-  return (*this->_layers[layer][x][y]);
+  return (*this->_layers[layer][y][x]);
 }
 
 arcade::Tile &arcade::Map::at(size_t layer, size_t x, size_t y)
 {
-  return (*this->_layers[layer][x][y]);
+  return (*this->_layers[layer][y][x]);
 }
 
 size_t  arcade::Map::getLayerNb() const
@@ -69,7 +69,7 @@ void arcade::Map::createLayer(size_t layer)
             this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::BLOCK,
                                                                              arcade::TileTypeEvolution::BLOCK,
                                                                              arcade::Color::White,
-                                                                             false,
+                                                                             true,
                                                                              6,
                                                                              0,
                                                                              0.0,
