@@ -11,6 +11,7 @@
 /*
 ** CONSTRUCTOR
 */
+GLuint  textureIDx;
 arcade::LibOpenGl::LibOpenGl() : _width(800), _height(600) {
 
     std::cout << "Lib OpenGl 3.3 Launched" << std::endl;
@@ -63,10 +64,19 @@ arcade::LibOpenGl::LibOpenGl() : _width(800), _height(600) {
     glfwSetMouseButtonCallback(this->_window, arcade::LibOpenGl::mouseCallback);
 
     // Initialize GL parameters
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // Initialize GL parameters
     glEnable(GL_BLEND);
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_TEXTURE_2D);
+    // glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_ONE, GL_ONE);
-
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 
+    // glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    // glOrtho(0.0f, this->_width, this->_height, 0.0f, 0.0f, 1.0f);
+    textureIDx = loadGLTexture("./apple.png");
 }
 
 /*
@@ -91,6 +101,7 @@ void    arcade::LibOpenGl::updateMap(arcade::IMap const &map) {
     this->_tileWidth = this->_width / map.getWidth();
     this->_tileHeight = this->_height / map.getHeight();
 
+    // glPushMatrix();
     for (std::size_t layer = 0; layer < nbLayers; layer++) {
 
         for (std::size_t x = 0; x < width; x++) {
@@ -98,21 +109,22 @@ void    arcade::LibOpenGl::updateMap(arcade::IMap const &map) {
             for (std::size_t y = 0; y < height; y++) {
 
                 // Check if the tile is a sprite
-                if (map.at(layer, x, y).hasSprite()) {
-                    drawTileSprite(map.at(layer, x, y), x, y);
+                if (layer == 0 && map.at(layer, x, y).hasSprite()) {
+                    drawTileSprite(map.at(layer, x, y), x, y, map);
                 }
-                // // If not, get the color
+                // If not, get the color
                 else {
-                    drawTileColor(map.at(layer, x, y), x, y);
+                    drawTileColor(map.at(layer, x, y), x, y, map);
                 }
-
-            }
+             }
         }
     }
+ 
+    // glPopMatrix();
 
 }
 
-void    arcade::LibOpenGl::drawTileColor(arcade::ITile const &tile, size_t x, size_t y) {
+void    arcade::LibOpenGl::drawTileColor(arcade::ITile const &tile, size_t x, size_t y, arcade::IMap const &map) {
 
     // Set Color
     glColor4f((double)tile.getColor().r,
@@ -123,8 +135,8 @@ void    arcade::LibOpenGl::drawTileColor(arcade::ITile const &tile, size_t x, si
     // Adapt the coordinates for the viewport
     double  x_begin = WIDTH_RATIO * x / (this->_width / 2.0) - 1;
     double  x_end = WIDTH_RATIO * (x + 1) / (this->_width / 2.0) - 1;
-    double  y_begin = HEIGHT_RATIO * y / (this->_height / 2.0) - 1;
-    double  y_end = HEIGHT_RATIO * (y + 1) / (this->_height / 2.0) - 1;
+    double  y_begin = (HEIGHT_RATIO * (map.getHeight() - y)) / (this->_height / 2.0) - 1;
+    double  y_end = HEIGHT_RATIO * (map.getHeight() - (y + 1)) / (this->_height / 2.0) - 1;
 
 
     glBegin(GL_QUADS);
@@ -138,35 +150,30 @@ void    arcade::LibOpenGl::drawTileColor(arcade::ITile const &tile, size_t x, si
 }
 
 
-void    arcade::LibOpenGl::drawTileSprite(arcade::ITile const &tile, size_t x, size_t y) {
+void    arcade::LibOpenGl::drawTileSprite(arcade::ITile const &tile, size_t x, size_t y, arcade::IMap const &map) {
 
-    if (this->_sprites.find(tile.getSpriteId()) == this->_sprites.end() ||
-        std::find(this->_sprites[tile.getSpriteId()].begin(),
-                  this->_sprites[tile.getSpriteId()].end(),
-                  tile.getSpritePos()) == this->_sprites[tile.getSpriteId()].end()) {
-        std::cout << "Warning, couldn't draw tile's sprite (because sprite was not found)" << std::endl;        
+    if (this->_sprites.find(tile.getSpriteId()) == this->_sprites.end()) {
+        std::cout << "not found" << std::endl;
         return ;
     }
-
-    std::cout << "sprite found" << std::endl;
 
     // Adapt the coordinates for the viewport
     double  x_begin = WIDTH_RATIO * x / (this->_width / 2.0) - 1 + tile.getShiftX();
     double  x_end = WIDTH_RATIO * (x + 1) / (this->_width / 2.0) - 1 + tile.getShiftX();
-    double  y_begin = HEIGHT_RATIO * y / (this->_height / 2.0) - 1 + tile.getShiftY();
-    double  y_end = HEIGHT_RATIO * (y + 1) / (this->_height / 2.0) - 1 + tile.getShiftY();
+    double  y_begin = HEIGHT_RATIO * (map.getHeight() - y) / (this->_height / 2.0) - 1 + tile.getShiftY();
+    double  y_end = HEIGHT_RATIO * (map.getHeight() - (y + 1)) / (this->_height / 2.0) - 1 + tile.getShiftY();
+
 
     // Bind the texture (which was preloaded in loadSprites method)
-
     glBindTexture(GL_TEXTURE_2D, this->_sprites[tile.getSpriteId()].at(tile.getSpritePos()));
-    // glPushMatrix();
+    
     glBegin(GL_QUADS);
 
-    glTexCoord2d(0,1);  glVertex2f(x_begin, y_end);     // Up Left
-    glTexCoord2d(0,0);  glVertex2f(x_end, y_end);       // Up Right
+    glTexCoord2d(0,1);  glVertex2f(x_begin, y_end); // Up Left
+    glTexCoord2d(0,0);  glVertex2f(x_begin, y_begin);   // Bottom Left
     glTexCoord2d(1,0);  glVertex2f(x_end, y_begin);     // Bottom Right
-    glTexCoord2d(1,1);  glVertex2f(x_begin, y_begin);   // Bottom Left
-    // glPopMatrix();
+    glTexCoord2d(1,1);  glVertex2f(x_end, y_end);   // Up Right
+
     glEnd();
 }
 
@@ -178,15 +185,10 @@ void    arcade::LibOpenGl::updateGUI(arcade::IGUI &GUI) {
 
 void    arcade::LibOpenGl::drawComponentSprite(const arcade::IComponent &component) {
 
-    if (this->_sprites.find(component.getBackgroundId()) == this->_sprites.end()) {
-        std::cout << "Warning, couldn't draw component's sprite (because sprite was not found)" << std::endl;
-        return ;
-    }
-
-    double  x_begin = component.getX();
-    double  x_end = component.getX() + component.getWidth();
-    double  y_begin = component.getY();
-    double  y_end = component.getY() + component.getHeight();
+    double  x_begin = component.getX() - 1.0;
+    double  x_end = component.getX() + component.getWidth() - 1.0;
+    double  y_begin = component.getY() - 1.0;
+    double  y_end = component.getY() + component.getHeight() - 1.0;
 
     glBindTexture(GL_TEXTURE_2D, this->_sprites[component.getBackgroundId()].at(0));
     glBegin(GL_QUADS);
@@ -196,7 +198,7 @@ void    arcade::LibOpenGl::drawComponentSprite(const arcade::IComponent &compone
     glTexCoord2d(1,0);  glVertex2f(x_end, y_begin);     // Bottom Right
     glTexCoord2d(1,1);  glVertex2f(x_begin, y_begin);   // Bottom Left
 
-    glEnd();    
+    glEnd();
 }
 
 void    arcade::LibOpenGl::drawComponentColor(const arcade::IComponent &component) {
@@ -205,9 +207,6 @@ void    arcade::LibOpenGl::drawComponentColor(const arcade::IComponent &componen
     double  x_end = component.getX() + component.getWidth() - 1.0;
     double  y_begin = component.getY() - 1.0;
     double  y_end = component.getY() + component.getHeight() - 1.0;
-
-    std::cout << "x_begin : " << (double)x_begin << std::endl;
-    std::cout << "y_begin : " << (double)y_begin << std::endl;
 
     arcade::Color color = component.getBackgroundColor();
 
@@ -223,7 +222,7 @@ void    arcade::LibOpenGl::drawComponentColor(const arcade::IComponent &componen
     glTexCoord2d(1,0);  glVertex2f(x_end, y_begin);     // Bottom Right
     glTexCoord2d(1,1);  glVertex2f(x_begin, y_begin);   // Bottom Left
 
-    glEnd();    
+    glEnd();
 
 }
 
@@ -232,15 +231,9 @@ void    arcade::LibOpenGl::drawComponent(const arcade::IComponent &component) {
     // If component has a sprite
     if (component.hasSprite()) {
         this->drawComponentSprite(component);
+    } else { // If component is juste a block of color
+        this->drawComponentColor(component);
     }
-
-
-    // We don't drow simple components because we can't print text with glfw
-    // If component is juste a block of color
-    // else {
-    //     this->drawComponentColor(component);
-    // }
-
 }
 
 void    arcade::LibOpenGl::loadSprites(std::vector<std::unique_ptr<arcade::ISprite>> &&sprites) {
@@ -277,8 +270,8 @@ GLuint  arcade::LibOpenGl::loadGLTexture(const std::string &filepath) {
 
 // Black Screen
 void    arcade::LibOpenGl::clear() {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // glClearColor(0.0f, 0.0f, 0.0f, 1.0f );
+    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void    arcade::LibOpenGl::display() {
