@@ -218,24 +218,26 @@ extern "C" arcade::IGame *maker()
 extern  "C" void  Play(void)
 {
   std::unique_ptr<arcade::SnakeGame> snake = std::make_unique<arcade::SnakeGame>(0);
-  std::string command;
+  arcade::CommandType command;
 
-  while (1)
+  while (!std::cin.eof())
   {
-    std::cin >> command;
-    switch (std::stoi(command))
+    command = (arcade::CommandType)std::cin.get();
+    switch (command)
     {
-      case 0 :
+      case arcade::CommandType::WHERE_AM_I :
         {
-          snake->getWhereAmI();
+          struct arcade::WhereAmI wai = snake->getWhereAmI();
+          std::cout.write((char*)&wai, sizeof(wai));
           break;
         }
-      case 1 :
+      case arcade::CommandType::GET_MAP :
         {
-          snake->getMap();
+        struct arcade::Map map = snake->getMap();
+        std::cout.write((char*)&map, sizeof(map));
           break;
         }
-      case 2 :
+      case arcade::CommandType::GO_UP :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -244,11 +246,11 @@ extern  "C" void  Play(void)
           event.action = arcade::ActionType::AT_PRESSED;
           event.kb_key = arcade::KeyboardKey::KB_ARROW_UP;
           events.push_back(event);
-          snake-> notifyEvent(std::move(events));
-          snake-> process();
+          snake->notifyEvent(std::move(events));
+          snake->process();
           break;
         }
-      case 3 :
+      case arcade::CommandType::GO_DOWN :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -257,11 +259,11 @@ extern  "C" void  Play(void)
           event.action = arcade::ActionType::AT_PRESSED;
           event.kb_key = arcade::KeyboardKey::KB_ARROW_DOWN;
           events.push_back(event);
-          snake-> notifyEvent(std::move(events));
-          snake-> process();
+          snake->notifyEvent(std::move(events));
+          snake->process();
           break;
         }
-      case 4 :
+      case arcade::CommandType::GO_LEFT :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -270,11 +272,11 @@ extern  "C" void  Play(void)
           event.action = arcade::ActionType::AT_PRESSED;
           event.kb_key = arcade::KeyboardKey::KB_ARROW_LEFT;
           events.push_back(event);
-          snake-> notifyEvent(std::move(events));
-          snake-> process();
+          snake->notifyEvent(std::move(events));
+          snake->process();
           break;
         }
-      case 5 :
+      case arcade::CommandType::GO_RIGHT :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -283,26 +285,26 @@ extern  "C" void  Play(void)
           event.action = arcade::ActionType::AT_PRESSED;
           event.kb_key = arcade::KeyboardKey::KB_ARROW_RIGHT;
           events.push_back(event);
-          snake-> notifyEvent(std::move(events));
-          snake-> process();
+          snake->notifyEvent(std::move(events));
+          snake->process();
           break;
         }
-      case 6 :
+      case arcade::CommandType::GO_FORWARD :
         {
-          snake-> process();
+          snake->process();
           break;
         }
-      case 7 :
-        {
-          break;
-        }
-      case 8 :
+      case arcade::CommandType::SHOOT :
         {
           break;
         }
-      case 9 :
+      case arcade::CommandType::ILLEGAL :
         {
-          snake-> process();
+          break;
+        }
+      case arcade::CommandType::PLAY :
+        {
+          snake->process();
           break;
         }
         default:
