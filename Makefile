@@ -54,7 +54,7 @@ SOURCES	+=		$(wildcard $(SRCDIR)/common/*.cpp)
 OBJECTS := 		$(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 RM 	= 		rm -rf
 
-$(BINDIR)/$(NAME):	$(OBJECTS)
+$(BINDIR)/$(NAME):	$(OBJECTS) game
 			@$(CXX) -o $@ $(OBJECTS) $(LDFLAGS)
 			@echo "\033[94mProject $(NAME) build successfully!\033[0m"
 
