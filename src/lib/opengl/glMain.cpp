@@ -16,9 +16,6 @@ arcade::LibOpenGl::LibOpenGl() : _width(800), _height(600) {
 
     std::cout << "Lib OpenGl 3.3 Launched" << std::endl;
 
-    // FUCK DIS SHIT
-    // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
     // Init GLFW
     if (glfwInit() != GL_TRUE)
         throw std::string("Failed to init GLFW\n");
@@ -64,19 +61,12 @@ arcade::LibOpenGl::LibOpenGl() : _width(800), _height(600) {
     glfwSetMouseButtonCallback(this->_window, arcade::LibOpenGl::mouseCallback);
 
     // Initialize GL parameters
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // Initialize GL parameters
     glEnable(GL_BLEND);
     // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_TEXTURE_2D);
     // glEnable(GL_DEPTH_TEST);
     glBlendFunc(GL_ONE, GL_ONE);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
- 
-    // glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    // glOrtho(0.0f, this->_width, this->_height, 0.0f, 0.0f, 1.0f);
-    textureIDx = loadGLTexture("./apple.png");
+    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
 }
 
 /*
@@ -103,26 +93,16 @@ void    arcade::LibOpenGl::updateMap(arcade::IMap const &map) {
         this->_tileWidth = this->_width / map.getWidth();
         this->_tileHeight = this->_height / map.getHeight();
 
-        glPushMatrix();
         for (std::size_t layer = 0; layer < nbLayers; layer++) {
 
             for (std::size_t x = 0; x < width; x++) {
 
                 for (std::size_t y = 0; y < height; y++) {
 
-                    // Check if the tile is a sprite
-                    if (layer == 0 && map.at(layer, x, y).hasSprite()) {
-                        drawTileSprite(map.at(layer, x, y), x, y, map);
-                    }
-                    // If not, get the color
-                    else {
-                        drawTileColor(map.at(layer, x, y), x, y, map);
-                    }
+                drawTileColor(map.at(layer, x, y), x, y, map);
                 }
             }
         }
- 
-    glPopMatrix();
     }
 
 }
@@ -154,6 +134,8 @@ void    arcade::LibOpenGl::drawTileColor(arcade::ITile const &tile, size_t x, si
 
 
 void    arcade::LibOpenGl::drawTileSprite(arcade::ITile const &tile, size_t x, size_t y, arcade::IMap const &map) {
+
+    return ;
 
     if (this->_sprites.find(tile.getSpriteId()) == this->_sprites.end()) {
         std::cout << "not found" << std::endl;
@@ -187,7 +169,8 @@ void    arcade::LibOpenGl::updateGUI(arcade::IGUI &GUI) {
 }
 
 void    arcade::LibOpenGl::drawComponentSprite(const arcade::IComponent &component) {
-return ;
+
+    return ;
     double  x_begin = component.getX() - 1.0;
     double  x_end = component.getX() + component.getWidth() - 1.0;
     double  y_begin = component.getY() - 1.0;
