@@ -42,9 +42,10 @@ namespace arcade
     virtual void                        notifyNetwork(std::vector<NetworkPacket> &&events);
     virtual std::vector<NetworkPacket>  &&getNetworkToSend();
     virtual void                        process();
-    virtual std::vector<std::unique_ptr<ISprite>> &&getSpritesToLoad() const;
+    virtual std::vector<std::unique_ptr<ISprite>> getSpritesToLoad() const;
     virtual std::vector<std::pair<std::string, SoundType>> getSoundsToLoad() const;
-    virtual std::vector<int>            &&getSoundsToPlay();
+    virtual std::vector<arcade::Sound>  getSoundsToPlay();
+    virtual tick_t                      getTickRate() const;
     virtual IMap const                  &getCurrentMap() const;
     virtual IGUI                        &getGUI();
 

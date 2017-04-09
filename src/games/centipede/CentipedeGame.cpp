@@ -165,7 +165,7 @@ void  arcade::CentipedeGame::process()
     this->_inputCD--;
 }
 
-std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::CentipedeGame::getSpritesToLoad() const
+std::vector<std::unique_ptr<arcade::ISprite>> arcade::CentipedeGame::getSpritesToLoad() const
 {
   std::vector<std::unique_ptr<arcade::ISprite>> vec;
 
@@ -184,7 +184,7 @@ std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::CentipedeGame::getSprite
                                                                std::pair<std::string, char>("./resources/games/sprites/snake/obstacle_2.png", ' '),
                                                                std::pair<std::string, char>("./resources/games/sprites/snake/obstacle_3.png", ' '),
                                                                std::pair<std::string, char>("./resources/games/sprites/snake/obstacle_4.png", ' ')}))));
-  return (std::move(vec));
+  return (vec);
 }
 
 std::vector<std::pair<std::string, arcade::SoundType>> arcade::CentipedeGame::getSoundsToLoad() const
@@ -194,9 +194,9 @@ std::vector<std::pair<std::string, arcade::SoundType>> arcade::CentipedeGame::ge
   return (sounds);
 }
 
-std::vector<int>&& arcade::CentipedeGame::getSoundsToPlay()
+std::vector<arcade::Sound> arcade::CentipedeGame::getSoundsToPlay()
 {
-  return (std::move(std::vector<int>()));
+  return (std::vector<arcade::Sound>());
 }
 
 arcade::IMap const &arcade::CentipedeGame::getCurrentMap() const
@@ -207,6 +207,11 @@ arcade::IMap const &arcade::CentipedeGame::getCurrentMap() const
 arcade::IGUI &arcade::CentipedeGame::getGUI()
 {
   return (*this->_gui);
+}
+
+arcade::tick_t  arcade::CentipedeGame::getTickRate() const
+{
+  return (30.0);
 }
 
 extern "C" arcade::IGame *maker()

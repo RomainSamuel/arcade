@@ -160,7 +160,7 @@ void  arcade::SfGame::process()
     }
 }
 
-std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::SfGame::getSpritesToLoad() const
+std::vector<std::unique_ptr<arcade::ISprite>> arcade::SfGame::getSpritesToLoad() const
 {
   std::vector<std::unique_ptr<arcade::ISprite>> vec;
   std::string str;
@@ -187,7 +187,7 @@ std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::SfGame::getSpritesToLoad
       pairs.push_back(std::pair<std::string, char>(str, ' '));
     }
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(pairs)));
-  return (std::move(vec));
+  return (vec);
 }
 
 std::vector<std::pair<std::string, arcade::SoundType>> arcade::SfGame::getSoundsToLoad() const
@@ -202,9 +202,9 @@ std::vector<std::pair<std::string, arcade::SoundType>> arcade::SfGame::getSounds
   return (sounds);
 }
 
-std::vector<int>&& arcade::SfGame::getSoundsToPlay()
+std::vector<arcade::Sound>  arcade::SfGame::getSoundsToPlay()
 {
-  return (std::move(std::vector<int>()));
+  return (std::move(std::vector<arcade::Sound>()));
 }
 
 arcade::IMap const &arcade::SfGame::getCurrentMap() const
@@ -215,6 +215,11 @@ arcade::IMap const &arcade::SfGame::getCurrentMap() const
 arcade::IGUI &arcade::SfGame::getGUI()
 {
   return (*this->_gui);
+}
+
+arcade::tick_t  arcade::SfGame::getTickRate() const
+{
+  return (30.0);
 }
 
 extern "C" arcade::IGame *maker()

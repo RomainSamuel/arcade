@@ -3,7 +3,6 @@
 
 arcade::SnakeGame::SnakeGame()
 {
-  std::cout << "YAY" << std::endl;
   this->_map = std::unique_ptr<Map>(new Map(10, 10, 2, 0));
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
@@ -148,9 +147,9 @@ std::vector<std::pair<std::string, arcade::SoundType>> arcade::SnakeGame::getSou
   return (sounds);
 }
 
-std::vector<Sound> arcade::SnakeGame::getSoundsToPlay()
+std::vector<arcade::Sound> arcade::SnakeGame::getSoundsToPlay()
 {
-  return (std::vector<Sound>());
+  return (std::vector<arcade::Sound>());
 }
 
 arcade::IMap const &arcade::SnakeGame::getCurrentMap() const
@@ -161,6 +160,11 @@ arcade::IMap const &arcade::SnakeGame::getCurrentMap() const
 arcade::IGUI &arcade::SnakeGame::getGUI()
 {
   return (*this->_gui);
+}
+
+arcade::tick_t  arcade::SnakeGame::getTickRate() const
+{
+  return (30.0);
 }
 
 extern "C" arcade::IGame *maker()
