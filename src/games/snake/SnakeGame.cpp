@@ -173,19 +173,87 @@ bool        arcade::SnakeGame::hasNetwork() const
   return (true);
 }
 
-struct  WhereAmI &arcade::SnakeGame::getWhereAmI() const
+/*struct  WhereAmI &arcade::SnakeGame::getWhereAmI() const
 {
   struct WhereAmI wai;
 
   wai.;
-}
+}*/
 
 extern "C" arcade::IGame *maker()
 {
   return (new arcade::SnakeGame());
 }
-
+/*
 extern  "C" void  Play(void)
 {
   arcade::SnakeGame *snake = new arcade::SnakeGame;
+  std::string command;
+
+  while (1)
+  {
+    std::cin >> command;
+    switch (std::stoi(command))
+    {
+      case 0 :
+        {
+          std::cout << "ZERO" << std::endl;
+          break;
+        }
+      case 1 :
+        {
+          std::cout << "ONE" << std::endl;
+          break;
+        }
+      case 2 :
+        {
+          arcade::Event event;
+
+          event.type = arcade::EventType::ET_KEYBOARD;
+          event.action = arcade::ActionType::AT_PRESSED;
+          event.kb_key = arcade::KeyboardKey::KB_ARROW_UP;
+          notifyEvent(event);
+
+          break;
+        }
+      case 3 :
+        {
+          std::cout << "THREE" << std::endl;
+          break;
+        }
+      case 4 :
+        {
+          std::cout << "FOUR" << std::endl;
+          break;
+        }
+      case 5 :
+        {
+          std::cout << "FIVE" << std::endl;
+          break;
+        }
+      case 6 :
+        {
+          std::cout << "SIX" << std::endl;
+          break;
+        }
+      case 7 :
+        {
+          std::cout << "SEVEN" << std::endl;
+          break;
+        }
+      case 8 :
+        {
+          std::cout << "EIGHT" << std::endl;
+          break;
+        }
+      case 9 :
+        {
+          std::cout << "NINE" << std::endl;
+          break;
+        }
+        default:
+          break;
+    }
+  }
 }
+*/
