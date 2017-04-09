@@ -9,13 +9,13 @@ void  display(arcade::IGame *centipede)
     {
       for (size_t x = 0; x < centipede->getCurrentMap().getWidth(); x++)
         {
-          type = 0;
+          type = -1;
           for (size_t i = 0; i < centipede->getCurrentMap().getLayerNb(); i++)
             {
-              if (centipede->getCurrentMap().at(i, x, y).getSpriteId() != 0)
+              if (centipede->getCurrentMap().at(i, x, y).hasSprite())
                 type = centipede->getCurrentMap().at(i, x, y).getSpriteId();
             }
-          if (type > 0)
+          if (type >= 0)
             std::cout << type << " ";
           else
             std::cout << "." << " ";
@@ -30,7 +30,7 @@ int main()
 
   display(centipede);
   std::cout << std::endl;
-  for (size_t i = 0; i < 15; i++)
+  for (size_t i = 0; i < 3; i++)
     {
       centipede->process();
       display(centipede);

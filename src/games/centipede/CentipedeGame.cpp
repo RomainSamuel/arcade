@@ -19,7 +19,6 @@ arcade::CentipedeGame::CentipedeGame()
   this->_killed = 0;
 
   // EVENTS
-  // EVENTS
   arcade::Event event;
   event.type = arcade::EventType::ET_KEYBOARD;
   event.action = arcade::ActionType::AT_PRESSED;
@@ -148,7 +147,7 @@ void  arcade::CentipedeGame::process()
                 this->killCentipede(ret);
         }
     }
-  else
+  if (this->_player->hasShot())
     if ((ret = this->_player->getShot().move(this->_centipedes)) != 0)
       this->killCentipede(ret);
   if (this->_killed == 10)
