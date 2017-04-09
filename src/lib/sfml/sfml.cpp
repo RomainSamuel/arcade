@@ -121,7 +121,6 @@ void    arcade::LibSfml::drawTileSprite(arcade::ITile const &tile, size_t x, siz
 
     if (this->_sprites.find(tile.getSpriteId()) == this->_sprites.end()) {
         std::cout << "not found for " << "[" << tile.getSpriteId() << "]" << "[" << tile.getSpritePos() << "]" << std::endl;
-        // std::cout << "Warning, couldn't draw tile's sprite (because sprite was not found)" << std::endl;        
         return ;
     }
 
@@ -231,8 +230,6 @@ void    arcade::LibSfml::loadSprites(std::vector<std::unique_ptr<arcade::ISprite
             } else {
                 this->_sprites[i].push_back(texture);
             }
-            // std::cout << "nSprite = " << nSprite << std::endl;
-            // std::cout << "i = " << i << std::endl; 
         }
     }
 }

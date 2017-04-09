@@ -57,9 +57,7 @@ void    sf::Enemy::printOnMap(std::unique_ptr<arcade::Map> &map) const
         true,
         3,
         this->getAssociatedSpritePos(),
-        // this->x - 0.5 - static_cast<double>(static_cast<int>(this->x))
         0.0,
-        // this->y - 0.5 - static_cast<double>(static_cast<int>(this->y))
         0.0);
 }
 
