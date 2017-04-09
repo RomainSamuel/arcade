@@ -69,7 +69,6 @@ arcade::LibNcurses::~LibNcurses() {
 bool    arcade::LibNcurses::pollEvent(arcade::Event &e)
 {
 
-    return 0;
     char                c;
 
     struct  pollfd      fds;
@@ -99,6 +98,7 @@ bool    arcade::LibNcurses::pollEvent(arcade::Event &e)
 
         c = getch();
 
+        std::cout << "c = " << (int)c << "   " << std::endl;
         if (arcade::_ncursesKeyboardKeys.find(c) != arcade::_ncursesKeyboardKeys.end())
             e.kb_key = (arcade::KeyboardKey)arcade::_ncursesKeyboardKeys.find(c)->second;
         else
@@ -162,26 +162,29 @@ std::size_t arcade::LibNcurses::getColorInCurses(const arcade::Color &color) {
 void    arcade::LibNcurses::updateMap(arcade::IMap const &map)
 {
 
-    // Save Map properties
-    std::size_t  nbLayers = map.getLayerNb();
-    std::size_t  height = map.getHeight();
-    std::size_t  width = map.getWidth();
+    if (map.getWidth() != 0 && map.getHeight() != 0) {
 
-    for (std::size_t layer = 0; layer < nbLayers; layer++) {
+        // Save Map properties
+        std::size_t  nbLayers = map.getLayerNb();
+        std::size_t  height = map.getHeight();
+        std::size_t  width = map.getWidth();
 
-            for (std::size_t x = 0; x < width; x++) {
+        for (std::size_t layer = 0; layer < nbLayers; layer++) {
 
-                for (std::size_t y = 0; y < height; y++) {
+                for (std::size_t x = 0; x < width; x++) {
 
-                    // Check if the tile is a sprite
-                    if (map.at(layer, x, y).hasSprite())
-                        drawTileSprite(map.at(layer, x, y), x, y, this->getColorInCurses(map.at(0, x, y).getColor()));
-                    // If not, get the color
-                    else {
-                        drawTileColor(map.at(layer, x, y), x, y);
+                    for (std::size_t y = 0; y < height; y++) {
+
+                        // Check if the tile is a sprite
+                        // if (map.at(layer, x, y).hasSprite())
+                        //     drawTileSprite(map.at(layer, x, y), x, y, this->getColorInCurses(map.at(0, x, y).getColor()));
+                        // If not, get the color
+                        // else {
+                            drawTileColor(map.at(layer, x, y), x, y);
+                        // }
                     }
                 }
-            }
+        }
     }
 }   
 
@@ -235,9 +238,11 @@ void    arcade::LibNcurses::drawComponent(const arcade::IComponent &component) {
 void    arcade::LibNcurses::drawComponentText(const arcade::IComponent &component) {
 
     std::string text = component.getText();
-    attron(COLOR_PAIR(1));
-    mvprintw(START_Y + component.getY(), START_X + component.getX(), text.c_str());
-    attroff(COLOR_PAIR(1));
+    std::size_t indexColor = this->getColorInCurses(component.getTextColor());
+
+    attron(COLOR_PAIR(indexColor));
+    mvprintw(START_Y + component.getY() * 10, START_X + component.getX() * 10, text.c_str());
+    attroff(COLOR_PAIR(indexColor));
 
 }
 
@@ -286,7 +291,7 @@ void    arcade::LibNcurses::soundControl(const Sound &soundToControl)
     this->_soundManager.soundControl(soundToControl);
 }
 
-extern "C" arcade::IGfxLib  *getLib()
+extern "C" arcade::IGfxLib  *loader()
 {
     return (new arcade::LibNcurses());
 }

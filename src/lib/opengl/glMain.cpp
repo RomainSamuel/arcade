@@ -92,35 +92,38 @@ arcade::LibOpenGl::~LibOpenGl() {
 */
 void    arcade::LibOpenGl::updateMap(arcade::IMap const &map) {
 
-    // Save Map properties
-    size_t  nbLayers = map.getLayerNb();
-    size_t  height = map.getHeight();
-    size_t  width = map.getWidth();
+    if (map.getWidth() != 0 && map.getHeight() != 0) {
 
-    // Adjust the ratio between the game map and de window
-    this->_tileWidth = this->_width / map.getWidth();
-    this->_tileHeight = this->_height / map.getHeight();
+        // Save Map properties
+        size_t  nbLayers = map.getLayerNb();
+        size_t  height = map.getHeight();
+        size_t  width = map.getWidth();
 
-    // glPushMatrix();
-    for (std::size_t layer = 0; layer < nbLayers; layer++) {
+        // Adjust the ratio between the game map and de window
+        this->_tileWidth = this->_width / map.getWidth();
+        this->_tileHeight = this->_height / map.getHeight();
 
-        for (std::size_t x = 0; x < width; x++) {
+        glPushMatrix();
+        for (std::size_t layer = 0; layer < nbLayers; layer++) {
 
-            for (std::size_t y = 0; y < height; y++) {
+            for (std::size_t x = 0; x < width; x++) {
 
-                // Check if the tile is a sprite
-                if (layer == 0 && map.at(layer, x, y).hasSprite()) {
-                    drawTileSprite(map.at(layer, x, y), x, y, map);
+                for (std::size_t y = 0; y < height; y++) {
+
+                    // Check if the tile is a sprite
+                    if (layer == 0 && map.at(layer, x, y).hasSprite()) {
+                        drawTileSprite(map.at(layer, x, y), x, y, map);
+                    }
+                    // If not, get the color
+                    else {
+                        drawTileColor(map.at(layer, x, y), x, y, map);
+                    }
                 }
-                // If not, get the color
-                else {
-                    drawTileColor(map.at(layer, x, y), x, y, map);
-                }
-             }
+            }
         }
-    }
  
-    // glPopMatrix();
+    glPopMatrix();
+    }
 
 }
 
@@ -389,7 +392,7 @@ void    arcade::LibOpenGl::soundControl(const arcade::Sound &soundToControl) {
 }
 
 
-extern "C" arcade::IGfxLib *getLib()
+extern "C" arcade::IGfxLib *loader()
 {
     return (new arcade::LibOpenGl());
 }
