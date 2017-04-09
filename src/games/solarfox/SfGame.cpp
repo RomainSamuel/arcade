@@ -96,7 +96,7 @@ void  arcade::SfGame::notifyNetwork(std::vector<arcade::NetworkPacket> &&)
 {
 }
 
-std::vector<arcade::NetworkPacket>&& arcade::SfGame::getNetworkToSend()
+std::vector<arcade::NetworkPacket> arcade::SfGame::getNetworkToSend()
 {
   return (std::move(std::vector<arcade::NetworkPacket>()));
 }
@@ -274,9 +274,9 @@ arcade::IGUI &arcade::SfGame::getGUI()
   return (*this->_gui);
 }
 
-arcade::tick_t  arcade::SfGame::getTickRate() const
+bool  arcade::SfGame::hasNetwork() const
 {
-  return (30.0);
+  return (true);
 }
 
 extern "C" arcade::IGame *maker()

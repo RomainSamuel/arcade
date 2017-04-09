@@ -105,6 +105,12 @@ compile_centipede:
 
 clean:
 			@$(RM) $(OBJDIR)
+			@make clean -C src/lib/sfml
+			@make clean -C src/lib/opengl
+			@make clean -C src/lib/ncurses
+			@make clean -C src/games/snake
+			@make clean -C src/games/solarfox
+			@make clean -C src/games/centipede
 			@echo "\033[93mCleanup complete!\033[0m"
 
 fclean: 		clean

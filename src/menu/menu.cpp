@@ -45,7 +45,7 @@ void  arcade::Menu::notifyNetwork(std::vector<arcade::NetworkPacket> &&)
 {
 }
 
-std::vector<arcade::NetworkPacket>&& arcade::Menu::getNetworkToSend()
+std::vector<arcade::NetworkPacket> arcade::Menu::getNetworkToSend()
 {
   return (std::move(std::vector<arcade::NetworkPacket>()));
 }
@@ -115,9 +115,9 @@ arcade::IGUI &arcade::Menu::getGUI()
   return (*this->_gui);
 }
 
-arcade::tick_t  arcade::Menu::getTickRate() const
+bool  arcade::Menu::hasNetwork() const
 {
-  return (30.0);
+  return (true);
 }
 
 int arcade::Menu::getPos() const
