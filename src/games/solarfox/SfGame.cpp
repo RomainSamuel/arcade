@@ -14,6 +14,7 @@ arcade::SfGame::SfGame()
   this->_remainingScrap = 10;
   this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 0.5, 1, 19, 1, 1, 0.1, sf::mvType::HORIZONTAL, 2, 2, 18, 9));
   this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 9.5, 19.5, 1, 19, -1, -1, 0.1, sf::mvType::HORIZONTAL, 2, 2, 18, 9));
+  this->_sounds.push_back(arcade::Sound(0, REPEAT));
 
   for (size_t i = 0; i < this->_enemies.size(); i++)
     this->_enemies[i]->printOnMap(this->_map);
@@ -38,6 +39,7 @@ arcade::SfGame::SfGame()
                                                                              1,
                                                                              false,
                                                                              0,
+                                                                             arcade::Color::Black,
                                                                              arcade::Color::White,
                                                                              "Score : 0"));
   this->_gui->addComponent(std::move(comp));
@@ -107,6 +109,7 @@ void  arcade::SfGame::process()
 {
   int actionNb = -1;
 
+  this->_sounds.clear();
   if (this->_state == QUIT)
     return;
   if (this->_state != INGAME)
@@ -122,6 +125,9 @@ void  arcade::SfGame::process()
         }
       if (actionNb >= 0 && actionNb < 4)
         this->_player->setDirection(static_cast<sf::Direction>(actionNb));
+      else if (actionNb == 4)
+        if (this->_player->fire())
+          this->_sounds.push_back(arcade::Sound(3));
     }
 
   //HANDLE PLAYER SHOTS
@@ -130,9 +136,9 @@ void  arcade::SfGame::process()
       if (this->_player->checkShotDuration(this->_map))
         if (this->_player->getShot().move(this->_map))
           {
+            this->_sounds.push_back(arcade::Sound(4));
             this->_player->deleteShot();
             this->_score += 100;
-            std::cout << "Score = " << this->_score << std::endl;
             this->_remainingScrap--;
             this->_gui->getComponent(0).setText("Score : " + std::to_string(this->_score));
             if (this->_remainingScrap == 0)
@@ -145,7 +151,11 @@ void  arcade::SfGame::process()
 
   //HANDLE ENEMIES
   for (size_t i = 0; i < this->_enemies.size(); i++)
-    this->_enemies[i]->move(this->_map, this->_shots);
+    {
+      if (this->_enemies[i]->fire(this->_shots))
+        this->_sounds.push_back(arcade::Sound(1));
+      this->_enemies[i]->move(this->_map);
+    }
 
   //HANDLE ENEMY SHOTS
   this->checkShots(this->_map);
@@ -155,6 +165,7 @@ void  arcade::SfGame::process()
   //HANDLE PLAYER
   if (this->_player->move(this->_map) == -1)
     {
+      this->_sounds.push_back(arcade::Sound(2));
       this->_state = QUIT;
       return;
     }

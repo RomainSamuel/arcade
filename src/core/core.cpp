@@ -62,11 +62,11 @@ void    arcade::Core::display()
     _menu = new arcade::Menu();
     _loader = getLoader();
 
-    void *loader = _loader.getSym(getLoader().getCurrentLib(), "loader");
+    void *loader = _loader.getSym(_loader.getCurrentLib(), "loader");
     _libLoad = ((arcade::IGfxLib *(*)())loader)();
-    void *mkr = _loader.getSym(getLoader().getCurrentGame(), "maker");
+    void *mkr = _loader.getSym(_loader.getCurrentGame(), "maker");
     _gameLoad = ((arcade::IGame *(*)())mkr)();
-    _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
+    //_libLoad->loadSprites(_gameLoad->getSpritesToLoad());
     _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
 
     while (getGameState() != arcade::GameState::QUIT)
@@ -99,39 +99,38 @@ void    arcade::Core::play()
             {
                 case arcade::KeyboardKey::KB_2 :
                 {
-                    std::cout << "2" << std::endl;
-                    getLoader().getPrevLib();
-                    void *loader = _loader.getSym(getLoader().getCurrentLib(), "loader");
+                    _loader.getPrevLib();
+                    void *loader = _loader.getSym(_loader.getCurrentLib(), "loader");
+                    delete _libLoad;
                      _libLoad = ((arcade::IGfxLib *(*)())loader)();
                      break;
                 }
                 case arcade::KeyboardKey::KB_3 :
                 {
-                    std::cout << "3" << std::endl;
-                    getLoader().getNextLib();
-                    void *loader = _loader.getSym(getLoader().getCurrentLib(), "loader");
+                    _loader.getNextLib();
+                    void *loader = _loader.getSym(_loader.getCurrentLib(), "loader");
+                    delete _libLoad;
                     _libLoad = ((arcade::IGfxLib *(*)())loader)();
                     break;
                 }
                 case arcade::KeyboardKey::KB_4 :
                 {
-                    std::cout << "4" << std::endl;
-                    getLoader().getPrevGame();
-                    void *mkr = _loader.getSym(getLoader().getCurrentGame(), "maker");
+                    _loader.getPrevGame();
+                    void *mkr = _loader.getSym(_loader.getCurrentGame(), "maker");
+                    delete _gameLoad;
                     _gameLoad = ((arcade::IGame *(*)())mkr)();
                     break;
                 }            
                  case arcade::KeyboardKey::KB_5 :
                 {
-                    std::cout << "5" << std::endl;
-                    getLoader().getNextGame();
-                    void *mkr = _loader.getSym(getLoader().getCurrentGame(), "maker");
+                    _loader.getNextGame();
+                    void *mkr = _loader.getSym(_loader.getCurrentGame(), "maker");
+                    delete _gameLoad;
                     _gameLoad = ((arcade::IGame *(*)())mkr)();
                     break;
                 }
                 case arcade::KeyboardKey::KB_9 :
                 {
-                    std::cout << "9" << std::endl;
                  setGameState(arcade::GameState::MENU);
                  break;
                 }

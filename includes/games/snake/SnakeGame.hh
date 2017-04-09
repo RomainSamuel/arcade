@@ -30,6 +30,7 @@ namespace arcade
     std::array<arcade::Event, 4>                  _eventsBound;
     double                                        _cd;
     double                                        _cdRemaining;
+    std::vector<arcade::Sound>                    _sounds;
 
   public:
     SnakeGame();

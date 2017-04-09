@@ -74,7 +74,7 @@ void    sf::Enemy::eraseFromMap(std::unique_ptr<arcade::Map> &map) const
         0.0);
 }
 
-int     sf::Enemy::fire()
+bool    sf::Enemy::fire(std::vector<std::unique_ptr<sf::Shot>> &shots)
 {
   bool  openFire = false;
 
@@ -101,13 +101,7 @@ int     sf::Enemy::fire()
       this->fcd--;
       openFire = false;
     }
-  return (openFire);
-}
-
-void    sf::Enemy::move(std::unique_ptr<arcade::Map> &map, std::vector<std::unique_ptr<sf::Shot>> &shots)
-{
-  this->eraseFromMap(map);
-  if (this->fire() == true)
+  if (openFire)
     {
       shots.push_back(std::make_unique<sf::Shot>(this->layer,
                                                  this->x,
@@ -119,6 +113,12 @@ void    sf::Enemy::move(std::unique_ptr<arcade::Map> &map, std::vector<std::uniq
                                                  false));
       shots.back()->printOnMap(map);
     }
+  return (openFire);
+}
+
+void    sf::Enemy::move(std::unique_ptr<arcade::Map> &map)
+{
+  this->eraseFromMap(map);
   if (this->mv == VERTICAL)
     {
       if (this->y == this->firstBoundary ||

@@ -32,6 +32,7 @@ namespace arcade
     double                                        _cd;
     double                                        _cdRemaining;
     size_t                                        _remainingScrap;
+    std::vector<arcade::Sound>                    _sounds;
 
   public:
     SfGame();

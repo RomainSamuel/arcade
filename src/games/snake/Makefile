@@ -8,6 +8,7 @@ GAME_COMMON	=	../common/
 
 SRC		=	$(COMMON)Color.cpp \
 				$(COMMON)Sprite.cpp \
+				$(COMMON)Sound.cpp \
 				$(GAME_COMMON)Component.cpp \
 				$(GAME_COMMON)GUI.cpp \
 				$(GAME_COMMON)Tile.cpp \

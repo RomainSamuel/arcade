@@ -15,6 +15,7 @@ namespace arcade
     bool    _hasSprite;
     size_t  _backgroundId;
     Color   _backgroundColor;
+    Color   _textColor;
     std::string _text;
     bool    _clicked;
 
@@ -25,6 +26,7 @@ namespace arcade
               double,
               bool,
               size_t,
+              Color,
               Color,
               std::string);
 

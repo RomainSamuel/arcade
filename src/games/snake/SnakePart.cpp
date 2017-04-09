@@ -56,7 +56,7 @@ int snake::SnakePart::getAssociatedSpriteId(const Direction &prev) const
 int snake::SnakePart::getAssociatedSpritePos(const Direction &prev) const
 {
   if (this->type == HEAD)
-    return (static_cast<int>(this->direction) % 2 == 0);
+    return (static_cast<int>(this->direction));
   else if (this->type == TAIL)
     return (static_cast<int>(prev));
   else
@@ -139,8 +139,8 @@ void  snake::SnakePart::printOnMap(std::list<std::unique_ptr<SnakePart>> &list,
                                                            arcade::TileTypeEvolution::PLAYER,
                                                            arcade::Color::Green,
                                                            true,
-                                                           this->getAssociatedSpriteId(prev),
-                                                           this->getAssociatedSpritePos(prev),
+                                                           it->get()->getAssociatedSpriteId(prev),
+                                                           it->get()->getAssociatedSpritePos(prev),
                                                            0.0,
                                                            0.0);
     }
