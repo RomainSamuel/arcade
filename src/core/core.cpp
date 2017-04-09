@@ -60,18 +60,13 @@ void    arcade::Core::setGameState(const arcade::GameState state)
 void    arcade::Core::display()
 {
     _menu = new arcade::Menu();
-    arcade::Loader _loader = getLoader();
+    _loader = getLoader();
 
     void *loader = _loader.getSym(getLoader().getCurrentLib(), "loader");
     _libLoad = ((arcade::IGfxLib *(*)())loader)();
     void *mkr = _loader.getSym(getLoader().getCurrentGame(), "maker");
     _gameLoad = ((arcade::IGame *(*)())mkr)();
-    std::vector<std::unique_ptr<ISprite>> sprites;
-    sprites = _gameLoad->getSpritesToLoad();
-    for (std::vector<std::unique_ptr<ISprite>>::const_iterator it = sprites.begin(); it != sprites.end(); it++)
-    {
-        std::cout << it->get()->spritesCount() << std::endl;
-    }
+    _libLoad->loadSprites(_gameLoad->getSpritesToLoad());
     _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
 
     while (getGameState() != arcade::GameState::QUIT)
@@ -90,6 +85,7 @@ void    arcade::Core::menu()
     _libLoad->display();
 }
 
+
 void    arcade::Core::play()
 {
     Event event;
@@ -97,11 +93,59 @@ void    arcade::Core::play()
 
     if (_libLoad->pollEvent(event))
     {
-        std::cout << event.kb_key << std::endl;
-        if (event.kb_key == KB_ESCAPE)
-            std::cout << "ESCAPE" << std::endl;
+        if (event.action == arcade::ActionType::AT_PRESSED)
+        {
+            switch (event.kb_key)
+            {
+                case arcade::KeyboardKey::KB_2 :
+                {
+                    std::cout << "2" << std::endl;
+                    getLoader().getPrevLib();
+                    void *loader = _loader.getSym(getLoader().getCurrentLib(), "loader");
+                     _libLoad = ((arcade::IGfxLib *(*)())loader)();
+                     break;
+                }
+                case arcade::KeyboardKey::KB_3 :
+                {
+                    std::cout << "3" << std::endl;
+                    getLoader().getNextLib();
+                    void *loader = _loader.getSym(getLoader().getCurrentLib(), "loader");
+                    _libLoad = ((arcade::IGfxLib *(*)())loader)();
+                    break;
+                }
+                case arcade::KeyboardKey::KB_4 :
+                {
+                    std::cout << "4" << std::endl;
+                    getLoader().getPrevGame();
+                    void *mkr = _loader.getSym(getLoader().getCurrentGame(), "maker");
+                    _gameLoad = ((arcade::IGame *(*)())mkr)();
+                    break;
+                }            
+                 case arcade::KeyboardKey::KB_5 :
+                {
+                    std::cout << "5" << std::endl;
+                    getLoader().getNextGame();
+                    void *mkr = _loader.getSym(getLoader().getCurrentGame(), "maker");
+                    _gameLoad = ((arcade::IGame *(*)())mkr)();
+                    break;
+                }
+                case arcade::KeyboardKey::KB_9 :
+                {
+                    std::cout << "9" << std::endl;
+                 setGameState(arcade::GameState::MENU);
+                 break;
+                }
+                case arcade::KeyboardKey::KB_ESCAPE :
+                {  
+                    std::cout << "ESCAPE" << std::endl;
+                    setGameState(arcade::GameState::QUIT);
+                }
+            default:
+                break;
+            }   
+        }
       _events.push_back(event);
-      //_gameLoad->notifyEvent(_events);
+      _gameLoad->notifyEvent(std::move(_events));
     }
 
     _gameLoad->process();
