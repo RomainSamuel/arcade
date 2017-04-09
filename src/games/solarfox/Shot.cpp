@@ -55,7 +55,7 @@ bool    sf::Shot::destroyPLayer(std::unique_ptr<arcade::Map> &map) const
   if (this-> x < 0 || this-> y < 0 || this->x >= 20 || this->y >= 20)
     return (false);
   if (map->at(2, static_cast<int>(this->x), static_cast<int>(this->y)).getTypeEv() == arcade::TileTypeEvolution::PLAYER)
-    return (false);
+    return (true);
   else
     return (false);
 }
