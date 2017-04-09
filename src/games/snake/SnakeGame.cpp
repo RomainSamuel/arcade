@@ -215,4 +215,96 @@ extern "C" arcade::IGame *maker()
 
 extern  "C" void  Play(void)
 {
+  arcade::SnakeGame *snake = new arcade::SnakeGame;
+  std::string command;
+
+  while (1)
+  {
+    std::cin >> command;
+    switch (std::stoi(command))
+    {
+      case 0 :
+        {
+          snake.getWherAmI();
+          break;
+        }
+      case 1 :
+        {
+          snake.getMap();
+          break;
+        }
+      case 2 :
+        {
+          arcade::Event event;
+          std::vector<arcade::Event> events;
+
+          event.type = arcade::EventType::ET_KEYBOARD;
+          event.action = arcade::ActionType::AT_PRESSED;
+          event.kb_key = arcade::KeyboardKey::KB_ARROW_UP;
+          events.push_back(event);
+          snake.notifyEvent(events);
+          snake.process();
+          break;
+        }
+      case 3 :
+        {
+          arcade::Event event;
+          std::vector<arcade::Event> events;
+
+          event.type = arcade::EventType::ET_KEYBOARD;
+          event.action = arcade::ActionType::AT_PRESSED;
+          event.kb_key = arcade::KeyboardKey::KB_ARROW_DOWN;
+          events.push_back(event);
+          snake.notifyEvent(events);
+          snake.process();
+          break;
+        }
+      case 4 :
+        {
+          arcade::Event event;
+          std::vector<arcade::Event> events;
+
+          event.type = arcade::EventType::ET_KEYBOARD;
+          event.action = arcade::ActionType::AT_PRESSED;
+          event.kb_key = arcade::KeyboardKey::KB_ARROW_LEFT;
+          events.push_back(event);
+          snake.notifyEvent(events);
+          snake.process();
+          break;
+        }
+      case 5 :
+        {
+          arcade::Event event;
+          std::vector<arcade::Event> events;
+
+          event.type = arcade::EventType::ET_KEYBOARD;
+          event.action = arcade::ActionType::AT_PRESSED;
+          event.kb_key = arcade::KeyboardKey::KB_ARROW_RIGHT;
+          events.push_back(event);
+          snake.notifyEvent(events);
+          snake.process();
+          break;
+        }
+      case 6 :
+        {
+          snake.process();
+          break;
+        }
+      case 7 :
+        {
+          break;
+        }
+      case 8 :
+        {
+          break;
+        }
+      case 9 :
+        {
+          snake.process();
+          break;
+        }
+        default:
+          break;
+    }
+  }
 }

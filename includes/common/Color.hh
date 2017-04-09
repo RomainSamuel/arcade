@@ -1,11 +1,3 @@
-//
-// Author: Maud Marel 
-// Date: 2017-04-09 18:47:41 
-//
-// Last Modified by:   Maud Marel 
-// Last Modified time: 2017-04-09 18:47:41
-//
-
 #ifndef COLOR_HH_
 #define COLOR_HH_
 
@@ -37,6 +29,18 @@ namespace arcade
 		/// \param[in] a Alpha (opacity) color component value
 		///
 		Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255);
+
+		bool operator==(Color const& col);
+
+		bool operator!=(Color const& col);
+
+		bool operator<=(Color const& col);
+
+		bool operator>=(Color const& col);
+
+		bool operator<(Color const& col);
+
+		bool operator>(Color const& col);
 
 		///
 		/// \fn Color(Color const &c)

@@ -35,7 +35,7 @@ namespace arcade
     std::vector<arcade::Sound>                    _sounds;
 
   public:
-    SnakeGame();
+    SnakeGame(bool mode = true);
     virtual ~SnakeGame();
 
     virtual GameState                   getGameState() const;
