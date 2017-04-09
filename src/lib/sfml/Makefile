@@ -11,7 +11,7 @@ OBJ 	    =	$(SRC:.cpp=.o)
 
 CXXFLAGS    =   -std=c++14
 
-CXXFLAGS    +=  -W -Wall -Wextra -Werror -fPIC
+CXXFLAGS    +=  -W -Wall -Wextra -fPIC
 
 CXXFLAGS    +=  -I../../../includes/lib/sfml -I../../../includes -I../../../includes/common
 
