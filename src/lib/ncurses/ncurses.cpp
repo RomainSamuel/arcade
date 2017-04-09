@@ -180,17 +180,17 @@ void    arcade::LibNcurses::updateMap(arcade::IMap const &map)
 
                     // Check if the tile is a sprite
                     if (map.at(layer, x, y).hasSprite())
-                        putTileSprite(map.at(layer, x, y), x, y, this->getColorInCurses(map.at(0, x, y).getColor()));
+                        drawTileSprite(map.at(layer, x, y), x, y, this->getColorInCurses(map.at(0, x, y).getColor()));
                     // If not, get the color
                     else {
-                        putTileColor(map.at(layer, x, y), x, y);
+                        drawTileColor(map.at(layer, x, y), x, y);
                     }
                 }
             }
     }
 }   
 
-void    arcade::LibNcurses::putTileColor(arcade::ITile const &tile, std::size_t x, std::size_t y) {
+void    arcade::LibNcurses::drawTileColor(arcade::ITile const &tile, std::size_t x, std::size_t y) {
 
     std::size_t colorIndex = this->getColorInCurses(tile.getColor());
 
@@ -201,10 +201,14 @@ void    arcade::LibNcurses::putTileColor(arcade::ITile const &tile, std::size_t 
     attroff(A_NORMAL);
 }
 
-void    arcade::LibNcurses::putTileSprite(arcade::ITile const &tile,
+void    arcade::LibNcurses::drawTileSprite(arcade::ITile const &tile,
                                           std::size_t x,
                                           std::size_t y,
                                           std::size_t bgColorSprite) {
+
+    if (this->_sprites.find(tile.getSpriteId()) == this->_sprites.end()) {
+        return ;
+    }
 
     std::size_t colorIndex = this->getColorInCurses(tile.getColor());
 
@@ -212,7 +216,11 @@ void    arcade::LibNcurses::putTileSprite(arcade::ITile const &tile,
     init_pair(0, colorIndex, bgColorSprite);
 
     attron(COLOR_PAIR(0));
-    mvprintw(START_Y + y, START_X + x, &this->_sprites[tile.getSpriteId()].at(tile.getSpritePos()));
+ 
+    char    c = this->_sprites[tile.getSpriteId()].at(tile.getSpritePos());
+
+    mvprintw(START_Y + y, START_X + x, &c);
+
     attroff(COLOR_PAIR(0));
 }
 

@@ -85,17 +85,17 @@ void    arcade::LibSfml::updateMap(arcade::IMap const &map)
 
                     // Check if the tile is a sprite
                     if (map.at(layer, x, y).hasSprite())
-                        putTileSprite(map.at(layer, x, y), x, y);
+                        drawTileSprite(map.at(layer, x, y), x, y);
                     // If not, get the color
                     else {
-                        putTileColor(map.at(layer, x, y), x, y);
+                        drawTileColor(map.at(layer, x, y), x, y);
                     }
                 }
             }
     }
 }   
 
-void    arcade::LibSfml::putTileColor(arcade::ITile const &tile, size_t x, size_t y) {
+void    arcade::LibSfml::drawTileColor(arcade::ITile const &tile, size_t x, size_t y) {
 
     // Adapt the coordinates for the viewport
     double  x_begin = (x * WIDTH_RATIO);
@@ -115,7 +115,12 @@ void    arcade::LibSfml::putTileColor(arcade::ITile const &tile, size_t x, size_
     _window.draw(rectangle);
 }
 
-void    arcade::LibSfml::putTileSprite(arcade::ITile const &tile, size_t x, size_t y) {
+void    arcade::LibSfml::drawTileSprite(arcade::ITile const &tile, size_t x, size_t y) {
+
+    if (this->_sprites.find(tile.getSpriteId()) == this->_sprites.end()) {
+        std::cout << "Warning, couldn't draw tile's sprite (because sprite was not found)" << std::endl;        
+        return ;
+    }
 
     // Adapt the coordinates for the viewport
     double  x_begin = (x * WIDTH_RATIO);
@@ -152,6 +157,11 @@ void    arcade::LibSfml::drawComponent(const arcade::IComponent &component) {
 }
 
 void    arcade::LibSfml::drawComponentSprite(const arcade::IComponent &component) {
+
+    if (this->_sprites.find(component.getBackgroundId()) == this->_sprites.end()) {
+        std::cout << "Warning, couldn't draw component's sprite (because sprite was not found)" << std::endl;
+        return ;
+    }
 
     sf::Sprite  sprite;
 

@@ -101,7 +101,7 @@ void    arcade::LibOpenGl::updateMap(arcade::IMap const &map) {
                 if (map.at(layer, x, y).hasSprite()) {
                     drawTileSprite(map.at(layer, x, y), x, y);
                 }
-                // If not, get the color
+                // // If not, get the color
                 else {
                     drawTileColor(map.at(layer, x, y), x, y);
                 }
@@ -144,8 +144,11 @@ void    arcade::LibOpenGl::drawTileSprite(arcade::ITile const &tile, size_t x, s
         std::find(this->_sprites[tile.getSpriteId()].begin(),
                   this->_sprites[tile.getSpriteId()].end(),
                   tile.getSpritePos()) == this->_sprites[tile.getSpriteId()].end()) {
+        std::cout << "Warning, couldn't draw tile's sprite (because sprite was not found)" << std::endl;        
         return ;
     }
+
+    std::cout << "sprite found" << std::endl;
 
     // Adapt the coordinates for the viewport
     double  x_begin = WIDTH_RATIO * x / (this->_width / 2.0) - 1 + tile.getShiftX();
@@ -175,6 +178,11 @@ void    arcade::LibOpenGl::updateGUI(arcade::IGUI &GUI) {
 
 void    arcade::LibOpenGl::drawComponentSprite(const arcade::IComponent &component) {
 
+    if (this->_sprites.find(component.getBackgroundId()) == this->_sprites.end()) {
+        std::cout << "Warning, couldn't draw component's sprite (because sprite was not found)" << std::endl;
+        return ;
+    }
+
     double  x_begin = component.getX();
     double  x_end = component.getX() + component.getWidth();
     double  y_begin = component.getY();
@@ -193,10 +201,13 @@ void    arcade::LibOpenGl::drawComponentSprite(const arcade::IComponent &compone
 
 void    arcade::LibOpenGl::drawComponentColor(const arcade::IComponent &component) {
 
-    double  x_begin = component.getX();
-    double  x_end = component.getX() + component.getWidth();
-    double  y_begin = component.getY();
-    double  y_end = component.getY() + component.getHeight();
+    double  x_begin = component.getX() - 1.0;
+    double  x_end = component.getX() + component.getWidth() - 1.0;
+    double  y_begin = component.getY() - 1.0;
+    double  y_end = component.getY() + component.getHeight() - 1.0;
+
+    std::cout << "x_begin : " << (double)x_begin << std::endl;
+    std::cout << "y_begin : " << (double)y_begin << std::endl;
 
     arcade::Color color = component.getBackgroundColor();
 
@@ -221,9 +232,14 @@ void    arcade::LibOpenGl::drawComponent(const arcade::IComponent &component) {
     // If component has a sprite
     if (component.hasSprite()) {
         this->drawComponentSprite(component);
-    } else { // If component is juste a block of color
-        this->drawComponentColor(component);
     }
+
+
+    // We don't drow simple components because we can't print text with glfw
+    // If component is juste a block of color
+    // else {
+    //     this->drawComponentColor(component);
+    // }
 
 }
 
