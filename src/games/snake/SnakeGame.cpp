@@ -233,8 +233,8 @@ extern  "C" void  Play(void)
         }
       case arcade::CommandType::GET_MAP :
         {
-        struct arcade::Map map = snake->getMap();
-        std::cout.write((char*)&map, sizeof(map));
+        struct arcade::GetMap getmap = snake->getMap();
+        std::cout.write((char*)&getmap, sizeof(getmap));
           break;
         }
       case arcade::CommandType::GO_UP :
