@@ -4,6 +4,7 @@
 # include <cstddef>
 # include "Map.hh"
 # include "Shot.hh"
+# include "Player.hh"
 
 namespace   sf
 {
@@ -42,6 +43,7 @@ namespace   sf
     ~Enemy();
 
     int     getAssociatedSpritePos() const;
+    bool    isInRange(std::unique_ptr<sf::Player> &) const;
     void    printOnMap(std::unique_ptr<arcade::Map> &) const;
     void    eraseFromMap(std::unique_ptr<arcade::Map> &) const;
     bool    fire(std::vector<std::unique_ptr<sf::Shot>> &);

@@ -2,21 +2,31 @@
 
 sf::Player::Player()
 {
-  this->x = 10.5;
-  this->y = 10.5;
+  this->x = 9.5;
+  this->y = 9.5;
   this->xCell = 10;
   this->yCell = 10;
   this->direction = sf::Direction::NORTH;
-  this->pos[sf::Direction::NORTH] = std::pair<double, double>(0, -0.2);
-  this->pos[sf::Direction::EAST] = std::pair<double, double>(0.2, 0);
-  this->pos[sf::Direction::SOUTH] = std::pair<double, double>(0, 0.2);
-  this->pos[sf::Direction::WEST] = std::pair<double, double>(-0.2, 0);
-  this->fire_cd = 3;
+  this->pos[sf::Direction::NORTH] = std::pair<double, double>(0, -0.1);
+  this->pos[sf::Direction::EAST] = std::pair<double, double>(0.1, 0);
+  this->pos[sf::Direction::SOUTH] = std::pair<double, double>(0, 0.1);
+  this->pos[sf::Direction::WEST] = std::pair<double, double>(-0.1, 0);
+  this->fire_cd = 8;
   this->fcd = 0;
 }
 
 sf::Player::~Player()
 {
+}
+
+double  sf::Player::getX() const
+{
+  return (this->x);
+}
+
+double  sf::Player::getY() const
+{
+  return (this->y);
 }
 
 sf::Direction  sf::Player::getDirection() const
@@ -37,7 +47,7 @@ void  sf::Player::printOnMap(std::unique_ptr<arcade::Map> &map) const
   map->at(2, this->xCell, this->yCell).set(arcade::TileType::EMPTY,
                                            arcade::TileTypeEvolution::PLAYER,
                                            arcade::Color::Red,
-                                           false,
+                                           true,
                                            2,
                                            static_cast<int>(this->direction),
                                            this->x - 0.5 - static_cast<double>(this->xCell),
@@ -65,7 +75,7 @@ bool  sf::Player::fire()
                                               this->y,
                                               10,
                                               (this->direction == EAST || this->direction == SOUTH) ? 1 : -1,
-                                              0.6,
+                                              0.3,
                                               (this->direction == NORTH || this->direction == SOUTH) ? VERTICAL : HORIZONTAL,
                                               true);
       this->fcd = this->fire_cd;

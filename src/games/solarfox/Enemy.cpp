@@ -37,11 +37,11 @@ sf::Enemy::~Enemy()
 
 int     sf::Enemy::getAssociatedSpritePos() const
 {
-  if (this->mv == VERTICAL && this->fireDirection == -1)
+  if (this->mv == HORIZONTAL && this->fireDirection == -1)
     return (0);
-  else if (this->mv == HORIZONTAL && this->fireDirection == 1)
+  else if (this->mv == VERTICAL && this->fireDirection == 1)
     return (1);
-  else if (this->mv == VERTICAL)
+  else if (this->mv == HORIZONTAL)
     return (2);
   else
     return (3);
@@ -56,7 +56,7 @@ void    sf::Enemy::printOnMap(std::unique_ptr<arcade::Map> &map) const
         arcade::Color::Green,
         true,
         3,
-        0,
+        this->getAssociatedSpritePos(),
         this->x - 0.5 - static_cast<double>(static_cast<int>(this->x)),
         this->y - 0.5 - static_cast<double>(static_cast<int>(this->y)));
 }
@@ -106,12 +106,11 @@ bool    sf::Enemy::fire(std::vector<std::unique_ptr<sf::Shot>> &shots)
       shots.push_back(std::make_unique<sf::Shot>(this->layer,
                                                  this->x,
                                                  this->y,
-                                                 30,
+                                                 60,
                                                  this->fireDirection,
-                                                 0.6,
+                                                 0.3,
                                                  (this->mv == VERTICAL) ? HORIZONTAL : VERTICAL,
                                                  false));
-      shots.back()->printOnMap(map);
     }
   return (openFire);
 }
@@ -134,4 +133,10 @@ void    sf::Enemy::move(std::unique_ptr<arcade::Map> &map)
       this->x += this->moveSpeed * static_cast<double>(this->direction);
     }
   this->printOnMap(map);
+}
+
+bool    sf::Enemy::isInRange(std::unique_ptr<sf::Player> &player) const
+{
+  return ((this->mv == VERTICAL && player->getY() + 2 > this->y && player->getY() - 2 < this->y) ||
+          (this->mv == HORIZONTAL && player->getX() + 2 > this->x && player->getX() - 2 < this->x));
 }

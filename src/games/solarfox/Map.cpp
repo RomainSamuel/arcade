@@ -110,7 +110,7 @@ size_t  arcade::Map::getHeight() const
 {
   return (this->_height);
 }
-#include <iostream>
+
 void arcade::Map::createLayer(size_t layer)
 {
   int i = 0;

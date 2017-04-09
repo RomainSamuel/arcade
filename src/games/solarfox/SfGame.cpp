@@ -3,21 +3,13 @@
 
 arcade::SfGame::SfGame()
 {
-  this->_map = std::unique_ptr<Map>(new Map(20, 20, 5, 1));
+  this->setLevel(1);
   this->_gui = std::unique_ptr<GUI>(new GUI());
   this->_state = arcade::GameState::LOADING;
   this->_score = 0;
-  this->_cd = 5;
-  this->_cdRemaining = 5;
-  this->_player = std::unique_ptr<sf::Player>(new sf::Player());
-  this->_player->printOnMap(this->_map);
-  this->_remainingScrap = 10;
-  this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 0.5, 1, 19, 1, 1, 0.1, sf::mvType::HORIZONTAL, 2, 2, 18, 9));
-  this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 9.5, 19.5, 1, 19, -1, -1, 0.1, sf::mvType::HORIZONTAL, 2, 2, 18, 9));
+  this->_cd = 9;
+  this->_cdRemaining = 0;
   this->_sounds.push_back(arcade::Sound(0, REPEAT));
-
-  for (size_t i = 0; i < this->_enemies.size(); i++)
-    this->_enemies[i]->printOnMap(this->_map);
 
   // EVENTS
   arcade::Event event;
@@ -47,6 +39,46 @@ arcade::SfGame::SfGame()
 
 arcade::SfGame::~SfGame()
 {
+}
+
+void  arcade::SfGame::setLevel(size_t lvl)
+{
+  this->_sounds.clear();
+  free(this->_player.release());
+  this->_enemies.clear();
+  this->_shots.clear();
+  this->_events.clear();
+  this->_cdRemaining = 9;
+  this->_cd = 0;
+  this->_player = std::unique_ptr<sf::Player>(new sf::Player());
+  if (lvl == 0)
+    {
+      this->_map = std::unique_ptr<Map>(new Map(20, 20, 5, 0));
+      this->_remainingScrap = 44;
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 0.5, 1, 19, 1, 1, 0.05, sf::mvType::HORIZONTAL, 2, 2, 38, 19));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(4, 8.5, 19.5, 1, 19, -1, -1, 0.05, sf::mvType::HORIZONTAL, 2, 2, 38, 19));
+    }
+  else if (lvl == 1)
+    {
+      this->_map = std::unique_ptr<Map>(new Map(20, 20, 7, 1));
+      this->_remainingScrap = 48;
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 10.5, 0.5, 1, 19, 1, 1, 0.1, sf::mvType::HORIZONTAL, 8, 3, 78, 9));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(4, 9.5, 19.5, 1, 19, -1, -1, 0.1, sf::mvType::HORIZONTAL, 8, 3, 78, 9));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(5, 0.5, 10.5, 1, 19, 1, 1, 0.05, sf::mvType::VERTICAL, 3, 3, 38, 19));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(6, 19.5, 9.5, 1, 19, -1, -1, 0.05, sf::mvType::VERTICAL, 3, 3, 38, 19));
+    }
+  else
+    {
+      this->_map = std::unique_ptr<Map>(new Map(20, 20, 7, 2));
+      this->_remainingScrap = 112;
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(3, 0.5, 10.5, 1, 19, 1, 1, 0.05, sf::mvType::VERTICAL, 5, 0, 38, 19));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(4, 19.5, 9.5, 1, 19, -1, -1, 0.05, sf::mvType::VERTICAL, 5, 0, 38, 19));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(5, 0.5, 15.5, 1, 19, 1, 1, 0.05, sf::mvType::VERTICAL, 5, 0, 38, 19));
+      this->_enemies.push_back(std::make_unique<sf::Enemy>(6, 19.5, 14.5, 1, 19, -1, -1, 0.05, sf::mvType::VERTICAL, 5, 0, 38, 19));
+    }
+  this->_player->printOnMap(this->_map);
+  for (size_t i = 0; i < this->_enemies.size(); i++)
+    this->_enemies[i]->printOnMap(this->_map);
 }
 
 arcade::GameState arcade::SfGame::getGameState() const
@@ -152,8 +184,9 @@ void  arcade::SfGame::process()
   //HANDLE ENEMIES
   for (size_t i = 0; i < this->_enemies.size(); i++)
     {
-      if (this->_enemies[i]->fire(this->_shots))
-        this->_sounds.push_back(arcade::Sound(1));
+      if (this->_enemies[i]->isInRange(this->_player))
+        if (this->_enemies[i]->fire(this->_shots))
+          this->_sounds.push_back(arcade::Sound(1));
       this->_enemies[i]->move(this->_map);
     }
 
@@ -215,7 +248,7 @@ std::vector<std::pair<std::string, arcade::SoundType>> arcade::SfGame::getSounds
 
 std::vector<arcade::Sound>  arcade::SfGame::getSoundsToPlay()
 {
-  return (std::move(std::vector<arcade::Sound>()));
+  return (std::vector<arcade::Sound>());
 }
 
 arcade::IMap const &arcade::SfGame::getCurrentMap() const

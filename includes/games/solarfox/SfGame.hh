@@ -22,7 +22,6 @@ namespace arcade
     std::unique_ptr<Map>                          _map;
     std::unique_ptr<GUI>                          _gui;
     GameState                                     _state;
-    std::vector<int>                              _soundsToPlay;
     std::unique_ptr<sf::Player>                   _player;
     std::vector<std::unique_ptr<sf::Enemy>>       _enemies;
     std::vector<std::unique_ptr<sf::Shot>>        _shots;
@@ -53,6 +52,7 @@ namespace arcade
     Map                                 &getMap();
     int                                 getActionToPerform(arcade::Event) const;
     void                                checkShots(std::unique_ptr<arcade::Map> &);
+    void                                setLevel(size_t lvl);
   };
 }
 
