@@ -62,7 +62,7 @@ void  arcade::SnakeGame::notifyNetwork(std::vector<arcade::NetworkPacket> &&)
 {
 }
 
-std::vector<arcade::NetworkPacket>&& arcade::SnakeGame::getNetworkToSend()
+std::vector<arcade::NetworkPacket> arcade::SnakeGame::getNetworkToSend()
 {
   return (std::move(std::vector<arcade::NetworkPacket>()));
 }
@@ -168,9 +168,9 @@ arcade::IGUI &arcade::SnakeGame::getGUI()
   return (*this->_gui);
 }
 
-arcade::tick_t  arcade::SnakeGame::getTickRate() const
+bool        arcade::SnakeGame::hasNetwork() const
 {
-  return (30.0);
+  return (true);
 }
 
 struct  WhereAmI &arcade::SnakeGame::getWhereAmI() const

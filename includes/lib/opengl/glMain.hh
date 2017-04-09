@@ -50,8 +50,6 @@ namespace arcade {
             std::size_t                 _tileHeight;
             std::unordered_map<std::size_t, std::vector<GLuint> >   _sprites;
 
-            // std::unique_ptr<IGUI>   _GUI;
-
             // GLFW
             GLFWwindow      *_window;
             const GLuint    _width;

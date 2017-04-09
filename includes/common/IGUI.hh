@@ -1,5 +1,5 @@
-#ifndef IGUI_HPP_
-#define IGUI_HPP_
+#ifndef IGUI_HH_
+#define IGUI_HH_
 
 #include <string>
 #include <memory>
@@ -35,4 +35,4 @@ namespace arcade
   };
 }
 
-#endif // !IGUI_HPP_
+#endif // !IGUI_HH_

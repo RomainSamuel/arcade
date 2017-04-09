@@ -1,5 +1,5 @@
-#ifndef MAP_HPP_
-# define MAP_HPP_
+#ifndef MAP_HH_
+# define MAP_HH_
 
 # include <memory>
 # include <vector>

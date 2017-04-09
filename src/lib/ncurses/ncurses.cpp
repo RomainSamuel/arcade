@@ -49,9 +49,6 @@ arcade::LibNcurses::LibNcurses() : _width(200), _height(200)
     init_pair(6, COLOR_MAGENTA, COLOR_BLACK);
     init_pair(7, COLOR_CYAN, COLOR_BLACK);
 
-    // Personal
-    // init_pair(8, COLOR_RED, COLOR_YELLOW);
-
     refresh();
 }
 
@@ -102,8 +99,6 @@ bool    arcade::LibNcurses::pollEvent(arcade::Event &e)
 
         c = getch();
 
-        // if (c == 27)
-        //     mvprintw(20 + rand() % 5, 10, "My key : %d ", c);
         if (arcade::_ncursesKeyboardKeys.find(c) != arcade::_ncursesKeyboardKeys.end())
             e.kb_key = (arcade::KeyboardKey)arcade::_ncursesKeyboardKeys.find(c)->second;
         else

@@ -6,6 +6,9 @@
 // Last Modified time: 2017-04-04 05:51:10
 //
 
+#ifndef SPRITE_HH_
+# define SPRITE_HH_
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -28,3 +31,5 @@ namespace arcade
     virtual char getAscii(std::size_t pos) const;
   };
 }
+
+#endif /* !SPRITE_HH_ */

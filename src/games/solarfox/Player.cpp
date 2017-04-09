@@ -50,9 +50,7 @@ void  sf::Player::printOnMap(std::unique_ptr<arcade::Map> &map) const
                                            true,
                                            2,
                                            static_cast<int>(this->direction),
-                                           // this->x - 0.5 - static_cast<double>(this->xCell)
                                            0.0,
-                                           // this->y - 0.5 - static_cast<double>(this->yCell)
                                            0.0
                                            );
 }

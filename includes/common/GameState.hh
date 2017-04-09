@@ -1,7 +1,7 @@
 //Version 1.0.1
 
-#ifndef GAMESTATE_HPP_
-#define GAMESTATE_HPP_
+#ifndef GAMESTATE_HH_
+#define GAMESTATE_HH_
 
 namespace arcade
 {
@@ -36,4 +36,4 @@ namespace arcade
         FOOD, /// Food tile
     };
 }
-#endif // !GAMESTATE_HPP_
+#endif // !GAMESTATE_HH_

@@ -1,5 +1,5 @@
-#ifndef TILE_HPP_
-# define TILE_HPP_
+#ifndef TILE_HH_
+# define TILE_HH_
 
 #include "ITile.hh"
 
@@ -49,4 +49,4 @@ namespace arcade
   };
 }
 
-#endif /* TILE_HPP_ */
+#endif /* TILE_HH_ */

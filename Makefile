@@ -27,11 +27,7 @@ COMPILATION_MSG	= $(DISPLAY_TWO)
 CXX		= g++
 
 # compiling flags here
-CXXFLAGS	= -W -Wall -Wextra -std=c++14 -I./includes/ -I./includes/common/ -I./includes/core/ -I./includes/menu/  -I.includes/common -O2
-#CXXFLAGS	+=		-pedantic -Wold-style-cast -Woverloaded-virtual -Wfloat-equal		
-#CXXFLAGS	+=		-Wwrite-strings -Wpointer-arith -Wcast-qual -Wcast-align -Wconversion			
-#CXXFLAGS	+=		-Wshadow -Wredundant-decls -Wdouble-promotion -Winit-self -Wswitch-default	
-#CXXFLAGS	+=		-Wswitch-enum -Wundef -Wlogical-op -Winline
+CXXFLAGS	= -W -Wall -Wextra -Werror -Weffc++ -std=c++14 -I./includes/ -I./includes/common/ -I./includes/core/ -I./includes/menu/  -I.includes/common -O2
 
 LDFLAGS = -ldl -lopenal -lsndfile
 
@@ -105,6 +101,12 @@ compile_centipede:
 
 clean:
 			@$(RM) $(OBJDIR)
+			@make clean -C src/lib/sfml
+			@make clean -C src/lib/opengl
+			@make clean -C src/lib/ncurses
+			@make clean -C src/games/snake
+			@make clean -C src/games/solarfox
+			@make clean -C src/games/centipede
 			@echo "\033[93mCleanup complete!\033[0m"
 
 fclean: 		clean

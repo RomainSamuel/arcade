@@ -1,13 +1,5 @@
-// Kind of Advanced Language Assistant Laboratory 2006-2042
-// Epitech 1999-2042
-// Jason Brillante brilla_a brilla_b
-// Have you played Atari today?
-//
-// WELCOME TO THE ARCADE
-// ENJOY OR DIE
-
-#ifndef			__ARCADE_PROTOCOL_HPP__
-# define		__ARCADE_PROTOCOL_HPP__
+#ifndef			__ARCADE_PROTOCOL_HH__
+# define		__ARCADE_PROTOCOL_HH__
 # include		<stdint.h>
 
 namespace		arcade
@@ -61,5 +53,5 @@ namespace		arcade
 #endif
 }
 
-#endif	//		__ARCADE_PROTOCOL_HPP__
+#endif	//		__ARCADE_PROTOCOL_HH__
 

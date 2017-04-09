@@ -1,7 +1,7 @@
 // v1.0.0
 
-#ifndef ITILE_HPP_
-#define ITILE_HPP_
+#ifndef ITILE_HH_
+#define ITILE_HH_
 
 #include <cstddef>
 #include "Protocol.hh"
@@ -60,4 +60,4 @@ namespace arcade
   };
 }
 
-#endif // !ITILE_HPP_
+#endif // !ITILE_HH_

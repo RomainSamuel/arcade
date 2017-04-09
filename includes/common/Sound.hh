@@ -1,9 +1,9 @@
 //
-// Created by Pierre Bougon on 30/03/17.
+// Created by Maud Marel on 30/03/17.
 //
 
-#ifndef SOUND_HPP_
-#define SOUND_HPP_
+#ifndef SOUND_HH_
+#define SOUND_HH_
 
 namespace arcade
 {
@@ -58,4 +58,4 @@ namespace arcade
 
 }
 
-#endif // !SOUND_HPP_
+#endif // !SOUND_HH_

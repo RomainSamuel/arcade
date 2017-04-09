@@ -6,8 +6,8 @@
 // Last Modified time: 2017-04-03 23:05:30
 //
 
-#ifndef SOUND_MANAGER_HPP
-# define SOUND_MANAGER_HPP
+#ifndef SOUND_MANAGER_HH
+# define SOUND_MANAGER_HH
 
 // UTILS
 #include <string>
@@ -40,4 +40,4 @@ namespace arcade
     };
 }
 
-#endif  // SOUND_MANAGER_HPP
+#endif  // SOUND_MANAGER_HH

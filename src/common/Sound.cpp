@@ -1,5 +1,5 @@
 //
-// Created by Pierre Bougon on 30/03/17.
+// Created by Maud Marel on 30/03/17.
 //
 
 #include "Sound.hh"

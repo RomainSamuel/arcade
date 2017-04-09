@@ -66,7 +66,7 @@ void  arcade::CentipedeGame::notifyNetwork(std::vector<arcade::NetworkPacket> &&
 {
 }
 
-std::vector<arcade::NetworkPacket>&& arcade::CentipedeGame::getNetworkToSend()
+std::vector<arcade::NetworkPacket> arcade::CentipedeGame::getNetworkToSend()
 {
   return (std::move(std::vector<arcade::NetworkPacket>()));
 }
@@ -236,9 +236,9 @@ arcade::IGUI &arcade::CentipedeGame::getGUI()
   return (*this->_gui);
 }
 
-arcade::tick_t  arcade::CentipedeGame::getTickRate() const
+bool  arcade::CentipedeGame::hasNetwork() const
 {
-  return (30.0);
+  return (true);
 }
 
 extern "C" arcade::IGame *maker()
