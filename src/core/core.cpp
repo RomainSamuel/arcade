@@ -66,6 +66,13 @@ void    arcade::Core::display()
     _libLoad = ((arcade::IGfxLib *(*)())loader)();
     void *mkr = _loader.getSym(getLoader().getCurrentGame(), "maker");
     _gameLoad = ((arcade::IGame *(*)())mkr)();
+    std::vector<std::unique_ptr<ISprite>> sprites;
+    sprites = _gameLoad->getSpritesToLoad();
+    for (std::vector<std::unique_ptr<ISprite>>::const_iterator it = sprites.begin(); it != sprites.end(); it++)
+    {
+        std::cout << it->get()->spritesCount() << std::endl;
+    }
+    _libLoad->loadSounds(_gameLoad->getSoundsToLoad());
 
     while (getGameState() != arcade::GameState::QUIT)
     {

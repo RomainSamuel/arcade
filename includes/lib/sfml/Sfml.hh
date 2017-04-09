@@ -48,8 +48,8 @@ namespace arcade
         sf::Font            _font;
 
         // Member Functions (For gfx essentially)
-        void                putTileColor(ITile const &tile, size_t x, size_t y);
-        void                putTileSprite(ITile const &tile, size_t x, size_t y);
+        void                drawTileColor(ITile const &tile, size_t x, size_t y);
+        void                drawTileSprite(ITile const &tile, size_t x, size_t y);
         void                drawComponent(const IComponent &component);
         void                drawComponentSprite(const IComponent &component);
         void                drawComponentColor(const IComponent &component);

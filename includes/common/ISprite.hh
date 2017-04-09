@@ -1,9 +1,11 @@
 //
-// Author: Maud Marel 
-// Date: 2017-04-07 02:47:12 
+// ISprite.hpp for arcade in /home/brout_m/rendu/cpp/ArcadeInterfaces
 //
-// Last Modified by:   Maud Marel 
-// Last Modified time: 2017-04-07 02:47:12
+// Made by brout_m
+// Login   <marc.brout@epitech.eu>
+//
+// Started on  Fri Mar 31 13:43:50 2017 brout_m
+// Last update Sat Apr  1 19:59:58 2017 Ludovic Petrenko
 //
 
 #ifndef ISPRITE_HPP_

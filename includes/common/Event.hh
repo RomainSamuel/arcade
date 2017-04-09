@@ -1,11 +1,3 @@
-//
-// Author: Maud Marel 
-// Date: 2017-04-07 02:46:08 
-//
-// Last Modified by:   Maud Marel 
-// Last Modified time: 2017-04-07 02:46:08
-//
-
 #ifndef EVENT_HPP_
 #define EVENT_HPP_
 

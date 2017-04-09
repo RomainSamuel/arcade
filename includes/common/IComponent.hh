@@ -1,5 +1,5 @@
 //
-// Created by marel_m on 17/03/17.
+// Created by duhieu_b on 17/03/17.
 //
 
 #ifndef CPP_ARCADE_ICOMPONENT_HPP
@@ -58,6 +58,11 @@ namespace arcade
       /// \brief Get the color of the background
       ///
       virtual Color getBackgroundColor() const = 0;
+      ///
+      /// \fn virtual Color getBackgroundColor() const = 0
+      /// \brief Get the color of the background
+      ///
+      virtual Color getTextColor() const = 0;
       ///
       /// \fn virtual std::string const &getText() const = 0
       /// \brief Get the text value

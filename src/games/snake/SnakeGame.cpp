@@ -109,7 +109,7 @@ void  arcade::SnakeGame::process()
     }
 }
 
-std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::SnakeGame::getSpritesToLoad() const
+std::vector<std::unique_ptr<arcade::ISprite>> arcade::SnakeGame::getSpritesToLoad() const
 {
   std::vector<std::unique_ptr<arcade::ISprite>> vec;
 
@@ -121,7 +121,7 @@ std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::SnakeGame::getSpritesToL
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
                                                            ({std::pair<std::string, char>("./resources/games/sprites/snake/snake_corner_1.png", ' '),
                                                                std::pair<std::string, char>("./resources/games/sprites/snake/snake_corner_2.png", ' '),
-                                                               std::pair<std::string, char>("./resources/games/sprites/snake/snake_corner_3.png", ' '),
+                                                                std::pair<std::string, char>("./resources/games/sprites/snake/snake_corner_3.png", ' '),
                                                                std::pair<std::string, char>("./resources/games/sprites/snake/snake_corner_4.png", ' ')}))));
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
                                                            ({std::pair<std::string, char>("./resources/games/sprites/snake/snake_head_north.png", ' '),
@@ -137,7 +137,7 @@ std::vector<std::unique_ptr<arcade::ISprite>> &&arcade::SnakeGame::getSpritesToL
                                                            ({std::pair<std::string, char>("./resources/games/sprites/snake/empty.png", ' ')}))));
   vec.push_back(std::unique_ptr<arcade::Sprite>(new Sprite(std::vector<std::pair<std::string, char>>
                                                            ({std::pair<std::string, char>("./resources/games/sprites/snake/wall.png", ' ')}))));
-  return (std::move(vec));
+  return (vec);
 }
 
 std::vector<std::pair<std::string, arcade::SoundType>> arcade::SnakeGame::getSoundsToLoad() const
@@ -148,9 +148,9 @@ std::vector<std::pair<std::string, arcade::SoundType>> arcade::SnakeGame::getSou
   return (sounds);
 }
 
-std::vector<int>&& arcade::SnakeGame::getSoundsToPlay()
+std::vector<Sound> arcade::SnakeGame::getSoundsToPlay()
 {
-  return (std::move(std::vector<int>()));
+  return (std::vector<Sound>());
 }
 
 arcade::IMap const &arcade::SnakeGame::getCurrentMap() const

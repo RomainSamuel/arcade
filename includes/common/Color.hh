@@ -1,11 +1,3 @@
-//
-// Author: Maud Marel 
-// Date: 2017-04-07 02:49:46 
-//
-// Last Modified by:   Maud Marel 
-// Last Modified time: 2017-04-07 02:49:46
-//
-
 #ifndef COLOR_HPP_
 #define COLOR_HPP_
 

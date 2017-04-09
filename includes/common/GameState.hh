@@ -1,11 +1,3 @@
-//
-// Author: Maud Marel 
-// Date: 2017-04-07 02:46:14 
-//
-// Last Modified by:   Maud Marel 
-// Last Modified time: 2017-04-07 02:46:14
-//
-
 //Version 1.0.1
 
 #ifndef GAMESTATE_HPP_

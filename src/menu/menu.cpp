@@ -12,12 +12,12 @@
 
 arcade::Menu::Menu() : _items {}
 {
-    _items.push_back(arcade::Text(10, 10, 250, 250, 3, arcade::Color::Black, "ARCADE", 25));
+   /* _items.push_back(arcade::Text(10, 10, 250, 250, 3, arcade::Color::Black, "ARCADE", 25));
     _items.push_back(arcade::gameButton(10, 10, 250, 250, 3, arcade::Color::Red, "Snake", "snake"));
     _items.push_back(arcade::gameButton(10, 10, 250, 250, 3, arcade::Color::Blue, "Solar Fox", "solar fox"));
     _items.push_back(arcade::gameButton(10, 10, 250, 250, 3, arcade::Color::Blue, "Centipede", "centipede"));
     _items.push_back(arcade::settingsButton(10, 10, 250, 250, 3, arcade::Color::Green, "Settings"));
-    _items.push_back(arcade::Text(10, 10,  250, 250, 3, arcade::Color::White, "Made By: Khsime Marwane, Marel Maud & Samuel Romain - Epitech", 13));
+    _items.push_back(arcade::Text(10, 10,  250, 250, 3, arcade::Color::White, "Made By: Khsime Marwane, Marel Maud & Samuel Romain - Epitech", 13));*/
 }
 
 arcade::Menu::~Menu()

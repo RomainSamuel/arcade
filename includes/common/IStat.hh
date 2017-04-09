@@ -1,11 +1,3 @@
-//
-// Author: Maud Marel 
-// Date: 2017-04-07 02:47:21 
-//
-// Last Modified by:   Maud Marel 
-// Last Modified time: 2017-04-07 02:47:21
-//
-
 #ifndef ISTAT_HPP_
 #define ISTAT_HPP_
 

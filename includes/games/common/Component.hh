@@ -48,6 +48,8 @@ namespace arcade
 
     virtual void setClicked();
 
+    virtual Color getTextColor() const;
+
     void  setText(const std::string &);
   };
 }
