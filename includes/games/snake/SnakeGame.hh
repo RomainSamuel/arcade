@@ -51,8 +51,8 @@ namespace arcade
     virtual bool                        hasNetwork() const;
 
     int                                 getActionToPerform(arcade::Event) const;
-    struct GetMap                       getMap() const;
-    struct WhereAmI                     getWhereAmI() const;
+    void                       getMap() const;
+    void                     getWhereAmI() const;
   };
 }
 

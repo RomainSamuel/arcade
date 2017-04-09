@@ -71,8 +71,8 @@ void    sf::Shot::printOnMap(std::unique_ptr<arcade::Map> &map) const
         true,
         1,
         static_cast<int>(this->mv),
-        0.0,
-        0.0);
+        this->x - 0.5 - static_cast<this->x>,
+        this->y - 0.5 - static_cast<this->y>);
 }
 
 void    sf::Shot::eraseFromMap(std::unique_ptr<arcade::Map> &map) const

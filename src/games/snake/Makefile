@@ -1,6 +1,6 @@
 GPP		=	g++
 
-NAME	=	lib_arcade_snake
+NAME	=	lib_arcade_snake.so
 
 COMMON	=	../../common/
 
@@ -15,9 +15,7 @@ SRC		=	$(COMMON)Color.cpp \
 				Food.cpp \
 				SnakeGame.cpp \
 				Map.cpp	\
-				SnakePart.cpp \
-				main.cpp
-
+				SnakePart.cpp
 
 GAMESDIR	=	../../../games/
 
@@ -35,8 +33,8 @@ CXXFLAGS    +=  -I../../../includes/common \
 LDFLAGS			=	-shared
 
 $(NAME):	$(OBJ)
-		    $(GPP) -o $(NAME) $(OBJ)
-			mv $(NAME) $(GAMESDIR)
+		    $(GPP) -o $(NAME) $(OBJ) $(LDFLAGS)
+				mv $(NAME) $(GAMESDIR)
 
 all:		$(NAME)
 

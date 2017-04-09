@@ -174,40 +174,48 @@ bool        arcade::SnakeGame::hasNetwork() const
   return (true);
 }
 
-struct  arcade::GetMap arcade::SnakeGame::getMap() const
+void arcade::SnakeGame::getMap() const
 {
-  struct  GetMap  gm;
+  struct  arcade::GetMap  gm;
+  size_t  i = 0;
 
   gm.type = arcade::CommandType::GET_MAP;
   gm.width = 20;
   gm.height = 20;
-  for (size_t y = 0; y < 20; y++)
+  std::cout.write(reinterpret_cast<char *>(&gm), sizeof(arcade::GetMap));
+  TileType *tiles = new TileType[400];
+  for (uint16_t y = 0; y < 20; y++)
     {
-      for (size_t x = 0; x < 20; x++)
+      for (uint16_t x = 0; x < 20; x++)
         {
-          if (this->_map->at(1, x, y).hasSprite())
-            gm.tile[(y * 20) + x] = this->_map->at(1, x, y).getType();
+          if (this->_map->at(1, x, y).getType() != arcade::TileType::EMPTY)
+            tiles[i] = this->_map->at(1, x, y).getType();
           else
-            gm.tile[(y * 20) + x] = this->_map->at(0, x, y).getType();
+            tiles[i] = this->_map->at(0, x, y).getType();
+          i++;
         }
     }
-  return (gm);
+  std::cout.write(reinterpret_cast<char *>(tiles), sizeof(TileType) * 400);
+  delete []tiles;
 }
 
-struct  arcade::WhereAmI arcade::SnakeGame::getWhereAmI() const
+void arcade::SnakeGame::getWhereAmI() const
 {
   struct WhereAmI wai;
 
   wai.type = arcade::CommandType::WHERE_AM_I;
   wai.lenght = this->_snake.size();
+  std::cout.write(reinterpret_cast<char *>(&wai), sizeof(arcade::WhereAmI));
+  Position *positions = new Position[wai.lenght];
   for (std::list<std::unique_ptr<snake::SnakePart>>::const_iterator it = this->_snake.begin();
        it != this->_snake.end();
        it++)
     {
-      wai.position[std::distance(this->_snake.begin(), it)].x = it->get()->getX();
-      wai.position[std::distance(this->_snake.begin(), it)].y = it->get()->getY();
+      positions[std::distance(this->_snake.begin(), it)].x = it->get()->getX();
+      positions[std::distance(this->_snake.begin(), it)].y = it->get()->getY();
     }
-  return (wai);
+  std::cout.write(reinterpret_cast<char *>(positions), sizeof(Position) * wai.lenght);
+  delete []positions;
 }
 
 extern "C" arcade::IGame *getGame()
@@ -218,28 +226,23 @@ extern "C" arcade::IGame *getGame()
 extern  "C" void  Play(void)
 {
   std::unique_ptr<arcade::SnakeGame> snake = std::make_unique<arcade::SnakeGame>(0);
-  int command;
-  char   buffer[1024];
+  arcade::CommandType command;
 
-  while (!std::cin.eof())
+  while (std::cin.read(reinterpret_cast<char*>(&command), sizeof(arcade::CommandType)))
   {
-    std::cin.read(buffer, 1024);
-    command = std::stoi(buffer);
     switch (command)
     {
-      case 1 :
+      case arcade::CommandType::WHERE_AM_I :
         {
-          struct arcade::WhereAmI wai = snake->getWhereAmI();
-          std::cout.write((char*)&wai, sizeof(wai));
+          snake->getWhereAmI();
           break;
         }
-      case 2 :
+      case arcade::CommandType::GET_MAP :
         {
-        struct arcade::GetMap getmap = snake->getMap();
-        std::cout.write((char*)&getmap, sizeof(getmap));
+          snake->getMap();
           break;
         }
-      case 3 :
+      case arcade::CommandType::GO_UP :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -249,10 +252,9 @@ extern  "C" void  Play(void)
           event.kb_key = arcade::KeyboardKey::KB_ARROW_UP;
           events.push_back(event);
           snake->notifyEvent(std::move(events));
-          snake->process();
           break;
         }
-      case 4 :
+      case arcade::CommandType::GO_DOWN :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -262,10 +264,9 @@ extern  "C" void  Play(void)
           event.kb_key = arcade::KeyboardKey::KB_ARROW_DOWN;
           events.push_back(event);
           snake->notifyEvent(std::move(events));
-          snake->process();
           break;
         }
-      case 5 :
+      case arcade::CommandType::GO_LEFT :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -275,10 +276,9 @@ extern  "C" void  Play(void)
           event.kb_key = arcade::KeyboardKey::KB_ARROW_LEFT;
           events.push_back(event);
           snake->notifyEvent(std::move(events));
-          snake->process();
           break;
         }
-      case 6 :
+      case arcade::CommandType::GO_RIGHT :
         {
           arcade::Event event;
           std::vector<arcade::Event> events;
@@ -288,23 +288,21 @@ extern  "C" void  Play(void)
           event.kb_key = arcade::KeyboardKey::KB_ARROW_RIGHT;
           events.push_back(event);
           snake->notifyEvent(std::move(events));
-          snake->process();
           break;
         }
-      case 7 :
-        {
-          snake->process();
-          break;
-        }
-      case 8 :
+      case arcade::CommandType::GO_FORWARD :
         {
           break;
         }
-      case 9 :
+      case arcade::CommandType::SHOOT :
         {
           break;
         }
-      case 10 :
+      case arcade::CommandType::ILLEGAL :
+        {
+          break;
+        }
+      case arcade::CommandType::PLAY :
         {
           snake->process();
           break;
