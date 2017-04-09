@@ -117,9 +117,9 @@ void  snake::SnakePart::eraseFromMap(std::list<std::unique_ptr<SnakePart>> &list
     {
       map->at(1, it->get()->getX(), it->get()->getY()).set(arcade::TileType::EMPTY,
                                                  arcade::TileTypeEvolution::EMPTY,
-                                                 arcade::Color::Black,
-                                                 true,
-                                                 5,
+                                                 arcade::Color::Transparent,
+                                                 false,
+                                                 0,
                                                  0,
                                                  0.0,
                                                  0.0);

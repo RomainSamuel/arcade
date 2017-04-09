@@ -69,7 +69,7 @@ void arcade::Map::createLayer(size_t layer)
             this->_layers[layer][y].push_back(std::make_unique<arcade::Tile>(arcade::TileType::BLOCK,
                                                                              arcade::TileTypeEvolution::BLOCK,
                                                                              arcade::Color::White,
-                                                                             false,
+                                                                             true,
                                                                              6,
                                                                              0,
                                                                              0.0,
