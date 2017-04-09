@@ -1,7 +1,7 @@
 #include "SnakeGame.hh"
 #include <iostream>
 
-arcade::SnakeGame::SnakeGame()
+arcade::SnakeGame::SnakeGame(bool mode)
 {
   this->_map = std::unique_ptr<Map>(new Map(20, 20, 2, 0));
   this->_gui = std::unique_ptr<GUI>(new GUI());
@@ -14,8 +14,8 @@ arcade::SnakeGame::SnakeGame()
   this->_food = std::unique_ptr<snake::Food>(new snake::Food(this->_map));
   this->_eaten = 0;
   this->_score = 0;
-  this->_cd = 70;
-  this->_cdRemaining = 70;
+  this->_cd = (mode) ? 70 : 0;
+  this->_cdRemaining = (mode) ? 70 : 0;
 
   // EVENTS
   arcade::Event event;
@@ -173,7 +173,19 @@ arcade::tick_t  arcade::SnakeGame::getTickRate() const
   return (30.0);
 }
 
+struct  WhereAmI &arcade::SnakeGame::getWhereAmI() const
+{
+  struct WhereAmI wai;
+
+  wai.;
+}
+
 extern "C" arcade::IGame *maker()
 {
   return (new arcade::SnakeGame());
+}
+
+extern  "C" void  Play(void)
+{
+  arcade::SnakeGame *snake = new arcade::SnakeGame;
 }
